@@ -1,0 +1,158 @@
+{
+  "prompt": 20,
+  "passed": 30,
+  "total": 30,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Migration 0023 exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Singleton settings table",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Global table uses RLS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Public safe read policy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Public select uses column grants",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Teacher update policy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Branding public bucket",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Branding writes protected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Evidence bucket sync trigger",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Timezone validated in DB",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Supported evidence types constrained in DB",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Evidence size constrained 1–50 MB",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Global settings service persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Logo upload implemented",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Context loads settings globally",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Provider wraps whole app",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Brand uses persisted platform name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Settings page is functional",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Student uploader enforces global config client-side",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Edge enforces global config server-side",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "New exams inherit global grade defaults",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Exam schedule uses configured timezone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Bootstrap contains 0023",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Prompt 20 npm test exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "America/Lima wall time converts to UTC",
+      "ok": true,
+      "detail": "2026-09-17T15:00:00.000Z"
+    },
+    {
+      "name": "UTC converts back to Lima wall time",
+      "ok": true,
+      "detail": "{\"date\":\"2026-09-17\",\"time\":\"10:00\"}"
+    },
+    {
+      "name": "DD/MM/YYYY formatting",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "MM/DD/YYYY formatting",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "YYYY-MM-DD formatting",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Date/time formatting includes configured wall time",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

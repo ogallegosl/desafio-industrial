@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "checks": 16,
+  "average": 15,
+  "median": 15,
+  "stddevPop": 2.236,
+  "passRate": 100,
+  "itemCorrectRate": 50,
+  "difficultyIndex": 50,
+  "uniqueParticipants": 3,
+  "attempts": 4
+}

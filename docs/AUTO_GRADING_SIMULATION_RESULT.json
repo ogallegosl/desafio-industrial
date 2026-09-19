@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "assertions": 26,
+  "covered": [
+    "single_choice",
+    "multiple_choice",
+    "true_false",
+    "short_text",
+    "numeric_exact",
+    "numeric_tolerance",
+    "numeric_range",
+    "calculation",
+    "calculation_evidence",
+    "manual_review",
+    "decimal_comma"
+  ]
+}

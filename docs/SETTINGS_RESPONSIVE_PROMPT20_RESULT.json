@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "scrollWidth": 360,
+      "clientWidth": 360,
+      "overflow": 0,
+      "maxControlRight": 331,
+      "minControlLeft": 29,
+      "width": 360,
+      "pass": true
+    },
+    {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "overflow": 0,
+      "maxControlRight": 359,
+      "minControlLeft": 31,
+      "width": 390,
+      "pass": true
+    },
+    {
+      "scrollWidth": 430,
+      "clientWidth": 430,
+      "overflow": 0,
+      "maxControlRight": 399,
+      "minControlLeft": 31,
+      "width": 430,
+      "pass": true
+    },
+    {
+      "scrollWidth": 768,
+      "clientWidth": 768,
+      "overflow": 0,
+      "maxControlRight": 731,
+      "minControlLeft": 39,
+      "width": 768,
+      "pass": true
+    },
+    {
+      "scrollWidth": 1366,
+      "clientWidth": 1366,
+      "overflow": 0,
+      "maxControlRight": 1311,
+      "minControlLeft": 57,
+      "width": 1366,
+      "pass": true
+    }
+  ],
+  "passed": 5,
+  "total": 5
+}

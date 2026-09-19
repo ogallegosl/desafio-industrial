@@ -1,0 +1,1129 @@
+{
+  "version": "1.1.1",
+  "passed": 63,
+  "total": 63,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "home 320px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=320 viewport=320"
+    },
+    {
+      "name": "home 320px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 179.65625, \"h\": 44, \"l\": 26, \"rt\": 205.65625}, {\"w\": 164, \"h\": 44, \"l\": 26, \"rt\": 190}]"
+    },
+    {
+      "name": "access 320px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=320 viewport=320"
+    },
+    {
+      "name": "access 320px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 272, \"h\": 44, \"l\": 24, \"rt\": 296}, {\"w\": 272, \"h\": 44, \"l\": 24, \"rt\": 296}]"
+    },
+    {
+      "name": "instructions 320px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=320 viewport=320"
+    },
+    {
+      "name": "instructions 320px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 151.75, \"h\": 44, \"l\": 25, \"rt\": 176.75}]"
+    },
+    {
+      "name": "exam 320px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=320 viewport=320"
+    },
+    {
+      "name": "exam 320px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 148.5, \"h\": 44, \"l\": 8, \"rt\": 156.5}, {\"w\": 148.5, \"h\": 44, \"l\": 163.5, \"rt\": 312}]"
+    },
+    {
+      "name": "exam 320px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 320px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=320 viewport=320"
+    },
+    {
+      "name": "review 320px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 272, \"h\": 44, \"l\": 24, \"rt\": 296}, {\"w\": 272, \"h\": 62, \"l\": 24, \"rt\": 296}]"
+    },
+    {
+      "name": "review 320px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "home 360px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "home 360px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 179.65625, \"h\": 44, \"l\": 26, \"rt\": 205.65625}, {\"w\": 164, \"h\": 44, \"l\": 26, \"rt\": 190}]"
+    },
+    {
+      "name": "access 360px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "access 360px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 312, \"h\": 44, \"l\": 24, \"rt\": 336}, {\"w\": 312, \"h\": 44, \"l\": 24, \"rt\": 336}]"
+    },
+    {
+      "name": "instructions 360px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "instructions 360px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 151.75, \"h\": 44, \"l\": 25, \"rt\": 176.75}]"
+    },
+    {
+      "name": "exam 360px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "exam 360px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 168.5, \"h\": 44, \"l\": 8, \"rt\": 176.5}, {\"w\": 168.5, \"h\": 44, \"l\": 183.5, \"rt\": 352}]"
+    },
+    {
+      "name": "exam 360px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 360px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "review 360px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 312, \"h\": 44, \"l\": 24, \"rt\": 336}, {\"w\": 312, \"h\": 44, \"l\": 24, \"rt\": 336}]"
+    },
+    {
+      "name": "review 360px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "home 390px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "home 390px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 179.65625, \"h\": 44, \"l\": 26, \"rt\": 205.65625}, {\"w\": 164, \"h\": 44, \"l\": 26, \"rt\": 190}]"
+    },
+    {
+      "name": "access 390px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "access 390px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 342, \"h\": 44, \"l\": 24, \"rt\": 366}, {\"w\": 342, \"h\": 44, \"l\": 24, \"rt\": 366}]"
+    },
+    {
+      "name": "instructions 390px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "instructions 390px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 151.75, \"h\": 44, \"l\": 25, \"rt\": 176.75}]"
+    },
+    {
+      "name": "exam 390px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "exam 390px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 183.5, \"h\": 44, \"l\": 8, \"rt\": 191.5}, {\"w\": 183.5, \"h\": 44, \"l\": 198.5, \"rt\": 382}]"
+    },
+    {
+      "name": "exam 390px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 390px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "review 390px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 342, \"h\": 44, \"l\": 24, \"rt\": 366}, {\"w\": 342, \"h\": 44, \"l\": 24, \"rt\": 366}]"
+    },
+    {
+      "name": "review 390px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "home 430px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "home 430px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 179.65625, \"h\": 44, \"l\": 26, \"rt\": 205.65625}, {\"w\": 164, \"h\": 44, \"l\": 216.65625, \"rt\": 380.65625}]"
+    },
+    {
+      "name": "access 430px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "access 430px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 376, \"h\": 44, \"l\": 27, \"rt\": 403}, {\"w\": 376, \"h\": 44, \"l\": 27, \"rt\": 403}]"
+    },
+    {
+      "name": "instructions 430px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "instructions 430px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 151.75, \"h\": 44, \"l\": 25, \"rt\": 176.75}]"
+    },
+    {
+      "name": "exam 430px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "exam 430px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 203.5, \"h\": 44, \"l\": 8, \"rt\": 211.5}, {\"w\": 203.5, \"h\": 44, \"l\": 218.5, \"rt\": 422}]"
+    },
+    {
+      "name": "exam 430px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 430px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "review 430px botones táctiles >=44px",
+      "ok": true,
+      "detail": "[{\"w\": 382, \"h\": 44, \"l\": 24, \"rt\": 406}, {\"w\": 382, \"h\": 44, \"l\": 24, \"rt\": 406}]"
+    },
+    {
+      "name": "review 430px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "home 768px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "access 768px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "instructions 768px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "exam 768px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "exam 768px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 768px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "review 768px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "home 1366px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "home 1366px texto no se superpone con imagen",
+      "ok": true,
+      "detail": "{\"copyRight\": 691.25, \"visualLeft\": 729.25, \"overlap\": false}"
+    },
+    {
+      "name": "access 1366px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "instructions 1366px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "exam 1366px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "exam 1366px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "review 1366px sin overflow horizontal",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "review 1366px contador integridad visible",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "rows": [
+    {
+      "width": 320,
+      "mode": "home",
+      "viewport": 320,
+      "docWidth": 320,
+      "root": {
+        "left": 8,
+        "right": 312,
+        "width": 304
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 26,
+          "rt": 205.65625
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 26,
+          "rt": 190
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "access",
+      "viewport": 320,
+      "docWidth": 320,
+      "root": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 272,
+          "h": 44,
+          "l": 24,
+          "rt": 296
+        },
+        {
+          "w": 272,
+          "h": 44,
+          "l": 24,
+          "rt": 296
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "instructions",
+      "viewport": 320,
+      "docWidth": 320,
+      "root": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 25,
+          "rt": 176.75
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "exam",
+      "viewport": 320,
+      "docWidth": 320,
+      "root": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 148.5,
+          "h": 44,
+          "l": 8,
+          "rt": 156.5
+        },
+        {
+          "w": 148.5,
+          "h": 44,
+          "l": 163.5,
+          "rt": 312
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "review",
+      "viewport": 320,
+      "docWidth": 320,
+      "root": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 272,
+          "h": 44,
+          "l": 24,
+          "rt": 296
+        },
+        {
+          "w": 272,
+          "h": 62,
+          "l": 24,
+          "rt": 296
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "home",
+      "viewport": 360,
+      "docWidth": 360,
+      "root": {
+        "left": 8,
+        "right": 352,
+        "width": 344
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 26,
+          "rt": 205.65625
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 26,
+          "rt": 190
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "access",
+      "viewport": 360,
+      "docWidth": 360,
+      "root": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 312,
+          "h": 44,
+          "l": 24,
+          "rt": 336
+        },
+        {
+          "w": 312,
+          "h": 44,
+          "l": 24,
+          "rt": 336
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "instructions",
+      "viewport": 360,
+      "docWidth": 360,
+      "root": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 25,
+          "rt": 176.75
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "exam",
+      "viewport": 360,
+      "docWidth": 360,
+      "root": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 168.5,
+          "h": 44,
+          "l": 8,
+          "rt": 176.5
+        },
+        {
+          "w": 168.5,
+          "h": 44,
+          "l": 183.5,
+          "rt": 352
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "review",
+      "viewport": 360,
+      "docWidth": 360,
+      "root": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 312,
+          "h": 44,
+          "l": 24,
+          "rt": 336
+        },
+        {
+          "w": 312,
+          "h": 44,
+          "l": 24,
+          "rt": 336
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "home",
+      "viewport": 390,
+      "docWidth": 390,
+      "root": {
+        "left": 8,
+        "right": 382,
+        "width": 374
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 26,
+          "rt": 205.65625
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 26,
+          "rt": 190
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "access",
+      "viewport": 390,
+      "docWidth": 390,
+      "root": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 342,
+          "h": 44,
+          "l": 24,
+          "rt": 366
+        },
+        {
+          "w": 342,
+          "h": 44,
+          "l": 24,
+          "rt": 366
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "instructions",
+      "viewport": 390,
+      "docWidth": 390,
+      "root": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 25,
+          "rt": 176.75
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "exam",
+      "viewport": 390,
+      "docWidth": 390,
+      "root": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 183.5,
+          "h": 44,
+          "l": 8,
+          "rt": 191.5
+        },
+        {
+          "w": 183.5,
+          "h": 44,
+          "l": 198.5,
+          "rt": 382
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "review",
+      "viewport": 390,
+      "docWidth": 390,
+      "root": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 342,
+          "h": 44,
+          "l": 24,
+          "rt": 366
+        },
+        {
+          "w": 342,
+          "h": 44,
+          "l": 24,
+          "rt": 366
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "home",
+      "viewport": 430,
+      "docWidth": 430,
+      "root": {
+        "left": 8,
+        "right": 422,
+        "width": 414
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 26,
+          "rt": 205.65625
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 216.65625,
+          "rt": 380.65625
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "access",
+      "viewport": 430,
+      "docWidth": 430,
+      "root": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 376,
+          "h": 44,
+          "l": 27,
+          "rt": 403
+        },
+        {
+          "w": 376,
+          "h": 44,
+          "l": 27,
+          "rt": 403
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "instructions",
+      "viewport": 430,
+      "docWidth": 430,
+      "root": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 25,
+          "rt": 176.75
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "exam",
+      "viewport": 430,
+      "docWidth": 430,
+      "root": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 203.5,
+          "h": 44,
+          "l": 8,
+          "rt": 211.5
+        },
+        {
+          "w": 203.5,
+          "h": 44,
+          "l": 218.5,
+          "rt": 422
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "review",
+      "viewport": 430,
+      "docWidth": 430,
+      "root": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 382,
+          "h": 44,
+          "l": 24,
+          "rt": 406
+        },
+        {
+          "w": 382,
+          "h": 44,
+          "l": 24,
+          "rt": 406
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "home",
+      "viewport": 768,
+      "docWidth": 768,
+      "root": {
+        "left": 16,
+        "right": 752,
+        "width": 736
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 47.71875,
+          "rt": 227.375
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 238.375,
+          "rt": 402.375
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "access",
+      "viewport": 768,
+      "docWidth": 768,
+      "root": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 331,
+          "h": 44,
+          "l": 47,
+          "rt": 378
+        },
+        {
+          "w": 331,
+          "h": 44,
+          "l": 390,
+          "rt": 721
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "instructions",
+      "viewport": 768,
+      "docWidth": 768,
+      "root": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 55.390625,
+          "rt": 207.140625
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "exam",
+      "viewport": 768,
+      "docWidth": 768,
+      "root": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 101.953125,
+          "h": 44,
+          "l": 16,
+          "rt": 117.953125
+        },
+        {
+          "w": 111.359375,
+          "h": 44,
+          "l": 640.640625,
+          "rt": 752
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "review",
+      "viewport": 768,
+      "docWidth": 768,
+      "root": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 171.546875,
+          "h": 44,
+          "l": 55.390625,
+          "rt": 226.9375
+        },
+        {
+          "w": 281.59375,
+          "h": 44,
+          "l": 431.015625,
+          "rt": 712.609375
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "home",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "root": {
+        "left": 93,
+        "right": 1273,
+        "width": 1180
+      },
+      "buttons": [
+        {
+          "w": 179.65625,
+          "h": 44,
+          "l": 146,
+          "rt": 325.65625
+        },
+        {
+          "w": 164,
+          "h": 44,
+          "l": 336.65625,
+          "rt": 500.65625
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "access",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "root": {
+        "left": 0,
+        "right": 1366,
+        "width": 1366
+      },
+      "buttons": [
+        {
+          "w": 195.328125,
+          "h": 62,
+          "l": 839.34375,
+          "rt": 1034.671875
+        },
+        {
+          "w": 195.3125,
+          "h": 62,
+          "l": 1046.671875,
+          "rt": 1241.984375
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "instructions",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "root": {
+        "left": 0,
+        "right": 1366,
+        "width": 1366
+      },
+      "buttons": [
+        {
+          "w": 151.75,
+          "h": 44,
+          "l": 282,
+          "rt": 433.75
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "exam",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "root": {
+        "left": 0,
+        "right": 1366,
+        "width": 1366
+      },
+      "buttons": [
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 112,
+          "rt": 149.203125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 155.203125,
+          "rt": 192.40625
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 198.40625,
+          "rt": 235.609375
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 241.609375,
+          "rt": 278.8125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 284.8125,
+          "rt": 322.015625
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 112,
+          "rt": 149.203125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 155.203125,
+          "rt": 192.40625
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 198.40625,
+          "rt": 235.609375
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 241.609375,
+          "rt": 278.8125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 284.8125,
+          "rt": 322.015625
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 112,
+          "rt": 149.203125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 155.203125,
+          "rt": 192.40625
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 198.40625,
+          "rt": 235.609375
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 241.609375,
+          "rt": 278.8125
+        },
+        {
+          "w": 37.203125,
+          "h": 37.203125,
+          "l": 284.8125,
+          "rt": 322.015625
+        },
+        {
+          "w": 101.953125,
+          "h": 44,
+          "l": 359,
+          "rt": 460.953125
+        },
+        {
+          "w": 111.359375,
+          "h": 44,
+          "l": 1161.640625,
+          "rt": 1273
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "review",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "root": {
+        "left": 0,
+        "right": 1366,
+        "width": 1366
+      },
+      "buttons": [
+        {
+          "w": 171.546875,
+          "h": 44,
+          "l": 282,
+          "rt": 453.546875
+        },
+        {
+          "w": 281.59375,
+          "h": 44,
+          "l": 802.40625,
+          "rt": 1084
+        }
+      ]
+    }
+  ]
+}

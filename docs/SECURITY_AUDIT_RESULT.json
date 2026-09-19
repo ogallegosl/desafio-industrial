@@ -1,0 +1,15 @@
+{
+  "no_dangerouslySetInnerHTML": true,
+  "service_role_not_frontend": true,
+  "student_token_sessionStorage": true,
+  "no_cors_wildcard": true,
+  "origin_allowlist": true,
+  "rate_limit": true,
+  "magic_file_validation": true,
+  "csp": true,
+  "nosniff": true,
+  "formula_guard": true,
+  "import_size_limit": true,
+  "edge_no_store": true,
+  "no_grading_snapshot_student_select": true
+}

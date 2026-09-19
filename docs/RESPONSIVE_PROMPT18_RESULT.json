@@ -1,0 +1,113 @@
+{
+  "prompt": 18,
+  "passed": 21,
+  "total": 21,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Route-level lazy loading",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Suspense route fallback",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "XLSX remains dynamic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "React vendor chunk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Supabase vendor chunk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Teacher mobile drawer state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Teacher menu Escape support",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive 360 rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive 390 rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive 430 rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Responsive 768 rule",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Desktop baseline supports 1366",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Mobile timer stays sticky",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Sticky mobile exam navigation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Safe mobile viewport units",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Reduced motion supported",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Technical question images constrained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Current exam images prioritized",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Teacher evidence images lazy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "QA18 npm script",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Browser responsive audit passed",
+      "ok": true,
+      "detail": "28/28"
+    }
+  ]
+}

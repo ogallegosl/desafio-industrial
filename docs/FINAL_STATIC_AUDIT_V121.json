@@ -1,0 +1,11 @@
+{
+  "code_files": 98,
+  "local_imports_checked": 179,
+  "missing_imports": [],
+  "migration_count": 27,
+  "last_migration": "0027_teacher_audit_hardening.sql",
+  "missing_in_bootstrap": [],
+  "empty_files": [],
+  "secret_assignment_hits": [],
+  "build_attempt": "FAILED_ENVIRONMENT: vite not found because node_modules could not be installed (npm install timed out)"
+}

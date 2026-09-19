@@ -1,0 +1,10 @@
+{
+  "revisionConflictProtection": "PASS",
+  "offlineLatestValueQueue": "PASS",
+  "sequentialNavigation": "PASS",
+  "backtrackingRules": "PASS",
+  "freeNavigation": "PASS",
+  "answerStateDetection": "PASS",
+  "serverTimerBaselineSeconds": 2700,
+  "status": "PASS"
+}

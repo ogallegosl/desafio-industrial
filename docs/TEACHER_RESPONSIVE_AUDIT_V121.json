@@ -1,0 +1,4034 @@
+{
+  "version": "1.2.1",
+  "pages": [
+    "dashboard",
+    "banks",
+    "editor",
+    "live",
+    "results"
+  ],
+  "widths": [
+    320,
+    360,
+    390,
+    430,
+    768,
+    1024,
+    1366
+  ],
+  "passed": 155,
+  "total": 155,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "dashboard 320px sin overflow global",
+      "ok": true,
+      "detail": "sw=320 vw=320"
+    },
+    {
+      "name": "dashboard 320px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 320, \"width\": 320}"
+    },
+    {
+      "name": "dashboard 320px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "dashboard 320px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 320px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 320px sin overflow global",
+      "ok": true,
+      "detail": "sw=320 vw=320"
+    },
+    {
+      "name": "banks 320px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 320, \"width\": 320}"
+    },
+    {
+      "name": "banks 320px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "banks 320px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 320px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 320px sin overflow global",
+      "ok": true,
+      "detail": "sw=320 vw=320"
+    },
+    {
+      "name": "editor 320px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 320, \"width\": 320}"
+    },
+    {
+      "name": "editor 320px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "editor 320px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 320px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 320px sin overflow global",
+      "ok": true,
+      "detail": "sw=320 vw=320"
+    },
+    {
+      "name": "live 320px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 320, \"width\": 320}"
+    },
+    {
+      "name": "live 320px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "live 320px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 320px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 320px sin overflow global",
+      "ok": true,
+      "detail": "sw=320 vw=320"
+    },
+    {
+      "name": "results 320px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 320, \"width\": 320}"
+    },
+    {
+      "name": "results 320px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "results 320px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 320px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 360px sin overflow global",
+      "ok": true,
+      "detail": "sw=360 vw=360"
+    },
+    {
+      "name": "dashboard 360px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 360, \"width\": 360}"
+    },
+    {
+      "name": "dashboard 360px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "dashboard 360px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 360px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 360px sin overflow global",
+      "ok": true,
+      "detail": "sw=360 vw=360"
+    },
+    {
+      "name": "banks 360px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 360, \"width\": 360}"
+    },
+    {
+      "name": "banks 360px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "banks 360px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 360px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 360px sin overflow global",
+      "ok": true,
+      "detail": "sw=360 vw=360"
+    },
+    {
+      "name": "editor 360px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 360, \"width\": 360}"
+    },
+    {
+      "name": "editor 360px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "editor 360px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 360px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 360px sin overflow global",
+      "ok": true,
+      "detail": "sw=360 vw=360"
+    },
+    {
+      "name": "live 360px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 360, \"width\": 360}"
+    },
+    {
+      "name": "live 360px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "live 360px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 360px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 360px sin overflow global",
+      "ok": true,
+      "detail": "sw=360 vw=360"
+    },
+    {
+      "name": "results 360px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 360, \"width\": 360}"
+    },
+    {
+      "name": "results 360px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "results 360px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 360px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 390px sin overflow global",
+      "ok": true,
+      "detail": "sw=390 vw=390"
+    },
+    {
+      "name": "dashboard 390px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 390, \"width\": 390}"
+    },
+    {
+      "name": "dashboard 390px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "dashboard 390px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 390px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 390px sin overflow global",
+      "ok": true,
+      "detail": "sw=390 vw=390"
+    },
+    {
+      "name": "banks 390px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 390, \"width\": 390}"
+    },
+    {
+      "name": "banks 390px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "banks 390px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 390px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 390px sin overflow global",
+      "ok": true,
+      "detail": "sw=390 vw=390"
+    },
+    {
+      "name": "editor 390px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 390, \"width\": 390}"
+    },
+    {
+      "name": "editor 390px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "editor 390px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 390px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 390px sin overflow global",
+      "ok": true,
+      "detail": "sw=390 vw=390"
+    },
+    {
+      "name": "live 390px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 390, \"width\": 390}"
+    },
+    {
+      "name": "live 390px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "live 390px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 390px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 390px sin overflow global",
+      "ok": true,
+      "detail": "sw=390 vw=390"
+    },
+    {
+      "name": "results 390px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 390, \"width\": 390}"
+    },
+    {
+      "name": "results 390px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "results 390px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 390px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 430px sin overflow global",
+      "ok": true,
+      "detail": "sw=430 vw=430"
+    },
+    {
+      "name": "dashboard 430px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 430, \"width\": 430}"
+    },
+    {
+      "name": "dashboard 430px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "dashboard 430px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 430px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 430px sin overflow global",
+      "ok": true,
+      "detail": "sw=430 vw=430"
+    },
+    {
+      "name": "banks 430px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 430, \"width\": 430}"
+    },
+    {
+      "name": "banks 430px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "banks 430px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 430px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 430px sin overflow global",
+      "ok": true,
+      "detail": "sw=430 vw=430"
+    },
+    {
+      "name": "editor 430px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 430, \"width\": 430}"
+    },
+    {
+      "name": "editor 430px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "editor 430px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 430px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 430px sin overflow global",
+      "ok": true,
+      "detail": "sw=430 vw=430"
+    },
+    {
+      "name": "live 430px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 430, \"width\": 430}"
+    },
+    {
+      "name": "live 430px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "live 430px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 430px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 430px sin overflow global",
+      "ok": true,
+      "detail": "sw=430 vw=430"
+    },
+    {
+      "name": "results 430px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 430, \"width\": 430}"
+    },
+    {
+      "name": "results 430px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 8, \"right\": 48, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "results 430px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 430px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 768px sin overflow global",
+      "ok": true,
+      "detail": "sw=768 vw=768"
+    },
+    {
+      "name": "dashboard 768px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 768, \"width\": 768}"
+    },
+    {
+      "name": "dashboard 768px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 14, \"right\": 54, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "dashboard 768px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 768px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 768px sin overflow global",
+      "ok": true,
+      "detail": "sw=768 vw=768"
+    },
+    {
+      "name": "banks 768px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 768, \"width\": 768}"
+    },
+    {
+      "name": "banks 768px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 14, \"right\": 54, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "banks 768px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 768px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 768px sin overflow global",
+      "ok": true,
+      "detail": "sw=768 vw=768"
+    },
+    {
+      "name": "editor 768px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 768, \"width\": 768}"
+    },
+    {
+      "name": "editor 768px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 14, \"right\": 54, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "editor 768px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 768px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 768px sin overflow global",
+      "ok": true,
+      "detail": "sw=768 vw=768"
+    },
+    {
+      "name": "live 768px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 768, \"width\": 768}"
+    },
+    {
+      "name": "live 768px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 14, \"right\": 54, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "live 768px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 768px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 768px sin overflow global",
+      "ok": true,
+      "detail": "sw=768 vw=768"
+    },
+    {
+      "name": "results 768px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 768, \"width\": 768}"
+    },
+    {
+      "name": "results 768px menú móvil visible y táctil",
+      "ok": true,
+      "detail": "{\"display\": \"grid\", \"left\": 14, \"right\": 54, \"width\": 40, \"height\": 40}"
+    },
+    {
+      "name": "results 768px controles visibles sin objetivos minúsculos",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 768px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 1024px sin overflow global",
+      "ok": true,
+      "detail": "sw=1024 vw=1024"
+    },
+    {
+      "name": "dashboard 1024px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1024, \"width\": 772}"
+    },
+    {
+      "name": "dashboard 1024px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 1024px sin overflow global",
+      "ok": true,
+      "detail": "sw=1024 vw=1024"
+    },
+    {
+      "name": "banks 1024px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1024, \"width\": 772}"
+    },
+    {
+      "name": "banks 1024px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 1024px sin overflow global",
+      "ok": true,
+      "detail": "sw=1024 vw=1024"
+    },
+    {
+      "name": "editor 1024px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1024, \"width\": 772}"
+    },
+    {
+      "name": "editor 1024px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 1024px sin overflow global",
+      "ok": true,
+      "detail": "sw=1024 vw=1024"
+    },
+    {
+      "name": "live 1024px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1024, \"width\": 772}"
+    },
+    {
+      "name": "live 1024px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 1024px sin overflow global",
+      "ok": true,
+      "detail": "sw=1024 vw=1024"
+    },
+    {
+      "name": "results 1024px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1024, \"width\": 772}"
+    },
+    {
+      "name": "results 1024px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "dashboard 1366px sin overflow global",
+      "ok": true,
+      "detail": "sw=1366 vw=1366"
+    },
+    {
+      "name": "dashboard 1366px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1366, \"width\": 1114}"
+    },
+    {
+      "name": "dashboard 1366px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "banks 1366px sin overflow global",
+      "ok": true,
+      "detail": "sw=1366 vw=1366"
+    },
+    {
+      "name": "banks 1366px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1366, \"width\": 1114}"
+    },
+    {
+      "name": "banks 1366px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "editor 1366px sin overflow global",
+      "ok": true,
+      "detail": "sw=1366 vw=1366"
+    },
+    {
+      "name": "editor 1366px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1366, \"width\": 1114}"
+    },
+    {
+      "name": "editor 1366px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "live 1366px sin overflow global",
+      "ok": true,
+      "detail": "sw=1366 vw=1366"
+    },
+    {
+      "name": "live 1366px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1366, \"width\": 1114}"
+    },
+    {
+      "name": "live 1366px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "results 1366px sin overflow global",
+      "ok": true,
+      "detail": "sw=1366 vw=1366"
+    },
+    {
+      "name": "results 1366px contenido principal dentro de viewport",
+      "ok": true,
+      "detail": "{\"left\": 252, \"right\": 1366, \"width\": 1114}"
+    },
+    {
+      "name": "results 1366px tablas anchas confinadas a scroll interno",
+      "ok": true,
+      "detail": "[]"
+    }
+  ],
+  "rows": [
+    {
+      "width": 320,
+      "mode": "dashboard",
+      "vw": 320,
+      "sw": 320,
+      "bodyw": 320,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 304,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 287,
+          "sw": 433,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "banks",
+      "vw": 320,
+      "sw": 320,
+      "bodyw": 320,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 304,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 287,
+          "sw": 400,
+          "overflow": "auto"
+        },
+        {
+          "cw": 287,
+          "sw": 829,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "editor",
+      "vw": 320,
+      "sw": 320,
+      "bodyw": 320,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 304,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 304,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 54.890625,
+          "h": 40,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 320,
+      "mode": "live",
+      "vw": 320,
+      "sw": 320,
+      "bodyw": 320,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 304,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 266,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 266,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 266,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 266,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 287,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 300,
+          "sw": 622,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "mode": "results",
+      "vw": 320,
+      "sw": 320,
+      "bodyw": 320,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 320,
+        "width": 320
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 304,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 304,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 87.171875,
+          "h": 40,
+          "text": "Resumen"
+        },
+        {
+          "w": 110.09375,
+          "h": 40,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 40,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 287,
+          "sw": 586,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "dashboard",
+      "vw": 360,
+      "sw": 360,
+      "bodyw": 360,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 344,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 327,
+          "sw": 433,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "banks",
+      "vw": 360,
+      "sw": 360,
+      "bodyw": 360,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 344,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 327,
+          "sw": 400,
+          "overflow": "auto"
+        },
+        {
+          "cw": 327,
+          "sw": 829,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "editor",
+      "vw": 360,
+      "sw": 360,
+      "bodyw": 360,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 344,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 344,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 54.890625,
+          "h": 40,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 360,
+      "mode": "live",
+      "vw": 360,
+      "sw": 360,
+      "bodyw": 360,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 344,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 306,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 306,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 306,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 306,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 327,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 340,
+          "sw": 622,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "mode": "results",
+      "vw": 360,
+      "sw": 360,
+      "bodyw": 360,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 360,
+        "width": 360
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 344,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 344,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 95.65625,
+          "h": 40,
+          "text": "Resumen"
+        },
+        {
+          "w": 110.09375,
+          "h": 40,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 40,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 327,
+          "sw": 586,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "dashboard",
+      "vw": 390,
+      "sw": 390,
+      "bodyw": 390,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 370,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 353,
+          "sw": 433,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "banks",
+      "vw": 390,
+      "sw": 390,
+      "bodyw": 390,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 370,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 353,
+          "sw": 400,
+          "overflow": "auto"
+        },
+        {
+          "cw": 353,
+          "sw": 829,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "editor",
+      "vw": 390,
+      "sw": 390,
+      "bodyw": 390,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 180,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 180,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 54.890625,
+          "h": 40,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 390,
+      "mode": "live",
+      "vw": 390,
+      "sw": 390,
+      "bodyw": 390,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 370,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 332,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 332,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 332,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 332,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 353,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 366,
+          "sw": 622,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "mode": "results",
+      "vw": 390,
+      "sw": 390,
+      "bodyw": 390,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 390,
+        "width": 390
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 180,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 180,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 115.875,
+          "h": 40,
+          "text": "Resumen"
+        },
+        {
+          "w": 115.875,
+          "h": 40,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 40,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 353,
+          "sw": 586,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "dashboard",
+      "vw": 430,
+      "sw": 430,
+      "bodyw": 430,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 410,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 44,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 393,
+          "sw": 433,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "banks",
+      "vw": 430,
+      "sw": 430,
+      "bodyw": 430,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 410,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 44,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 393,
+          "sw": 400,
+          "overflow": "auto"
+        },
+        {
+          "cw": 393,
+          "sw": 829,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "editor",
+      "vw": 430,
+      "sw": 430,
+      "bodyw": 430,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 200,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 200,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 54.890625,
+          "h": 40,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 430,
+      "mode": "live",
+      "vw": 430,
+      "sw": 430,
+      "bodyw": 430,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 410,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 372,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 372,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 372,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 372,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 393,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 406,
+          "sw": 622,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "mode": "results",
+      "vw": 430,
+      "sw": 430,
+      "bodyw": 430,
+      "menu": {
+        "display": "grid",
+        "left": 8,
+        "right": 48,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 430,
+        "width": 430
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 34,
+          "h": 34,
+          "text": "OG"
+        },
+        {
+          "w": 200,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 200,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 130.65625,
+          "h": 40,
+          "text": "Resumen"
+        },
+        {
+          "w": 130.671875,
+          "h": 40,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 130.671875,
+          "h": 40,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 393,
+          "sw": 586,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "dashboard",
+      "vw": 768,
+      "sw": 768,
+      "bodyw": 768,
+      "menu": {
+        "display": "grid",
+        "left": 14,
+        "right": 54,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 146.359375,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 719,
+          "sw": 719,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "banks",
+      "vw": 768,
+      "sw": 768,
+      "bodyw": 768,
+      "menu": {
+        "display": "grid",
+        "left": 14,
+        "right": 54,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 140.09375,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 68.25,
+          "h": 40,
+          "text": "Archivar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        },
+        {
+          "w": 39.453125,
+          "h": 40,
+          "text": "Ver"
+        },
+        {
+          "w": 53.03125,
+          "h": 40,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 719,
+          "sw": 719,
+          "overflow": "auto"
+        },
+        {
+          "cw": 719,
+          "sw": 829,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "editor",
+      "vw": 768,
+      "sw": 768,
+      "bodyw": 768,
+      "menu": {
+        "display": "grid",
+        "left": 14,
+        "right": 54,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 173.265625,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 119.625,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 54.890625,
+          "h": 40,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 768,
+      "mode": "live",
+      "vw": 768,
+      "sw": 768,
+      "bodyw": 768,
+      "menu": {
+        "display": "grid",
+        "left": 14,
+        "right": 54,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 185.796875,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 159.390625,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 151.703125,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 159.6875,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 191.703125,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        },
+        {
+          "w": 59.03125,
+          "h": 40,
+          "text": "+5 min"
+        },
+        {
+          "w": 68.609375,
+          "h": 40,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 719,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 732,
+          "sw": 732,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "mode": "results",
+      "vw": 768,
+      "sw": 768,
+      "bodyw": 768,
+      "menu": {
+        "display": "grid",
+        "left": 14,
+        "right": 54,
+        "width": 40,
+        "height": 40
+      },
+      "main": {
+        "left": 0,
+        "right": 768,
+        "width": 768
+      },
+      "buttons": [
+        {
+          "w": 40,
+          "h": 40,
+          "text": "☰"
+        },
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 240.65625,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 240.65625,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 87.171875,
+          "h": 40,
+          "text": "Resumen"
+        },
+        {
+          "w": 110.09375,
+          "h": 40,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 40,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 719,
+          "sw": 719,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "mode": "dashboard",
+      "vw": 1024,
+      "sw": 1024,
+      "bodyw": 1024,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1024,
+        "width": 772
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 146.359375,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 687,
+          "sw": 687,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "mode": "banks",
+      "vw": 1024,
+      "sw": 1024,
+      "bodyw": 1024,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1024,
+        "width": 772
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 140.09375,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 687,
+          "sw": 687,
+          "overflow": "auto"
+        },
+        {
+          "cw": 687,
+          "sw": 847,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "mode": "editor",
+      "vw": 1024,
+      "sw": 1024,
+      "bodyw": 1024,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1024,
+        "width": 772
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 173.265625,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 119.625,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 48.890625,
+          "h": 24,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 1024,
+      "mode": "live",
+      "vw": 1024,
+      "sw": 1024,
+      "bodyw": 1024,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1024,
+        "width": 772
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 185.796875,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 159.390625,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 151.703125,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 159.6875,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 191.703125,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 687,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 700,
+          "sw": 700,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "mode": "results",
+      "vw": 1024,
+      "sw": 1024,
+      "bodyw": 1024,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1024,
+        "width": 772
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 70.78125,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 78.625,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 87.171875,
+          "h": 33,
+          "text": "Resumen"
+        },
+        {
+          "w": 110.09375,
+          "h": 33,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 33,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 687,
+          "sw": 687,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "dashboard",
+      "vw": 1366,
+      "sw": 1366,
+      "bodyw": 1366,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1366,
+        "width": 1114
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 146.359375,
+          "h": 44,
+          "text": "Crear examen"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        },
+        {
+          "w": 76.109375,
+          "h": 38,
+          "text": "En vivo"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 1029,
+          "sw": 1029,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "banks",
+      "vw": 1366,
+      "sw": 1366,
+      "bodyw": 1366,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1366,
+        "width": 1114
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 140.09375,
+          "h": 44,
+          "text": "Nuevo banco"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 67.328125,
+          "h": 38,
+          "text": "Editar"
+        },
+        {
+          "w": 62.25,
+          "h": 24,
+          "text": "Archivar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        },
+        {
+          "w": 33.453125,
+          "h": 24,
+          "text": "Ver"
+        },
+        {
+          "w": 47.03125,
+          "h": 24,
+          "text": "Editar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 1029,
+          "sw": 1029,
+          "overflow": "auto"
+        },
+        {
+          "cw": 1029,
+          "sw": 1029,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "editor",
+      "vw": 1366,
+      "sw": 1366,
+      "bodyw": 1366,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1366,
+        "width": 1114
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 173.265625,
+          "h": 44,
+          "text": "Guardar borrador"
+        },
+        {
+          "w": 119.625,
+          "h": 44,
+          "text": "Programar"
+        },
+        {
+          "w": 48.890625,
+          "h": 24,
+          "text": "Quitar"
+        }
+      ],
+      "tables": []
+    },
+    {
+      "width": 1366,
+      "mode": "live",
+      "vw": 1366,
+      "sw": 1366,
+      "bodyw": 1366,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1366,
+        "width": 1114
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 185.796875,
+          "h": 44,
+          "text": "Volver a exámenes"
+        },
+        {
+          "w": 159.390625,
+          "h": 44,
+          "text": "Cerrar ingresos"
+        },
+        {
+          "w": 151.703125,
+          "h": 44,
+          "text": "+5 min a todos"
+        },
+        {
+          "w": 159.6875,
+          "h": 44,
+          "text": "+10 min a todos"
+        },
+        {
+          "w": 191.703125,
+          "h": 44,
+          "text": "Finalizar para todos"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        },
+        {
+          "w": 53.03125,
+          "h": 24,
+          "text": "+5 min"
+        },
+        {
+          "w": 62.609375,
+          "h": 24,
+          "text": "Finalizar"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 1029,
+          "sw": 1050,
+          "overflow": "auto"
+        },
+        {
+          "cw": 1042,
+          "sw": 1042,
+          "overflow": "auto"
+        }
+      ]
+    },
+    {
+      "width": 1366,
+      "mode": "results",
+      "vw": 1366,
+      "sw": 1366,
+      "bodyw": 1366,
+      "menu": {
+        "display": "none",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "main": {
+        "left": 252,
+        "right": 1366,
+        "width": 1114
+      },
+      "buttons": [
+        {
+          "w": 36,
+          "h": 36,
+          "text": "OG"
+        },
+        {
+          "w": 70.78125,
+          "h": 42,
+          "text": "CSV"
+        },
+        {
+          "w": 78.625,
+          "h": 42,
+          "text": "Excel"
+        },
+        {
+          "w": 87.171875,
+          "h": 33,
+          "text": "Resumen"
+        },
+        {
+          "w": 110.09375,
+          "h": 33,
+          "text": "Por pregunta"
+        },
+        {
+          "w": 120.25,
+          "h": 33,
+          "text": "Por estudiante"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        },
+        {
+          "w": 48.453125,
+          "h": 36,
+          "text": "PDF"
+        }
+      ],
+      "tables": [
+        {
+          "cw": 1029,
+          "sw": 1029,
+          "overflow": "auto"
+        }
+      ]
+    }
+  ]
+}

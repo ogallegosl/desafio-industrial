@@ -1,0 +1,112 @@
+{
+  "version": "1.2.0",
+  "passed": 26,
+  "total": 26,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "Migration 0026 exists",
+      "ok": true
+    },
+    {
+      "name": "Exam admissions flag exists",
+      "ok": true
+    },
+    {
+      "name": "Attempt extension fields exist",
+      "ok": true
+    },
+    {
+      "name": "Live monitor RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Admission control RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Individual extension RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Global extension RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Individual force submit RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Global force close RPC exists",
+      "ok": true
+    },
+    {
+      "name": "Realtime publication configured",
+      "ok": true
+    },
+    {
+      "name": "Monitor page route exists",
+      "ok": true
+    },
+    {
+      "name": "Exam list exposes live monitor",
+      "ok": true
+    },
+    {
+      "name": "Monitor uses Realtime subscription",
+      "ok": true
+    },
+    {
+      "name": "Monitor has fallback polling",
+      "ok": true
+    },
+    {
+      "name": "Monitor shows summary cards",
+      "ok": true
+    },
+    {
+      "name": "Monitor matrix never exposes correctness",
+      "ok": true
+    },
+    {
+      "name": "Monitor can close admissions",
+      "ok": true
+    },
+    {
+      "name": "Monitor can extend time globally",
+      "ok": true
+    },
+    {
+      "name": "Monitor can force close all",
+      "ok": true
+    },
+    {
+      "name": "Monitor can control one attempt",
+      "ok": true
+    },
+    {
+      "name": "Student heartbeat reduced to 5 seconds",
+      "ok": true
+    },
+    {
+      "name": "Student receives updated deadline",
+      "ok": true
+    },
+    {
+      "name": "Teacher forced closure is shown to student",
+      "ok": true
+    },
+    {
+      "name": "Offline queue can recover after teacher close",
+      "ok": true
+    },
+    {
+      "name": "New admissions are enforced server-side",
+      "ok": true
+    },
+    {
+      "name": "Responsive live monitor styles exist",
+      "ok": true
+    }
+  ]
+}

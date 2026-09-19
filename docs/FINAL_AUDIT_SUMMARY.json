@@ -1,0 +1,11 @@
+{
+  "version": "0.15.1",
+  "files": 168,
+  "migrations": 21,
+  "secret_scan_hits": [],
+  "strict_audit": "26/26 PASS",
+  "syntax": "74 files, 0 parse errors",
+  "relative_imports": "0 missing",
+  "build_executed": false,
+  "database_migrations_executed": false
+}

@@ -1,0 +1,21 @@
+{
+  "prompt": 19,
+  "version": "0.19.0",
+  "date": "2026-09-17",
+  "status": "PASS_WITH_EXTERNAL_BUILD_PENDING",
+  "deployReadinessStatic": {"passed": 20, "total": 20},
+  "deployReadinessWithSimulatedEnv": {"passed": 24, "total": 24},
+  "syntax": {"filesChecked": 79, "errors": 0},
+  "localImports": {"checked": 135, "missing": 0},
+  "migrations": 22,
+  "cumulativeTests": "PASS",
+  "npmInstall": "NETWORK_TIMEOUT",
+  "realViteBuild": "PENDING_DEPENDENCY_INSTALL",
+  "requiredNetlifyVariables": [
+    "VITE_SUPABASE_URL",
+    "VITE_SUPABASE_PUBLISHABLE_KEY"
+  ],
+  "requiredSupabaseFunctionSecret": [
+    "APP_ALLOWED_ORIGINS"
+  ]
+}

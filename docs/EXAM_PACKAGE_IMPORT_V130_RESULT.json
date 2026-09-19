@@ -1,0 +1,183 @@
+{
+  "status": "PASS",
+  "total": 25,
+  "passed": 25,
+  "failed": [],
+  "checks": [
+    {
+      "area": "Versión",
+      "name": "Versión 1.3.0 declarada",
+      "ok": true,
+      "severity": "high",
+      "detail": "1.3.0"
+    },
+    {
+      "area": "Dependencias",
+      "name": "JSZip fijado para lectura local de paquetes",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "UI",
+      "name": "Acción Importar examen disponible en Exámenes",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "UI",
+      "name": "Modal ofrece plantilla y ZIP de ejemplo",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Plantillas",
+      "name": "Plantilla XLSX incluida",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Plantillas",
+      "name": "Paquete ZIP de ejemplo incluido",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad ZIP",
+      "name": "Bloquea rutas inseguras",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad ZIP",
+      "name": "Límites de tamaño del paquete e imágenes",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad multimedia",
+      "name": "Solo JPG/JPEG PNG WEBP",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad multimedia",
+      "name": "Valida firma binaria de imágenes",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Idempotencia",
+      "name": "Huella SHA-256 evita reimportar el mismo paquete",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Cursos",
+      "name": "Reconoce curso por código y bloquea colisiones de nombre",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Bancos",
+      "name": "Crea o reutiliza bancos y bloquea archivados",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Preguntas",
+      "name": "Crea o reutiliza por ID sin sobrescribir contenido diferente",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Preguntas",
+      "name": "Soporta importación de preguntas visuales",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Preguntas",
+      "name": "Imagen faltante bloquea la fila",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Plan",
+      "name": "Importa preguntas fijas",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Plan",
+      "name": "Importa reglas aleatorias",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Plan",
+      "name": "Valida total configurado frente al plan",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Liberación",
+      "name": "Importación crea examen pero no cambia estado a programado/activo",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Liberación",
+      "name": "UI declara que siempre queda en Borrador",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Trazabilidad",
+      "name": "Marca de importación queda en settings",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Trazabilidad",
+      "name": "Editor conserva settings desconocidos al guardar",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Compatibilidad",
+      "name": "Caso práctico no se importa silenciosamente",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Progreso",
+      "name": "Importación informa etapas al docente",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    }
+  ]
+}

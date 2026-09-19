@@ -1,0 +1,790 @@
+{
+  "prompt": 18,
+  "passed": 28,
+  "total": 28,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "student 360px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "estudiante 360px cronómetro visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 352, \"top\": 76, \"bottom\": 169, \"width\": 344, \"height\": 93, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "estudiante 360px navegación dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 352, \"top\": 742.59375, \"bottom\": 807.59375, \"width\": 344, \"height\": 65, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "teacher 360px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=360 viewport=360"
+    },
+    {
+      "name": "docente 360px botón de menú visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 48, \"top\": 11.5, \"bottom\": 51.5, \"width\": 40, \"height\": 40, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "docente 360px drawer dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 300, \"top\": 0, \"bottom\": 900, \"width\": 300, \"height\": 900, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"fixed\"}"
+    },
+    {
+      "name": "student 390px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "estudiante 390px cronómetro visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 382, \"top\": 76, \"bottom\": 169, \"width\": 374, \"height\": 93, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "estudiante 390px navegación dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 382, \"top\": 742.59375, \"bottom\": 807.59375, \"width\": 374, \"height\": 65, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "teacher 390px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=390 viewport=390"
+    },
+    {
+      "name": "docente 390px botón de menú visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 48, \"top\": 11.5, \"bottom\": 51.5, \"width\": 40, \"height\": 40, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "docente 390px drawer dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 300, \"top\": 0, \"bottom\": 900, \"width\": 300, \"height\": 900, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"fixed\"}"
+    },
+    {
+      "name": "student 430px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "estudiante 430px cronómetro visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 422, \"top\": 76, \"bottom\": 169, \"width\": 414, \"height\": 93, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "estudiante 430px navegación dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 422, \"top\": 730.59375, \"bottom\": 795.59375, \"width\": 414, \"height\": 65, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "teacher 430px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=430 viewport=430"
+    },
+    {
+      "name": "docente 430px botón de menú visible",
+      "ok": true,
+      "detail": "{\"left\": 8, \"right\": 48, \"top\": 11.5, \"bottom\": 51.5, \"width\": 40, \"height\": 40, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "docente 430px drawer dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 300, \"top\": 0, \"bottom\": 900, \"width\": 300, \"height\": 900, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"fixed\"}"
+    },
+    {
+      "name": "student 768px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "estudiante 768px cronómetro visible",
+      "ok": true,
+      "detail": "{\"left\": 16, \"right\": 752, \"top\": 76, \"bottom\": 169, \"width\": 736, \"height\": 93, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"sticky\"}"
+    },
+    {
+      "name": "estudiante 768px navegación dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 16, \"right\": 752, \"top\": 796.5, \"bottom\": 840.5, \"width\": 736, \"height\": 44, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "teacher 768px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=768 viewport=768"
+    },
+    {
+      "name": "docente 768px botón de menú visible",
+      "ok": true,
+      "detail": "{\"left\": 14, \"right\": 54, \"top\": 11.5, \"bottom\": 51.5, \"width\": 40, \"height\": 40, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "docente 768px drawer dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 0, \"right\": 300, \"top\": 0, \"bottom\": 900, \"width\": 300, \"height\": 900, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"fixed\"}"
+    },
+    {
+      "name": "student 1366px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    },
+    {
+      "name": "estudiante 1366px cronómetro visible",
+      "ok": true,
+      "detail": "{\"left\": 112, \"right\": 322, \"top\": 123, \"bottom\": 194, \"width\": 210, \"height\": 71, \"display\": \"grid\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "estudiante 1366px navegación dentro del viewport",
+      "ok": true,
+      "detail": "{\"left\": 359, \"right\": 1273, \"top\": 738.5625, \"bottom\": 782.5625, \"width\": 914, \"height\": 44, \"display\": \"flex\", \"visibility\": \"visible\", \"position\": \"static\"}"
+    },
+    {
+      "name": "teacher 1366px sin overflow horizontal global",
+      "ok": true,
+      "detail": "doc=1366 viewport=1366"
+    }
+  ],
+  "rows": [
+    {
+      "width": 360,
+      "mode": "student",
+      "viewport": 360,
+      "docWidth": 360,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".student-topbar": {
+          "left": 0,
+          "right": 360,
+          "top": 0,
+          "bottom": 62,
+          "width": 360,
+          "height": 62,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-exam-status": {
+          "left": 8,
+          "right": 352,
+          "top": 76,
+          "bottom": 169,
+          "width": 344,
+          "height": 93,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".exam-timer": {
+          "left": 17,
+          "right": 343,
+          "top": 85,
+          "bottom": 124,
+          "width": 326,
+          "height": 39,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".question-card": {
+          "left": 8,
+          "right": 352,
+          "top": 181,
+          "bottom": 728.59375,
+          "width": 344,
+          "height": 547.59375,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-navigation": {
+          "left": 8,
+          "right": 352,
+          "top": 742.59375,
+          "bottom": 807.59375,
+          "width": 344,
+          "height": 65,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        }
+      }
+    },
+    {
+      "width": 360,
+      "mode": "teacher",
+      "viewport": 360,
+      "docWidth": 360,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".teacher-topbar": {
+          "left": 0,
+          "right": 360,
+          "top": 0,
+          "bottom": 64,
+          "width": 360,
+          "height": 64,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-menu-button": {
+          "left": 8,
+          "right": 48,
+          "top": 11.5,
+          "bottom": 51.5,
+          "width": 40,
+          "height": 40,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".sidebar": {
+          "left": 0,
+          "right": 300,
+          "top": 0,
+          "bottom": 900,
+          "width": 300,
+          "height": 900,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "fixed"
+        },
+        ".dashboard-content": {
+          "left": 0,
+          "right": 360,
+          "top": 64,
+          "bottom": 440.390625,
+          "width": 360,
+          "height": 376.390625,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".table-wrap": {
+          "left": 9,
+          "right": 351,
+          "top": 315.390625,
+          "bottom": 407.390625,
+          "width": 342,
+          "height": 92,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 390,
+      "mode": "student",
+      "viewport": 390,
+      "docWidth": 390,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".student-topbar": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 62,
+          "width": 390,
+          "height": 62,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-exam-status": {
+          "left": 8,
+          "right": 382,
+          "top": 76,
+          "bottom": 169,
+          "width": 374,
+          "height": 93,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".exam-timer": {
+          "left": 17,
+          "right": 373,
+          "top": 85,
+          "bottom": 124,
+          "width": 356,
+          "height": 39,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".question-card": {
+          "left": 8,
+          "right": 382,
+          "top": 181,
+          "bottom": 728.59375,
+          "width": 374,
+          "height": 547.59375,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-navigation": {
+          "left": 8,
+          "right": 382,
+          "top": 742.59375,
+          "bottom": 807.59375,
+          "width": 374,
+          "height": 65,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        }
+      }
+    },
+    {
+      "width": 390,
+      "mode": "teacher",
+      "viewport": 390,
+      "docWidth": 390,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".teacher-topbar": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 64,
+          "width": 390,
+          "height": 64,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-menu-button": {
+          "left": 8,
+          "right": 48,
+          "top": 11.5,
+          "bottom": 51.5,
+          "width": 40,
+          "height": 40,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".sidebar": {
+          "left": 0,
+          "right": 300,
+          "top": 0,
+          "bottom": 900,
+          "width": 300,
+          "height": 900,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "fixed"
+        },
+        ".dashboard-content": {
+          "left": 0,
+          "right": 390,
+          "top": 64,
+          "bottom": 442.9375,
+          "width": 390,
+          "height": 378.9375,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".table-wrap": {
+          "left": 11,
+          "right": 379,
+          "top": 317.9375,
+          "bottom": 409.9375,
+          "width": 368,
+          "height": 92,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 430,
+      "mode": "student",
+      "viewport": 430,
+      "docWidth": 430,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".student-topbar": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 62,
+          "width": 430,
+          "height": 62,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-exam-status": {
+          "left": 8,
+          "right": 422,
+          "top": 76,
+          "bottom": 169,
+          "width": 414,
+          "height": 93,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".exam-timer": {
+          "left": 17,
+          "right": 413,
+          "top": 85,
+          "bottom": 124,
+          "width": 396,
+          "height": 39,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".question-card": {
+          "left": 8,
+          "right": 422,
+          "top": 181,
+          "bottom": 716.59375,
+          "width": 414,
+          "height": 535.59375,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-navigation": {
+          "left": 8,
+          "right": 422,
+          "top": 730.59375,
+          "bottom": 795.59375,
+          "width": 414,
+          "height": 65,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        }
+      }
+    },
+    {
+      "width": 430,
+      "mode": "teacher",
+      "viewport": 430,
+      "docWidth": 430,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".teacher-topbar": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 64,
+          "width": 430,
+          "height": 64,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-menu-button": {
+          "left": 8,
+          "right": 48,
+          "top": 11.5,
+          "bottom": 51.5,
+          "width": 40,
+          "height": 40,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".sidebar": {
+          "left": 0,
+          "right": 300,
+          "top": 0,
+          "bottom": 900,
+          "width": 300,
+          "height": 900,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "fixed"
+        },
+        ".dashboard-content": {
+          "left": 0,
+          "right": 430,
+          "top": 64,
+          "bottom": 445.484375,
+          "width": 430,
+          "height": 381.484375,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".table-wrap": {
+          "left": 11,
+          "right": 419,
+          "top": 320.484375,
+          "bottom": 412.484375,
+          "width": 408,
+          "height": 92,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 768,
+      "mode": "student",
+      "viewport": 768,
+      "docWidth": 768,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".student-topbar": {
+          "left": 0,
+          "right": 768,
+          "top": 0,
+          "bottom": 62,
+          "width": 768,
+          "height": 62,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-exam-status": {
+          "left": 16,
+          "right": 752,
+          "top": 76,
+          "bottom": 169,
+          "width": 736,
+          "height": 93,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".exam-timer": {
+          "left": 27,
+          "right": 197,
+          "top": 87,
+          "bottom": 158,
+          "width": 170,
+          "height": 71,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".question-card": {
+          "left": 16,
+          "right": 752,
+          "top": 181,
+          "bottom": 782.5,
+          "width": 736,
+          "height": 601.5,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-navigation": {
+          "left": 16,
+          "right": 752,
+          "top": 796.5,
+          "bottom": 840.5,
+          "width": 736,
+          "height": 44,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 768,
+      "mode": "teacher",
+      "viewport": 768,
+      "docWidth": 768,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".teacher-topbar": {
+          "left": 0,
+          "right": 768,
+          "top": 0,
+          "bottom": 64,
+          "width": 768,
+          "height": 64,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-menu-button": {
+          "left": 14,
+          "right": 54,
+          "top": 11.5,
+          "bottom": 51.5,
+          "width": 40,
+          "height": 40,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".sidebar": {
+          "left": 0,
+          "right": 300,
+          "top": 0,
+          "bottom": 900,
+          "width": 300,
+          "height": 900,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "fixed"
+        },
+        ".dashboard-content": {
+          "left": 0,
+          "right": 768,
+          "top": 64,
+          "bottom": 404.6875,
+          "width": 768,
+          "height": 340.6875,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".table-wrap": {
+          "left": 17,
+          "right": 751,
+          "top": 279.6875,
+          "bottom": 371.6875,
+          "width": 734,
+          "height": 92,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 1366,
+      "mode": "student",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".student-topbar": {
+          "left": 0,
+          "right": 1366,
+          "top": 0,
+          "bottom": 68,
+          "width": 1366,
+          "height": 68,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-exam-status": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0,
+          "display": "none",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-timer": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0,
+          "display": "grid",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".question-card": {
+          "left": 359,
+          "right": 1273,
+          "top": 104,
+          "bottom": 724.5625,
+          "width": 914,
+          "height": 620.5625,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".exam-navigation": {
+          "left": 359,
+          "right": 1273,
+          "top": 738.5625,
+          "bottom": 782.5625,
+          "width": 914,
+          "height": 44,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    },
+    {
+      "width": 1366,
+      "mode": "teacher",
+      "viewport": 1366,
+      "docWidth": 1366,
+      "noHorizontalOverflow": true,
+      "rects": {
+        ".teacher-topbar": {
+          "left": 252,
+          "right": 1366,
+          "top": 0,
+          "bottom": 68,
+          "width": 1114,
+          "height": 68,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".mobile-menu-button": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0,
+          "display": "none",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".sidebar": {
+          "left": 0,
+          "right": 252,
+          "top": 0,
+          "bottom": 900,
+          "width": 252,
+          "height": 900,
+          "display": "flex",
+          "visibility": "visible",
+          "position": "sticky"
+        },
+        ".dashboard-content": {
+          "left": 252,
+          "right": 1366,
+          "top": 68,
+          "bottom": 440.90625,
+          "width": 1114,
+          "height": 372.90625,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        },
+        ".table-wrap": {
+          "left": 287,
+          "right": 1331,
+          "top": 313.90625,
+          "bottom": 405.90625,
+          "width": 1044,
+          "height": 92,
+          "display": "block",
+          "visibility": "visible",
+          "position": "static"
+        }
+      }
+    }
+  ]
+}

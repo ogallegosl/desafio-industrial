@@ -1,0 +1,52 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
+const root = process.cwd()
+const read = (p) => fs.readFileSync(path.join(root, p), 'utf8')
+const exists = (p) => fs.existsSync(path.join(root, p))
+const checks = []
+const check = (name, ok) => { checks.push({ name, ok: Boolean(ok) }); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}`) }
+
+const migration = read('supabase/migrations/0026_live_exam_monitoring.sql')
+const monitor = read('src/pages/TeacherLiveMonitorPage.jsx')
+const service = read('src/services/liveExamMonitoring.js')
+const app = read('src/App.jsx')
+const exams = read('src/pages/TeacherExamsPage.jsx')
+const studentExam = read('src/pages/StudentExamPage.jsx')
+const studentReview = read('src/pages/StudentReviewPage.jsx')
+const edge = read('supabase/functions/exam-access/index.ts')
+const finished = read('src/pages/ExamFinishedPage.jsx')
+const css = read('src/styles/global.css')
+
+check('Migration 0026 exists', exists('supabase/migrations/0026_live_exam_monitoring.sql'))
+check('Exam admissions flag exists', /accept_new_attempts boolean not null default true/.test(migration))
+check('Attempt extension fields exist', /extra_time_seconds/.test(migration) && /forced_submit_at/.test(migration))
+check('Live monitor RPC exists', /get_exam_live_monitor/.test(migration))
+check('Admission control RPC exists', /set_exam_accept_new_attempts/.test(migration))
+check('Individual extension RPC exists', /teacher_extend_attempt_time/.test(migration))
+check('Global extension RPC exists', /teacher_extend_exam_time/.test(migration))
+check('Individual force submit RPC exists', /teacher_force_submit_attempt/.test(migration))
+check('Global force close RPC exists', /teacher_force_close_exam/.test(migration))
+check('Realtime publication configured', /supabase_realtime/.test(migration) && /public\.intentos/.test(migration) && /public\.logs/.test(migration))
+check('Monitor page route exists', /examenes\/:examId\/monitoreo/.test(app))
+check('Exam list exposes live monitor', /En vivo/.test(exams) && /monitoreo/.test(exams))
+check('Monitor uses Realtime subscription', /subscribeLiveExam/.test(monitor) && /postgres_changes/.test(service))
+check('Monitor has fallback polling', /15_000/.test(monitor))
+check('Monitor shows summary cards', /Participantes/.test(monitor) && /Rindiendo/.test(monitor) && /Entregados/.test(monitor) && /Incidencias/.test(monitor))
+check('Monitor matrix never exposes correctness', /Matriz de avance/.test(monitor) && /no revela la alternativa elegida ni si es correcta/i.test(monitor))
+check('Monitor can close admissions', /Cerrar nuevos ingresos/.test(monitor))
+check('Monitor can extend time globally', /\+5 min a todos/.test(monitor) && /\+10 min a todos/.test(monitor))
+check('Monitor can force close all', /Finalizar para todos/.test(monitor))
+check('Monitor can control one attempt', /finishOne/.test(monitor) && /addTime\(attempt, 5\)/.test(monitor))
+check('Student heartbeat reduced to 5 seconds', /\}, 5000\)/.test(studentExam) && /\}, 5000\)/.test(studentReview))
+check('Student receives updated deadline', /setEngine\(\(current\).*result\.attempt/s.test(studentExam) && /setData\(\(current\).*result\.attempt/s.test(studentReview))
+check('Teacher forced closure is shown to student', /TEACHER_FORCED/.test(finished) && /Finalizado por docente/.test(finished))
+check('Offline queue can recover after teacher close', /teacherForced/.test(edge) && /ANSWER_RECOVERED_TEACHER_CLOSE/.test(edge))
+check('New admissions are enforced server-side', /EXAM_ADMISSIONS_CLOSED/.test(edge))
+check('Responsive live monitor styles exist', /live-monitor-page/.test(css) && /live-matrix-wrap/.test(css) && /@media \(max-width: 700px\)/.test(css))
+
+const failed = checks.filter((item) => !item.ok)
+const result = { version: '1.2.0', passed: checks.length - failed.length, total: checks.length, failed: failed.length, checks }
+fs.writeFileSync(path.join(root, 'docs/LIVE_MONITORING_V120_RESULT.json'), JSON.stringify(result, null, 2))
+console.log(`\nLive monitoring v1.2.0: ${result.passed}/${result.total} PASS`)
+if (failed.length) process.exit(1)

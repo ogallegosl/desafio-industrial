@@ -1,0 +1,20 @@
+{
+  "status": "PASS_WITH_EXTERNAL_VALIDATIONS_PENDING",
+  "version": "1.3.0",
+  "migrations": 27,
+  "packageAudit": "PASS",
+  "fullTestSuite": "PASS",
+  "teacherAudit": "63/63 PASS",
+  "examPackageImportAudit": "25/25 PASS",
+  "deployReadiness": "20/20 PASS",
+  "criticalHighFailures": 0,
+  "emptyFiles": 0,
+  "npmInstall": "TIMEOUT_NETWORK",
+  "viteBuild": "NOT_EXECUTED_VITE_NOT_INSTALLED",
+  "supabaseE2E": "PENDING_REAL_PROJECT",
+  "templates": {
+    "public/templates/plantilla_importacion_examen_completo.xlsx": true,
+    "public/templates/ejemplo_paquete_examen_imagenes.zip": true
+  },
+  "notes": "v1.3.0 aprobada a nivel de código, simulaciones, auditoría estática y estructura de plantillas; requiere build real y E2E Supabase/Netlify antes de un examen oficial."
+}

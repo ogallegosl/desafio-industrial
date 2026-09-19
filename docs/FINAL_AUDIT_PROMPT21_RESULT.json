@@ -1,0 +1,312 @@
+{
+  "prompt": 21,
+  "status": "PASS",
+  "total": 43,
+  "passed": 43,
+  "failed": 0,
+  "failedCriticalHigh": 0,
+  "migrations": 28,
+  "checks": [
+    {
+      "area": "Funcionalidad",
+      "name": "Rutas docente y estudiante presentes",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Funcionalidad",
+      "name": "Creación y edición usan operaciones transaccionales",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "UX",
+      "name": "Acceso rápido al contenido por teclado",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "UX",
+      "name": "Código de acceso refleja límites del servidor",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Base de datos",
+      "name": "Migración final existe",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Base de datos",
+      "name": "Crear examen es transaccional",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Base de datos",
+      "name": "Editar examen es transaccional",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Base de datos",
+      "name": "Identificación simplificada exige apellidos y nombres",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Base de datos",
+      "name": "Cambio de curso se bloquea cuando existe historial",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "UX",
+      "name": "Editor bloquea cambio de curso con plan existente",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad",
+      "name": "Operaciones finales preservan RLS",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad",
+      "name": "RPC finales no accesibles a anon",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Seguridad",
+      "name": "Edge no expone grading snapshot al motor estudiantil",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Tiempo deriva del servidor",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Cierre por tiempo sigue presente en servidor",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Autoguardado",
+      "name": "Guardado atómico por revisión permanece activo",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Autoguardado",
+      "name": "Cola offline permanece integrada",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Aleatorización",
+      "name": "Preguntas congeladas por intento",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Aleatorización",
+      "name": "Clave separada del snapshot visible",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Motor automático presente",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Revisión manual y rúbricas presentes",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Evidencias",
+      "name": "Carga y reemplazo continúan disponibles",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Evidencias",
+      "name": "Validación binaria del archivo en servidor",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Exportaciones",
+      "name": "Excel y CSV permanecen implementados",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Exportaciones",
+      "name": "Protección de fórmula permanece activa",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Responsive",
+      "name": "Reglas objetivo 360/390/430/768/900 presentes",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Responsive",
+      "name": "Cronómetro móvil sticky",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Rendimiento",
+      "name": "Rutas cargadas de forma diferida",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Rendimiento",
+      "name": "Listas administrativas usan content-visibility",
+      "ok": true,
+      "severity": "low",
+      "detail": ""
+    },
+    {
+      "area": "Mensajes de error",
+      "name": "Errores de acceso distinguen estados",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Mensajes de error",
+      "name": "Editor exige apellidos y nombres",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Consistencia visual",
+      "name": "Variables visuales centrales permanecen definidas",
+      "ok": true,
+      "severity": "low",
+      "detail": ""
+    },
+    {
+      "area": "Consistencia visual",
+      "name": "Texto secundario de tablas usa color accesible central",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Modales gestionan foco y Tab",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Progreso expone progressbar semántico",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Pregunta actual expone aria-current",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Tabs de resultados exponen selección",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Editor expone estado de controles correctos",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Accesibilidad",
+      "name": "Foco visible global definido",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Migraciones versionadas completas",
+      "ok": true,
+      "severity": "high",
+      "detail": "detectadas=28"
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap contiene todas las migraciones",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Versión del proyecto actualizada",
+      "ok": true,
+      "severity": "low",
+      "detail": "1.3.0"
+    },
+    {
+      "area": "Estructura",
+      "name": "Comando de auditoría final disponible",
+      "ok": true,
+      "severity": "low",
+      "detail": ""
+    }
+  ]
+}

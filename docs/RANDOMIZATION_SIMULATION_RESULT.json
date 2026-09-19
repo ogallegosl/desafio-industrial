@@ -1,0 +1,9 @@
+{
+  "studentsSimulated": 50,
+  "questionsPerStudent": 20,
+  "uniqueFingerprints": 50,
+  "persistenceChecks": 50,
+  "duplicateQuestionFailures": 0,
+  "answerIdentityFailures": 0,
+  "status": "PASS"
+}

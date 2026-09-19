@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "checksPassed": 23,
+  "scenarios": {
+    "pageRefresh": "PASS",
+    "browserCloseAndReentry": "PASS",
+    "unstableInternet": "PASS",
+    "doubleClick": "PASS",
+    "fileFailure": "PASS",
+    "abandonAndReentry": "PASS",
+    "sessionExpiry": "PASS",
+    "boundedPostTimeoutRecovery": "PASS"
+  },
+  "checks": [
+    "refresh_keeps_attempt_id",
+    "refresh_does_not_reset_deadline",
+    "browser_reentry_resumes_same_open_attempt",
+    "double_prepare_does_not_create_two_open_attempts",
+    "double_start_is_idempotent",
+    "frozen_questions_survive_reentry",
+    "offline_queue_keeps_latest_answer",
+    "offline_queue_survives_session_loss",
+    "reidentified_student_recovers_same_attempt_id",
+    "failed_evidence_upload_keeps_previous_file",
+    "failed_evidence_finalize_keeps_previous_file",
+    "successful_evidence_replace_changes_only_after_finalize",
+    "expired_attempt_can_be_targeted_for_local_recovery",
+    "stale_recovery_hint_does_not_reopen_expired_attempt",
+    "timeout_recovery_does_not_extend_deadline",
+    "answer_queued_before_deadline_can_be_recovered",
+    "answer_queued_after_deadline_is_rejected",
+    "timeout_recovery_requires_actual_expiry",
+    "timeout_recovery_window_is_bounded",
+    "double_submit_is_idempotent_model",
+    "closed_attempt_does_not_become_created_again",
+    "local_queue_not_deleted_just_because_attempt_closed",
+    "same_revision_retry_is_safe"
+  ]
+}

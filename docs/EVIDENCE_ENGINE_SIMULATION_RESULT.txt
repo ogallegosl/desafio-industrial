@@ -1,0 +1,15 @@
+PASS  prepare action
+PASS  finalize action
+PASS  delete action
+PASS  15 MB backend
+PASS  allowed MIME backend
+PASS  temporary upload table
+PASS  one active evidence index
+PASS  private teacher lookup policy
+PASS  camera input
+PASS  preview before upload
+PASS  replace evidence UI
+PASS  teacher signed preview
+PASS  teacher page no demo array
+
+Checks: 13; failed: 0

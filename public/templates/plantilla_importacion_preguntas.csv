@@ -1,0 +1,2 @@
+﻿ID,Curso,Unidad,Tema,Subtema,Dificultad,Tipo,Pregunta,Alternativa_A,Alternativa_B,Alternativa_C,Alternativa_D,Respuesta,Puntaje,Tolerancia,Retroalimentacion
+P001,Ingeniería de Seguridad,Unidad 1,Ruido,,Básica,Alternativa única,¿Cuál es la unidad utilizada habitualmente para expresar el nivel de presión sonora?,Lux,dB,Hz,Pa,B,0.5,,El nivel de presión sonora se expresa en decibelios.

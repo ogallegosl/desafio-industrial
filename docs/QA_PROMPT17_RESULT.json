@@ -1,0 +1,503 @@
+{
+  "status": "PASS",
+  "totalChecks": 70,
+  "passed": 70,
+  "failed": 0,
+  "failedCriticalHigh": 0,
+  "randomizationStudents": 20,
+  "randomizationUniqueFingerprints": 20,
+  "localImportsChecked": 163,
+  "localImportsMissing": 0,
+  "checks": [
+    {
+      "area": "Docente",
+      "name": "Ruta para crear examen",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Servicio de creación de examen",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Edición de examen",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Duplicación segura",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Activación/desactivación",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Gestión de bancos",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Carga de imágenes en preguntas",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Docente",
+      "name": "Exportación Excel/CSV",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Acceso público por código",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Código inválido tratado por servidor",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Preparación de intento antes de iniciar tiempo",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Cronómetro usa deadline del servidor",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Autoguardado de respuestas",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Guardado atómico de respuesta",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Carga de evidencias",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Envío definitivo",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estudiante",
+      "name": "Recuperación ante sesión perdida",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Aleatorización",
+      "name": "Motor persistente de preguntas congeladas",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Aleatorización",
+      "name": "Aleatorización de opciones preserva identidad interna",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Aleatorización",
+      "name": "20 alumnos simulados sin preguntas duplicadas",
+      "ok": true,
+      "severity": "high",
+      "detail": "fallos=0"
+    },
+    {
+      "area": "Aleatorización",
+      "name": "20 intentos conservan su conjunto congelado",
+      "ok": true,
+      "severity": "high",
+      "detail": "fallos=0"
+    },
+    {
+      "area": "Aleatorización",
+      "name": "Existe variación entre alumnos simulados",
+      "ok": true,
+      "severity": "medium",
+      "detail": "combinaciones=20"
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Recarga conserva deadline original",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Cierre/reingreso conserva deadline original",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Vencimiento duro existe en base de datos",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Cronómetro",
+      "name": "Timeout no depende solo del navegador",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura single_choice",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura multiple_choice",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura true_false",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura short_text",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura numeric",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura calculation",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura calculation_evidence",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Cobertura essay/manual",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Tolerancia numérica",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Intervalo numérico",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Calificación",
+      "name": "Desarrollo no se autocalifica",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Dashboard",
+      "name": "Dashboard usa agregación de servidor sin límite fijo",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Dashboard",
+      "name": "Participantes se deduplican por estudiante",
+      "ok": true,
+      "severity": "medium",
+      "detail": ""
+    },
+    {
+      "area": "Dashboard",
+      "name": "Interfaz etiqueta participantes, no intentos",
+      "ok": true,
+      "severity": "low",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0001_extensions_enums.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0002_core_tables.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0003_exam_tables.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0004_attempt_response_tables.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0005_indexes_triggers_functions.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0006_rls_policies.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0007_storage.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0008_integrity_triggers.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0009_auth_access.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0010_exam_management.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0011_question_bank_management.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0012_exam_randomization_engine.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0013_exam_runtime_engine.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0014_evidence_uploads.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0015_auto_grading_engine.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0016_manual_grading_rubrics.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0017_results_analytics.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0018_results_export.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0019_security_hardening.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0020_failure_recovery.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0021_strict_audit_fixes.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0022_safety_demo_exam.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0023_global_settings.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0024_final_integrity_accessibility.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0025_desafio_industrial_security_reports.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0026_live_exam_monitoring.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0027_teacher_audit_hardening.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0028_importer_rls_runtime_hotfix.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Cero secretos de service role en frontend",
+      "ok": true,
+      "severity": "critical",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Imports locales resuelven",
+      "ok": true,
+      "severity": "critical",
+      "detail": "revisados=163; faltantes=0"
+    }
+  ]
+}
