@@ -37,6 +37,17 @@ function spreadsheetSafe(value) {
   return /^[=+\-@\t\r]/.test(text) ? `'${text}` : text
 }
 
+
+function examGradeSettings(exam) {
+  const cfg = Array.isArray(exam?.configuraciones_examen) ? exam.configuraciones_examen[0] : exam?.configuraciones_examen
+  const scale = Number(cfg?.grade_scale_max ?? 20)
+  const cap = Number(cfg?.settings?.grading?.finalGradeCap ?? scale)
+  return {
+    scale: Number.isFinite(scale) && scale > 0 ? scale : 20,
+    cap: Number.isFinite(cap) && cap > 0 ? Math.min(cap, Number.isFinite(scale) && scale > 0 ? scale : 20) : 20,
+  }
+}
+
 function safeObjectStrings(object) {
   return Object.fromEntries(Object.entries(object).map(([key, value]) => [key, spreadsheetSafe(value)]))
 }
@@ -185,7 +196,15 @@ export function resultEndAt(row) {
 export function buildGeneralRows({ exam, students }) {
   const course = exam?.cursos?.name || ''
   const examTitle = exam?.title || ''
-  return normalizeArray(students).map((row) => safeObjectStrings({
+  const { scale, cap } = examGradeSettings(exam)
+  return normalizeArray(students).map((row) => {
+    const raw = Number(row.rawScore)
+    const max = Number(row.maxRawScore)
+    const directPointScale = Number.isFinite(max) && max > 0 && Math.abs(max - cap) <= 0.001
+    const calculated = Number.isFinite(raw) && Number.isFinite(max) && max > 0
+      ? (directPointScale ? raw : (raw / max) * scale)
+      : null
+    return safeObjectStrings({
     Apellidos: row.lastName || '',
     Nombres: row.firstName || '',
     Correo: row.email || '',
@@ -204,10 +223,13 @@ export function buildGeneralRows({ exam, students }) {
     'Puntaje manual': row.manualScore == null ? null : Number(row.manualScore),
     'Puntaje total': row.rawScore == null ? null : Number(row.rawScore),
     'Puntaje máximo': row.maxRawScore == null ? null : Number(row.maxRawScore),
-    Nota: row.finalGrade == null ? null : Number(row.finalGrade),
+    'Nota calculada': calculated == null ? null : Number(calculated.toFixed(3)),
+    'Puntaje máximo del examen': cap,
+    'Nota final': row.finalGrade == null ? null : Number(row.finalGrade),
     'Revisiones pendientes': Number(row.pendingManualReviews || 0),
     'Incidencias de integridad': Number(row.securityIncidents || 0),
-  }))
+  })
+  })
 }
 
 
@@ -233,7 +255,7 @@ export function buildDetailRows({ details }) {
 export const RESULTS_EXPORT_GENERAL_COLUMNS = [
   'Apellidos', 'Nombres', 'Correo', 'Sección', 'Curso', 'Examen', 'Intento', 'Estado',
   'Inicio', 'Fin', 'Tiempo utilizado', 'Correctas', 'Incorrectas', 'Omitidas', 'Puntaje automático',
-  'Puntaje manual', 'Puntaje total', 'Puntaje máximo', 'Nota', 'Revisiones pendientes', 'Incidencias de integridad',
+  'Puntaje manual', 'Puntaje total', 'Puntaje máximo', 'Nota calculada', 'Puntaje máximo del examen', 'Nota final', 'Revisiones pendientes', 'Incidencias de integridad',
 ]
 
 export const RESULTS_EXPORT_DETAIL_COLUMNS = [

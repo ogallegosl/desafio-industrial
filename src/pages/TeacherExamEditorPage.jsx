@@ -36,6 +36,7 @@ const EMPTY_FORM = {
   resultVisibility: 'confirmation_only',
   showResultsAfter: '',
   gradeScaleMax: 20,
+  finalGradeCap: 20,
   passingGrade: 10.5,
   requireStudentCode: false,
   requireFirstName: true,
@@ -78,10 +79,12 @@ function validateForm(form, publishStatus, timezone) {
   if (Number(form.maxAttempts) <= 0) errors.push('El número de intentos debe ser mayor que cero.')
   if (Number(form.targetQuestionCount) <= 0) errors.push('La cantidad de preguntas debe ser mayor que cero.')
   if (Number(form.gradeScaleMax) <= 0) errors.push('La escala de nota debe ser mayor que cero.')
+  if (Number(form.finalGradeCap) <= 0 || Number(form.finalGradeCap) > Number(form.gradeScaleMax)) errors.push('La nota máxima permitida debe estar entre 1 y la escala institucional.')
   if (!form.requireFirstName || !form.requireLastName) errors.push('La identificación del estudiante requiere apellidos y nombres.')
   if (Number(form.passingGrade) < 0 || Number(form.passingGrade) > Number(form.gradeScaleMax)) {
     errors.push('La nota aprobatoria debe estar dentro de la escala configurada.')
   }
+  if (Number(form.finalGradeCap) < Number(form.passingGrade)) errors.push('La nota máxima permitida no puede ser menor que la nota aprobatoria.')
 
   const startsAt = zonedLocalToIso(form.startDate, form.startTime, timezone)
   const endsAt = zonedLocalToIso(form.endDate, form.endTime, timezone)
@@ -106,7 +109,7 @@ export default function TeacherExamEditorPage() {
   const [courses, setCourses] = useState([])
   const [status, setStatus] = useState('draft')
   const [hasAccessCode, setHasAccessCode] = useState(false)
-  const [questionStats, setQuestionStats] = useState({ fixedCount: 0, randomCount: 0, configuredCount: 0 })
+  const [questionStats, setQuestionStats] = useState({ fixedCount: 0, randomCount: 0, configuredCount: 0, pointsTotal: 0, pointsDeterministic: true, pointsMatch: false, planBusy: false })
   const [attemptCount, setAttemptCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -158,6 +161,7 @@ export default function TeacherExamEditorPage() {
             resultVisibility: cfg.result_visibility ?? 'confirmation_only',
             showResultsAfter: toZonedDatetimeLocal(cfg.show_results_after, globalSettings.timezone),
             gradeScaleMax: cfg.grade_scale_max ?? 20,
+            finalGradeCap: cfg.settings?.grading?.finalGradeCap ?? cfg.grade_scale_max ?? 20,
             passingGrade: cfg.passing_grade ?? 10.5,
             requireStudentCode: false,
             requireFirstName: true,
@@ -183,7 +187,8 @@ export default function TeacherExamEditorPage() {
           setForm((current) => ({
             ...current,
             courseId: current.courseId || courseData[0]?.id || '',
-            gradeScaleMax: Number(globalSettings.gradeScaleMax ?? 20),
+            gradeScaleMax: 20,
+            finalGradeCap: 20,
             passingGrade: Number(globalSettings.passingGrade ?? 10.5),
           }))
         }
@@ -230,6 +235,10 @@ export default function TeacherExamEditorPage() {
     passing_grade: Number(form.passingGrade),
     settings: {
       ...existingSettings,
+      grading: {
+        ...(existingSettings.grading || {}),
+        finalGradeCap: Number(form.finalGradeCap),
+      },
       security: {
         ...(existingSettings.security || {}),
         enabled: Boolean(form.securityEnabled),
@@ -263,6 +272,16 @@ export default function TeacherExamEditorPage() {
     if (['scheduled', 'active'].includes(publishStatus) && !isNew
         && Number(questionStats.configuredCount) !== Number(form.targetQuestionCount)) {
       validationErrors.push(`El plan contiene ${questionStats.configuredCount} preguntas y el objetivo es ${form.targetQuestionCount}. Deben coincidir.`)
+    }
+    if (questionStats.planBusy) {
+      validationErrors.push('Espera a que termine de guardarse la ponderación de las preguntas antes de guardar o activar el examen.')
+    }
+    if (['scheduled', 'active'].includes(publishStatus) && !isNew && !questionStats.pointsDeterministic) {
+      validationErrors.push('El puntaje total no es determinista: define un puntaje por pregunta en toda regla aleatoria cuyas candidatas tengan valores distintos.')
+    }
+    if (['scheduled', 'active'].includes(publishStatus) && !isNew && questionStats.pointsDeterministic
+        && Math.abs(Number(questionStats.pointsTotal || 0) - Number(form.finalGradeCap || 0)) > 0.001) {
+      validationErrors.push(`La suma de puntajes del examen debe ser exactamente ${Number(form.finalGradeCap).toFixed(2)}. Actualmente suma ${Number(questionStats.pointsTotal || 0).toFixed(2)}.`)
     }
     if (validationErrors.length) {
       setMessage({ type: 'danger', text: validationErrors.join(' ') })
@@ -404,11 +423,13 @@ export default function TeacherExamEditorPage() {
               <div><strong>{questionStats.fixedCount}</strong><span>preguntas fijas</span></div>
               <div><strong>{questionStats.randomCount}</strong><span>por reglas aleatorias</span></div>
               <div><strong>{form.targetQuestionCount}</strong><span>objetivo configurado</span></div>
+              <div><strong>{questionStats.pointsDeterministic ? `${Number(questionStats.pointsTotal || 0).toFixed(2)} / ${Number(form.finalGradeCap || 20).toFixed(2)}` : 'Variable'}</strong><span>puntaje total / nota máxima</span></div>
             </div>
             <ExamQuestionPlan
               examId={examId}
               courseId={form.courseId}
               targetCount={Number(form.targetQuestionCount)}
+              maxExamPoints={Number(form.finalGradeCap || 20)}
               onStatsChange={setQuestionStats}
               locked={structureLocked}
               lockedReason={structureLockReason}
@@ -450,16 +471,17 @@ export default function TeacherExamEditorPage() {
             <div className="form-grid two-cols">
               <label>Visibilidad para el estudiante<select value={form.resultVisibility} onChange={(e) => updateField('resultVisibility', e.target.value)}><option value="confirmation_only">Solo confirmación de envío</option><option value="score_only">Puntaje obtenido</option><option value="grade">Nota final</option><option value="correct_answers">Respuestas correctas</option><option value="full_feedback">Respuestas + retroalimentación docente</option></select></label>
               <label>Mostrar resultados desde<input type="datetime-local" value={form.showResultsAfter} onChange={(e) => updateField('showResultsAfter', e.target.value)} /></label>
-              <label>Escala máxima<input type="number" min="1" step="0.1" disabled={structureLocked} value={form.gradeScaleMax} onChange={(e) => updateField('gradeScaleMax', e.target.value)} /></label>
-              <label>Nota aprobatoria<input type="number" min="0" step="0.1" disabled={structureLocked} value={form.passingGrade} onChange={(e) => updateField('passingGrade', e.target.value)} /></label>
+              <div className="field-status"><span>Escala institucional</span><strong>0 – 20</strong><small>20 es la nota máxima predeterminada. El docente puede definir una nota máxima menor en casos excepcionales.</small></div>
+              <label>Nota máxima del examen<input type="number" min="1" max="20" step="0.01" disabled={structureLocked} value={form.finalGradeCap} onChange={(e) => updateField('finalGradeCap', e.target.value)} /><small>Por defecto 20. La suma de los puntajes asignados a las preguntas debe coincidir exactamente con este valor.</small></label>
+              <label>Nota aprobatoria<input type="number" min="0" max={form.finalGradeCap || 20} step="0.01" disabled={structureLocked} value={form.passingGrade} onChange={(e) => updateField('passingGrade', e.target.value)} /></label>
             </div>
-            <p className="helper-copy">Las respuestas correctas y la retroalimentación detallada solo se liberan después del cierre general del examen y respetan la fecha de publicación configurada.</p>
+            <p className="helper-copy">Los puntajes de las preguntas constituyen directamente la nota final: si la nota máxima del examen es 20, las preguntas deben sumar 20; si es 15, deben sumar 15. Puedes ponderar preguntas complejas con mayor puntaje y preguntas simples con menor puntaje. El sistema bloquea la activación si la suma no coincide.</p>
           </section>
 
           <div className="editor-footer-actions">
             <Link className="button secondary" to="/docente/examenes">Cancelar</Link>
-            <button className="button secondary" disabled={saving || !courses.length} onClick={() => saveExam()}>{saving ? 'Guardando…' : 'Guardar cambios'}</button>
-            {status !== 'active' && status !== 'archived' && <button className="button primary" disabled={saving || !courses.length} onClick={() => saveExam('active')}>Guardar y activar</button>}
+            <button className="button secondary" disabled={saving || questionStats.planBusy || !courses.length} onClick={() => saveExam()}>{saving ? 'Guardando…' : 'Guardar cambios'}</button>
+            {status !== 'active' && status !== 'archived' && <button className="button primary" disabled={saving || questionStats.planBusy || !courses.length} onClick={() => saveExam('active')}>Guardar y activar</button>}
           </div>
         </div>
       </div>

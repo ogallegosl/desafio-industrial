@@ -4,7 +4,8 @@ import StatCard from '../components/StatCard'
 import StatusBadge from '../components/StatusBadge'
 import { getExamAnalytics, listExamsForAnalytics } from '../services/resultsAnalytics'
 import { exportExamResultsCsv, exportExamResultsExcel, getExamExportDetails } from '../services/resultsExport'
-import { downloadTeacherAttemptPdf } from '../services/examPdfReport'
+import { downloadAllTeacherAttemptPdfsZip, downloadTeacherAttemptPdf } from '../services/examPdfReport'
+import { useAuth } from '../contexts/AuthContext'
 
 const TABS = [
   ['overview', 'Resumen'],
@@ -217,8 +218,8 @@ function StudentPanel({ students, filter, setFilter, passingGrade, onPdf, pdfBus
               <th>Correctas</th>
               <th>Incorrectas</th>
               <th>Omitidas</th>
-              <th>Puntaje</th>
-              <th>Nota</th>
+              <th>Puntos obtenidos</th>
+              <th>Nota final</th>
               <th>Tiempo</th>
               <th>Incidencias</th>
               <th>PDF</th>
@@ -227,8 +228,8 @@ function StudentPanel({ students, filter, setFilter, passingGrade, onPdf, pdfBus
           <tbody>
             {filtered.map((item) => {
               const [statusLabel, statusTone] = attemptStatus(item.status)
-              const pending = Number(item.pendingManualReviews || 0)
               const hasGrade = item.finalGrade != null
+              const pending = hasGrade ? 0 : Number(item.pendingManualReviews || 0)
               const passed = hasGrade && passingGrade != null ? Number(item.finalGrade) >= Number(passingGrade) : null
               return (
                 <tr key={item.attemptId}>
@@ -265,6 +266,7 @@ function StudentPanel({ students, filter, setFilter, passingGrade, onPdf, pdfBus
 }
 
 export default function TeacherResultsPage() {
+  const { profile } = useAuth()
   const [exams, setExams] = useState([])
   const [examId, setExamId] = useState('')
   const [analytics, setAnalytics] = useState({ overview: {}, questions: [], students: [] })
@@ -276,6 +278,7 @@ export default function TeacherResultsPage() {
   const [exporting, setExporting] = useState('')
   const [exportMessage, setExportMessage] = useState('')
   const [pdfBusy, setPdfBusy] = useState('')
+  const [zipProgress, setZipProgress] = useState(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -339,13 +342,40 @@ export default function TeacherResultsPage() {
     try {
       setPdfBusy(student.attemptId)
       setError('')
-      const details = await getExamExportDetails(examId)
-      const filename = downloadTeacherAttemptPdf({ exam: selectedExam, student, details })
+      const [details, freshAnalytics] = await Promise.all([getExamExportDetails(examId), getExamAnalytics(examId)])
+      const freshStudent = (freshAnalytics.students || []).find((row) => row.attemptId === student.attemptId) || student
+      const filename = await downloadTeacherAttemptPdf({ exam: selectedExam, student: freshStudent, details, teacherName: profile?.display_name || [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') })
+      setAnalytics(freshAnalytics)
       setExportMessage(`PDF individual generado: ${filename}`)
     } catch (cause) {
       setError(cause?.message || 'No se pudo generar el PDF individual.')
     } finally {
       setPdfBusy('')
+    }
+  }
+
+  const runZipExport = async () => {
+    if (!selectedExam || !examId) return
+    try {
+      setExporting('zip')
+      setError('')
+      setExportMessage('')
+      setZipProgress({ current: 0, total: (analytics.students || []).filter((row) => ['submitted', 'time_expired'].includes(row.status)).length })
+      const [details, freshAnalytics] = await Promise.all([getExamExportDetails(examId), getExamAnalytics(examId)])
+      setAnalytics(freshAnalytics)
+      const result = await downloadAllTeacherAttemptPdfsZip({
+        exam: selectedExam,
+        students: freshAnalytics.students || [],
+        details,
+        teacherName: profile?.display_name || [profile?.first_name, profile?.last_name].filter(Boolean).join(' '),
+        onProgress: (progress) => setZipProgress(progress),
+      })
+      setExportMessage(`ZIP generado: ${result.included} examen(es) individual(es). ${result.excluded ? `${result.excluded} intento(s) no finalizado(s) fueron excluidos.` : ''}`)
+    } catch (cause) {
+      setError(cause?.message || 'No se pudo generar el ZIP de exámenes individuales.')
+    } finally {
+      setExporting('')
+      setZipProgress(null)
     }
   }
 
@@ -386,6 +416,9 @@ export default function TeacherResultsPage() {
             <button className="button secondary" type="button" onClick={reload} disabled={!examId || loading || Boolean(exporting)}>Actualizar</button>
             <button className="button primary" type="button" onClick={() => runExport('excel')} disabled={!examId || loading || Boolean(exporting)}>
               {exporting === 'excel' ? 'Generando Excel…' : 'Exportar Excel'}
+            </button>
+            <button className="button primary" type="button" onClick={runZipExport} disabled={!examId || loading || Boolean(exporting)}>
+              {exporting === 'zip' ? (zipProgress?.total ? `Generando PDF ${zipProgress.current || 0} de ${zipProgress.total}…` : 'Preparando ZIP…') : 'Descargar todos los exámenes (ZIP)'}
             </button>
             <button className="button secondary" type="button" onClick={() => runExport('csv-general')} disabled={!examId || loading || Boolean(exporting)}>
               {exporting === 'csv-general' ? 'Generando…' : 'CSV general'}

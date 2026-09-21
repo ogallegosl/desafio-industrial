@@ -102,7 +102,8 @@ export async function listTeacherExams() {
         result_visibility,
         show_results_after,
         grade_scale_max,
-        passing_grade
+        passing_grade,
+        settings
       )
     `)
     .eq('is_deleted', false)

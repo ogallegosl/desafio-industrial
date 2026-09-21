@@ -31,7 +31,7 @@ check('Demo submission batches local pending answers', /recoverTimedOutStudentAn
 check('Submission stores returned final payload without forced refresh', /establishSession\(sessionToken, finalData\)/.test(review))
 check('Student can download PDF after finishing', /Descargar mi examen \(PDF\)/.test(finished))
 check('Teacher can download individual PDF', /Descargar PDF/.test(teacherResults) && /downloadTeacherAttemptPdf/.test(teacherResults))
-check('PDF generator is dependency-free', /buildTextPdf/.test(pdf) && /%PDF-1\.4/.test(simplePdf))
+check('PDF generator uses local PDF renderer', /buildReportBlob/.test(pdf) && /canvasToJpeg/.test(pdf) && /%PDF-1\.4/.test(simplePdf))
 check('Teacher results show integrity incidents', /Incidencias/.test(teacherResults) && /securityIncidents/.test(teacherResults))
 check('Migration 0025 included in bootstrap', read('supabase/sql/bootstrap_all.sql').includes('0025_desafio_industrial_security_reports.sql'))
 const failed=checks.filter(x=>!x.ok); console.log(`\nDesafío Industrial v1.1 audit: ${checks.length-failed.length}/${checks.length} PASS`); if(failed.length) process.exit(1)

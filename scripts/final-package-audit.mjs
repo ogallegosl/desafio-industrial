@@ -18,7 +18,7 @@ for (const rel of required) {
 
 const migrationsDir = path.join(root, 'supabase', 'migrations')
 const migrations = fs.readdirSync(migrationsDir).filter((f) => f.endsWith('.sql')).sort()
-if (migrations.length !== 28) errors.push(`Se esperaban 28 migraciones y se encontraron ${migrations.length}`)
+if (migrations.length !== 34) errors.push(`Se esperaban 34 migraciones y se encontraron ${migrations.length}`)
 
 const bootstrap = fs.readFileSync(path.join(root, 'supabase', 'sql', 'bootstrap_all.sql'), 'utf8')
 for (const migration of migrations) {

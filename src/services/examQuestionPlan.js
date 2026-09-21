@@ -68,6 +68,23 @@ export async function addFixedQuestion(examId, questionId, position = null, poin
   return data
 }
 
+export async function updateFixedQuestion(linkId, patch = {}) {
+  const client = requireClient()
+  const payload = {}
+  if (Object.prototype.hasOwnProperty.call(patch, 'pointsOverride')) {
+    const value = patch.pointsOverride
+    payload.points_override = value === '' || value == null ? null : Number(value)
+  }
+  if (Object.prototype.hasOwnProperty.call(patch, 'fixedPosition')) {
+    const value = patch.fixedPosition
+    payload.fixed_position = value === '' || value == null ? null : Number(value)
+  }
+  if (!Object.keys(payload).length) return null
+  const { data, error } = await client.from('preguntas_examen').update(payload).eq('id', linkId).select('*').single()
+  if (error) fail(error, 'No se pudo actualizar la ponderación de la pregunta fija.')
+  return data
+}
+
 export async function removeFixedQuestion(linkId) {
   const client = requireClient()
   const { error } = await client.from('preguntas_examen').delete().eq('id', linkId)

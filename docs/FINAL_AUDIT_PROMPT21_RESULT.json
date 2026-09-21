@@ -5,7 +5,7 @@
   "passed": 43,
   "failed": 0,
   "failedCriticalHigh": 0,
-  "migrations": 28,
+  "migrations": 34,
   "checks": [
     {
       "area": "Funcionalidad",
@@ -285,7 +285,7 @@
       "name": "Migraciones versionadas completas",
       "ok": true,
       "severity": "high",
-      "detail": "detectadas=28"
+      "detail": "detectadas=34"
     },
     {
       "area": "Estructura",

@@ -23,11 +23,16 @@ export default function ExamFinishedPage() {
   const teacherForced = attempt?.submissionReason === 'TEACHER_FORCED'
   const recoverableClose = expired || teacherForced
   const grading = attemptData?.grading
-  const canShowScore = grading && !grading.embargoed && grading.visibility !== 'confirmation_only' && grading.rawScore != null
-  const canShowGrade = canShowScore && grading.visibility !== 'score_only' && grading.finalGrade != null
+  const isResultReentry = Boolean(attemptData?.resultAccess)
+  const completedGradeReady = Boolean(grading && Number(grading.pendingManualReviews || 0) === 0 && grading.finalGrade != null)
+  const canShowScore = grading && grading.rawScore != null
+    && (!grading.embargoed || completedGradeReady)
+    && (grading.visibility !== 'confirmation_only' || isResultReentry || completedGradeReady)
+  const canShowGrade = canShowScore && grading.finalGrade != null
   const [pendingLocalCount, setPendingLocalCount] = useState(() => attempt?.id ? Object.keys(readPendingAnswers(attempt.id)).length : 0)
   const [recoveryMessage, setRecoveryMessage] = useState('')
   const [recovering, setRecovering] = useState(false)
+  const [pdfBusy, setPdfBusy] = useState(false)
   const recoveryStartedRef = useRef(false)
 
   const recoverLocalPending = useCallback(async () => {
@@ -89,6 +94,21 @@ export default function ExamFinishedPage() {
     recoverLocalPending()
   }, [recoverableClose, attempt?.id, sessionToken, pendingLocalCount, recoverLocalPending])
 
+  const downloadPdf = async () => {
+    if (!attemptData || pdfBusy) return
+    setPdfBusy(true)
+    try {
+      // Always refresh immediately before generating the PDF. Manual grading can
+      // change after the student reaches this page, so the in-memory snapshot may
+      // otherwise keep showing a stale "Pendiente" result.
+      const fresh = await refresh()
+      if (!fresh) throw new Error('No se pudo actualizar el resultado antes de generar el PDF. Intenta nuevamente.')
+      await downloadStudentAttemptPdf(fresh)
+    } finally {
+      setPdfBusy(false)
+    }
+  }
+
   const exit = () => {
     if (pendingLocalCount > 0) return
     clearPendingAnswers(attempt?.id)
@@ -111,12 +131,23 @@ export default function ExamFinishedPage() {
         <div><span>Estado</span><strong>{expired ? 'Tiempo agotado' : teacherForced ? 'Finalizado por docente' : submitted ? 'Enviado' : attempt?.status || 'Cerrado'}</strong></div>
       </div>
       {canShowScore && <div className="completion-details grading-summary">
-        <div><span>Puntaje</span><strong>{grading.rawScore} / {grading.maxRawScore}</strong></div>
-        {canShowGrade && <div><span>Nota</span><strong>{grading.finalGrade} / {grading.gradeScaleMax}</strong></div>}
+        <div><span>Puntos obtenidos</span><strong>{grading.rawScore} / {grading.maxRawScore}</strong></div>
+        <div>
+          <span>Nota final</span>
+          <strong>{canShowGrade ? grading.finalGrade : grading.provisional ? 'Pendiente' : 'No publicada'}</strong>
+          {Number(grading.finalGradeCap || grading.gradeScaleMax || 20) < Number(grading.gradeScaleMax || 20) && <small>Máximo programado: {grading.finalGradeCap}</small>}
+        </div>
         <div><span>Corrección</span><strong>{grading.provisional ? 'Pendiente de revisión' : 'Completada'}</strong></div>
       </div>}
-      {grading?.embargoed && <p className="muted-copy">El docente configuró la publicación de resultados para una fecha posterior.</p>}
-      {grading?.provisional && <p className="muted-copy">El puntaje mostrado es provisional porque existen respuestas que requieren revisión manual.</p>}
+      {attemptData?.resultAccessCode && (
+        <div className="form-alert info" role="note">
+          <strong>Código personal de resultados: {attemptData.resultAccessCode}</strong>
+          <span> Guárdalo y no lo compartas. Lo necesitarás junto con el código del examen y tus datos para volver a ingresar y descargar tu examen corregido.</span>
+        </div>
+      )}
+      {grading?.embargoed && <p className="muted-copy">Las respuestas correctas y la retroalimentación permanecen protegidas hasta la fecha configurada por el docente. Si tu corrección ya terminó, tu propia nota final puede mostrarse sin liberar la clave de respuestas.</p>}
+      {grading?.provisional && <p className="muted-copy">La nota final permanece pendiente porque existen respuestas que requieren revisión manual. Puedes descargar ahora una copia de tu examen con tus respuestas registradas y volver más adelante mediante <strong>Consultar mi examen / resultados</strong> para obtener el PDF actualizado.</p>}
+      {!grading?.provisional && isResultReentry && canShowGrade && <p className="muted-copy">La revisión está completa. El PDF que descargues ahora incorpora tu nota final actualizada.</p>}
       {grading?.answersEmbargoed && <p className="muted-copy">Las respuestas correctas se habilitarán cuando cierre la ventana general del examen, para no exponer claves mientras otros estudiantes aún pueden rendirlo.</p>}
       {Array.isArray(grading?.details) && grading.details.length > 0 && (
         <section className="student-result-details" aria-label="Detalle de resultados">
@@ -135,7 +166,7 @@ export default function ExamFinishedPage() {
           ))}
         </section>
       )}
-      {!canShowScore && !grading?.embargoed && <p className="muted-copy">La nota y la retroalimentación se mostrarán únicamente cuando corresponda según la configuración del docente.</p>}
+      {!canShowScore && !grading?.embargoed && <p className="muted-copy">Tu examen quedó registrado. Puedes descargar una copia con tus respuestas. La nota final aparecerá cuando la corrección esté completa y corresponda su publicación.</p>}
       {recoveryMessage && <div className={`form-alert ${pendingLocalCount > 0 ? 'warning' : 'info'}`}>{recoveryMessage}</div>}
       {pendingLocalCount > 0 && (
         <div className="review-actions">
@@ -146,7 +177,7 @@ export default function ExamFinishedPage() {
         </div>
       )}
       <div className="completion-actions">
-        <button className="button primary" type="button" onClick={() => downloadStudentAttemptPdf(attemptData)}>Descargar mi examen (PDF)</button>
+        <button className="button primary" type="button" onClick={downloadPdf} disabled={pdfBusy}>{pdfBusy ? 'Generando PDF…' : 'Descargar mi examen (PDF)'}</button>
         {pendingLocalCount === 0
           ? <Link className="button secondary" to="/" onClick={exit}>Salir</Link>
           : <button className="button secondary" type="button" disabled>Salir</button>}

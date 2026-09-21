@@ -172,6 +172,133 @@ function randomToken() {
   return Array.from(bytes).map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
+const RESULT_ACCESS_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+const RESULT_ACCESS_CODE_LENGTH = 12
+
+function canonicalResultAccessCode(value: unknown) {
+  return normalizeText(value).toUpperCase().replace(/[^A-Z0-9]/g, '')
+}
+
+function formatResultAccessCode(value: unknown) {
+  const canonical = canonicalResultAccessCode(value)
+  return canonical ? canonical.match(/.{1,4}/g)?.join('-') || canonical : ''
+}
+
+function randomResultAccessCode() {
+  const bytes = crypto.getRandomValues(new Uint8Array(RESULT_ACCESS_CODE_LENGTH))
+  let raw = ''
+  for (const byte of bytes) raw += RESULT_ACCESS_ALPHABET[byte % RESULT_ACCESS_ALPHABET.length]
+  return formatResultAccessCode(raw)
+}
+
+// The persisted 64-char value remains server-side only. The public personal
+// code is deterministically derived from it, so every request for the same
+// attempt returns the same code and concurrent status/submit requests cannot
+// leave the browser holding a code that does not correspond to the attempt.
+function resultAccessCodeFromHash(value: unknown) {
+  const hash = normalizeText(value).toLowerCase()
+  if (!/^[0-9a-f]{64}$/.test(hash)) return ''
+  let raw = ''
+  for (let index = 0; index < RESULT_ACCESS_CODE_LENGTH; index += 1) {
+    const byte = Number.parseInt(hash.slice(index * 2, index * 2 + 2), 16)
+    raw += RESULT_ACCESS_ALPHABET[byte % RESULT_ACCESS_ALPHABET.length]
+  }
+  return formatResultAccessCode(raw)
+}
+
+async function ensureResultAccessCode(attempt: any) {
+  if (!attempt?.id || !['submitted', 'time_expired'].includes(String(attempt.status))) return null
+  if (attempt.result_access_code_hash) return resultAccessCodeFromHash(attempt.result_access_code_hash)
+
+  for (let tries = 0; tries < 5; tries += 1) {
+    const code = randomResultAccessCode()
+    const hash = await sha256Hex(canonicalResultAccessCode(code))
+    const issuedAt = new Date().toISOString()
+    const updated = await admin.from('intentos').update({
+      result_access_code_hash: hash,
+      result_access_code_issued_at: issuedAt,
+    }).eq('id', attempt.id).is('result_access_code_hash', null).select('id,result_access_code_hash,result_access_code_issued_at').maybeSingle()
+
+    if (!updated.error && updated.data?.result_access_code_hash === hash) {
+      attempt.result_access_code_hash = hash
+      attempt.result_access_code_issued_at = issuedAt
+      return resultAccessCodeFromHash(hash)
+    }
+
+    const reread = await admin.from('intentos').select('result_access_code_hash,result_access_code_issued_at').eq('id', attempt.id).maybeSingle()
+    if (reread.data?.result_access_code_hash) {
+      attempt.result_access_code_hash = reread.data.result_access_code_hash
+      attempt.result_access_code_issued_at = reread.data.result_access_code_issued_at
+      return resultAccessCodeFromHash(reread.data.result_access_code_hash)
+    }
+  }
+
+  throw new AppError('RESULT_CODE_ISSUE_FAILED', 'No se pudo generar el código personal de resultados.', 500)
+}
+
+async function refreshCompletedGrade(attemptId: string) {
+  const refreshed = await admin.rpc('refresh_attempt_grade_for_result', { p_attempt_id: attemptId })
+  if (refreshed.error) throw new AppError('RESULT_GRADE_REFRESH_FAILED', 'No se pudo actualizar la calificación antes de mostrar los resultados.', 500)
+  return refreshed.data
+}
+
+async function resultAccessCredential(rawCode: unknown) {
+  const canonical = canonicalResultAccessCode(rawCode)
+  if (!canonical) throw new AppError('RESULT_CODE_REQUIRED', 'Ingresa el código personal de resultados que aparece en tu PDF.', 400)
+  if (canonical.length !== RESULT_ACCESS_CODE_LENGTH || !/^[A-HJ-NP-Z2-9]+$/.test(canonical)) {
+    throw new AppError('RESULT_CODE_INVALID', 'El código personal de resultados no es válido.', 403)
+  }
+  return {
+    canonical,
+    formatted: formatResultAccessCode(canonical),
+    legacyHash: await sha256Hex(canonical),
+  }
+}
+
+// Repairs the short-lived 0034 race only from a valid attempt session. The
+// public result-access route never performs this repair, so knowing a name and
+// exam code is still insufficient to replace a student's personal credential.
+async function reconcileResultAccessCodeFromSession(attempt: any, rawCode: unknown) {
+  const canonical = canonicalResultAccessCode(rawCode)
+  if (!canonical || canonical.length !== RESULT_ACCESS_CODE_LENGTH || !/^[A-HJ-NP-Z2-9]+$/.test(canonical)) {
+    return ensureResultAccessCode(attempt)
+  }
+
+  const suppliedHash = await sha256Hex(canonical)
+  const storedHash = normalizeText(attempt?.result_access_code_hash).toLowerCase()
+  const derivedCode = canonicalResultAccessCode(resultAccessCodeFromHash(storedHash))
+
+  if (storedHash && (storedHash === suppliedHash || derivedCode === canonical)) {
+    return formatResultAccessCode(canonical)
+  }
+
+  const issuedAt = new Date().toISOString()
+  const repaired = await admin
+    .from('intentos')
+    .update({
+      result_access_code_hash: suppliedHash,
+      result_access_code_issued_at: issuedAt,
+    })
+    .eq('id', attempt.id)
+    .select('result_access_code_hash,result_access_code_issued_at')
+    .maybeSingle()
+
+  if (repaired.error || !repaired.data) {
+    throw new AppError('RESULT_CODE_REPAIR_FAILED', 'No se pudo sincronizar el código personal de resultados.', 500)
+  }
+
+  attempt.result_access_code_hash = repaired.data.result_access_code_hash
+  attempt.result_access_code_issued_at = repaired.data.result_access_code_issued_at
+  await admin.from('logs').insert({
+    student_id: attempt.student_id,
+    exam_id: attempt.exam_id,
+    attempt_id: attempt.id,
+    event_type: 'RESULT_ACCESS_CODE_RECONCILED',
+    metadata: { source: 'authenticated_attempt_session' },
+  })
+  return formatResultAccessCode(canonical)
+}
+
 function nowMs() {
   return Date.now()
 }
@@ -314,7 +441,7 @@ async function loadExam(accessCode: string, rawRecoveryAttemptId: unknown = null
 
   const [{ data: config, error: configError }, { data: course }, fixed, rules] = await Promise.all([
     admin.from('configuraciones_examen').select('*').eq('exam_id', exam.id).single(),
-    admin.from('cursos').select('id, name, code, section').eq('id', exam.course_id).maybeSingle(),
+    admin.from('cursos').select('id, name, code, section, academic_period, docente_id').eq('id', exam.course_id).maybeSingle(),
     admin.from('preguntas_examen').select('id', { count: 'exact', head: true }).eq('exam_id', exam.id),
     admin.from('reglas_seleccion_examen').select('quantity').eq('exam_id', exam.id),
   ])
@@ -335,7 +462,7 @@ function publicExamPayload(ctx: any) {
     instructions: exam.instructions,
     startsAt: exam.starts_at,
     endsAt: exam.ends_at,
-    course: course ? { name: course.name, code: course.code, section: course.section } : null,
+    course: course ? { name: course.name, code: course.code, section: course.section, academicPeriod: course.academic_period } : null,
     durationMinutes: config.duration_minutes,
     maxAttempts: config.max_attempts,
     questionCount,
@@ -462,7 +589,7 @@ async function findExistingOpenStudent(ctx: any, identity: any) {
   return student
 }
 
-async function accessCompletedResults(accessCode: string, rawIdentity: any, request: Request) {
+async function accessCompletedResults(accessCode: string, rawIdentity: any, rawResultAccessCode: unknown, request: Request) {
   const ctx: any = await loadExam(accessCode, null, true)
   const identity = validateIdentity(ctx.config, rawIdentity)
   const student = ctx.config.restrict_to_enrolled_students
@@ -471,24 +598,35 @@ async function accessCompletedResults(accessCode: string, rawIdentity: any, requ
 
   if (!student) throw new AppError('RESULT_NOT_FOUND', 'No se encontraron resultados asociados a los datos ingresados.', 404)
 
-  const { data: attempt, error } = await admin
+  const credential = await resultAccessCredential(rawResultAccessCode)
+  const { data: attempts, error } = await admin
     .from('intentos')
     .select('*')
     .eq('exam_id', ctx.exam.id)
     .eq('student_id', student.id)
     .in('status', ['submitted', 'time_expired'])
     .order('attempt_number', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+    .limit(20)
   if (error) throw new AppError('SERVER_ERROR', 'No se pudieron consultar los resultados.', 500)
-  if (!attempt) throw new AppError('RESULT_NOT_FOUND', 'No se encontraron resultados asociados a los datos ingresados.', 404)
 
+  // New codes are derived from the persisted 256-bit value. For compatibility,
+  // codes issued before this fix also remain valid when their SHA-256 digest
+  // matches the stored value.
+  const matches = (attempts ?? []).filter((candidate: any) => {
+    const storedHash = normalizeText(candidate.result_access_code_hash).toLowerCase()
+    if (!storedHash) return false
+    if (storedHash === credential.legacyHash) return true
+    return canonicalResultAccessCode(resultAccessCodeFromHash(storedHash)) === credential.canonical
+  })
+  if (matches.length !== 1) throw new AppError('RESULT_CODE_INVALID', 'El código personal de resultados no es válido.', 403)
+
+  const attempt = matches[0]
   ctx.student = student
   ctx.attempt = attempt
+  const resultAccessCode = resultAccessCodeFromHash(attempt.result_access_code_hash) || credential.formatted
+  await admin.from('intentos').update({ result_access_code_last_used_at: new Date().toISOString() }).eq('id', attempt.id)
+  await refreshCompletedGrade(attempt.id)
   const runtimeConfig = frozenRuntimeConfig(ctx)
-  if (runtimeConfig.resultVisibility === 'confirmation_only') {
-    throw new AppError('RESULT_NOT_AVAILABLE', 'El docente no habilitó la consulta de resultados para este examen.', 403)
-  }
 
   const sessionToken = await createSession(attempt.id, new Date(nowMs() + 2 * 60 * 60 * 1000).toISOString())
   await admin.from('logs').insert({
@@ -499,7 +637,13 @@ async function accessCompletedResults(accessCode: string, rawIdentity: any, requ
     metadata: { userAgent: request.headers.get('user-agent')?.slice(0, 500) ?? null },
   })
 
-  return { ctx, sessionToken, grading: await safeGradingSummary(ctx) }
+  return {
+    ctx,
+    sessionToken,
+    resultAccessCode,
+    grading: await safeGradingSummary(ctx, { completedResultAccess: true }),
+    reportDetails: await safeStudentExamCopyDetails(ctx),
+  }
 }
 
 async function createSession(attemptId: string, expiresAt: string) {
@@ -525,6 +669,23 @@ function provisionalExpiry(exam: any) {
 async function prepareAttempt(accessCode: string, rawIdentity: any, request: Request, rawRecoveryAttemptId: unknown = null) {
   const ctx = await loadExam(accessCode, rawRecoveryAttemptId)
   const identity = validateIdentity(ctx.config, rawIdentity)
+
+  // 0032: validate the score plan before creating student/attempt history.
+  // Published exams must have a deterministic point total equal to the configured exam maximum.
+  const scoringPlanResult = await admin.rpc('get_exam_scoring_plan_summary', { p_exam_id: ctx.exam.id })
+  if (scoringPlanResult.error || !scoringPlanResult.data) {
+    throw new AppError('SCORING_PLAN_CHECK_FAILED', 'No se pudo validar la ponderación del examen.', 500)
+  }
+  const scoringPlan = scoringPlanResult.data as any
+  const expectedExamMaximum = Number(ctx.config.settings?.grading?.finalGradeCap ?? ctx.config.grade_scale_max ?? 20)
+  const configuredPointTotal = Number(scoringPlan.totalPoints ?? 0)
+  if (scoringPlan.deterministic !== true || Math.abs(configuredPointTotal - expectedExamMaximum) > 0.001) {
+    throw new AppError(
+      'SCORING_PLAN_MISMATCH',
+      scoringPlan.issue || `El docente debe ajustar la ponderación: las preguntas suman ${configuredPointTotal.toFixed(2)} puntos y la nota máxima del examen es ${expectedExamMaximum.toFixed(2)}.`,
+      409,
+    )
+  }
 
   let student
   if (ctx.config.restrict_to_enrolled_students) {
@@ -612,6 +773,8 @@ async function prepareAttempt(accessCode: string, rawIdentity: any, request: Req
   }
 
   const nextAttemptNumber = ordered.reduce((max: number, item: any) => Math.max(max, Number(item.attempt_number)), 0) + 1
+  const institutionalGradeScaleMax = Number(ctx.config.grade_scale_max || 20)
+  const finalGradeCap = Number(ctx.config.settings?.grading?.finalGradeCap ?? institutionalGradeScaleMax)
   const snapshot = {
     durationMinutes: ctx.config.duration_minutes,
     maxAttempts: ctx.config.max_attempts,
@@ -620,7 +783,13 @@ async function prepareAttempt(accessCode: string, rawIdentity: any, request: Req
     navigation: ctx.config.navigation,
     allowBacktrack: ctx.config.allow_backtrack,
     autoSubmitOnTimeout: ctx.config.auto_submit_on_timeout,
-    gradeScaleMax: Number(ctx.config.grade_scale_max),
+    // From 0032 onward the effective grading scale equals the configured exam maximum.
+    // Because the question points are validated to sum to this same value, raw points
+    // and final grade are the same quantity (e.g. 10.71 points = final grade 10.71/15).
+    gradeScaleMax: finalGradeCap,
+    institutionalGradeScaleMax,
+    finalGradeCap,
+    gradingMode: 'direct_question_points',
     passingGrade: Number(ctx.config.passing_grade),
     resultVisibility: ctx.config.result_visibility,
     showResultsAfter: ctx.config.show_results_after,
@@ -707,10 +876,18 @@ async function resolveSession(sessionToken: unknown) {
   ])
 
   if (!exam || !config || !student) throw new AppError('SERVER_ERROR', 'La sesión del examen está incompleta.', 500)
-  const { data: course } = await admin.from('cursos').select('id, name, code, section').eq('id', exam.course_id).maybeSingle()
+  const { data: course } = await admin.from('cursos').select('id, name, code, section, academic_period, docente_id').eq('id', exam.course_id).maybeSingle()
+  let teacherName: string | null = null
+  if (course?.docente_id) {
+    const { data: teacher } = await admin.from('docentes').select('usuario_id').eq('id', course.docente_id).maybeSingle()
+    if (teacher?.usuario_id) {
+      const { data: teacherUser } = await admin.from('usuarios').select('display_name,first_name,last_name').eq('id', teacher.usuario_id).maybeSingle()
+      teacherName = teacherUser?.display_name || [teacherUser?.first_name, teacherUser?.last_name].filter(Boolean).join(' ').trim() || null
+    }
+  }
 
   await admin.from('student_attempt_sessions').update({ last_seen_at: new Date().toISOString() }).eq('id', session.id)
-  return { session, attempt, exam, config, student, course }
+  return { session, attempt, exam, config, student, course, teacherName }
 }
 
 function frozenRuntimeConfig(ctx: any) {
@@ -724,6 +901,7 @@ function frozenRuntimeConfig(ctx: any) {
     allowBacktrack: frozen.allowBacktrack ?? ctx.config.allow_backtrack,
     autoSubmitOnTimeout: frozen.autoSubmitOnTimeout ?? ctx.config.auto_submit_on_timeout,
     gradeScaleMax: Number(frozen.gradeScaleMax ?? ctx.config.grade_scale_max),
+    finalGradeCap: Number(frozen.finalGradeCap ?? ctx.config.settings?.grading?.finalGradeCap ?? ctx.config.grade_scale_max),
     passingGrade: Number(frozen.passingGrade ?? ctx.config.passing_grade),
     resultVisibility: frozen.resultVisibility ?? ctx.config.result_visibility,
     showResultsAfter: frozen.showResultsAfter ?? ctx.config.show_results_after,
@@ -765,7 +943,8 @@ function attemptPayload(ctx: any) {
       durationMinutes: frozenRuntimeConfig(ctx).durationMinutes,
       maxAttempts: frozenRuntimeConfig(ctx).maxAttempts,
       security: frozenRuntimeConfig(ctx).security,
-      course: ctx.course ? { name: ctx.course.name, code: ctx.course.code, section: ctx.course.section } : null,
+      course: ctx.course ? { name: ctx.course.name, code: ctx.course.code, section: ctx.course.section, academicPeriod: ctx.course.academic_period } : null,
+      teacherName: ctx.teacherName || null,
     },
   }
 }
@@ -793,6 +972,21 @@ async function startAttempt(sessionToken: unknown) {
       throw new AppError('QUESTION_PLAN_MISMATCH', 'La configuración de preguntas del examen no coincide con la cantidad objetivo.', 409)
     }
     throw new AppError('QUESTION_GENERATION_FAILED', 'No se pudo generar el conjunto de preguntas del intento.', 500)
+  }
+
+  // 0032: the frozen question points must add up exactly to the configured exam maximum.
+  // This runtime check also protects exams that were already active before migration 0032.
+  const pointsResult = await admin.from('intento_preguntas').select('points_snapshot').eq('attempt_id', ctx.attempt.id)
+  if (pointsResult.error) throw new AppError('QUESTION_POINTS_CHECK_FAILED', 'No se pudo validar el puntaje total del examen.', 500)
+  const frozenPointTotal = (pointsResult.data ?? []).reduce((sum: number, row: any) => sum + Number(row.points_snapshot || 0), 0)
+  const expectedPointTotal = Number(frozenRuntimeConfig(ctx).finalGradeCap || 20)
+  if (Math.abs(frozenPointTotal - expectedPointTotal) > 0.001) {
+    await admin.from('intento_preguntas').delete().eq('attempt_id', ctx.attempt.id)
+    throw new AppError(
+      'QUESTION_POINTS_MISMATCH',
+      `El docente debe ajustar la ponderación: las preguntas suman ${frozenPointTotal.toFixed(2)} puntos y la nota máxima del examen es ${expectedPointTotal.toFixed(2)}.`,
+      409,
+    )
   }
 
   const startedAt = new Date()
@@ -1643,6 +1837,57 @@ function correctAnswerSummary(type: string, question: any) {
   return ''
 }
 
+async function safeStudentExamCopyDetails(ctx: any) {
+  const runtimeConfig = frozenRuntimeConfig(ctx)
+  const visibility = String(runtimeConfig.resultVisibility || 'confirmation_only')
+  const examEnds = ctx.exam.ends_at ? new Date(ctx.exam.ends_at).getTime() : null
+  const answersReleased = Boolean(examEnds && Date.now() >= examEnds && ['correct_answers', 'full_feedback'].includes(visibility))
+
+  const [{ data: questions, error: questionError }, { data: answers, error: answerError }, { data: grade }] = await Promise.all([
+    admin.from('intento_preguntas')
+      .select('id,display_order,question_type,prompt_snapshot,points_snapshot,options_snapshot,grading_snapshot')
+      .eq('attempt_id', ctx.attempt.id)
+      .order('display_order', { ascending: true }),
+    admin.from('respuestas')
+      .select('attempt_question_id,answer_text,answer_numeric,selected_option_ids,answer_payload,is_answered,is_correct,auto_score,manual_score,review_status,teacher_feedback')
+      .eq('attempt_id', ctx.attempt.id),
+    admin.from('calificaciones')
+      .select('pending_manual_reviews')
+      .eq('attempt_id', ctx.attempt.id)
+      .maybeSingle(),
+  ])
+  if (questionError || answerError) throw new AppError('RESULT_DETAILS_FAILED', 'No se pudo preparar la copia del examen.', 500)
+
+  const answerMap = new Map((answers ?? []).map((row: any) => [String(row.attempt_question_id), row]))
+  const details = (questions ?? []).map((question: any) => {
+    const answer: any = answerMap.get(String(question.id)) ?? null
+    const reviewed = answer?.review_status === 'reviewed'
+    const pending = answer?.review_status === 'pending'
+    const scoreVisible = answersReleased && !pending
+    return {
+      order: Number(question.display_order),
+      prompt: question.prompt_snapshot,
+      type: String(question.question_type),
+      studentAnswer: studentAnswerSummary(String(question.question_type), question, answer),
+      correctAnswer: answersReleased ? correctAnswerSummary(String(question.question_type), question) : null,
+      isCorrect: answersReleased ? (answer?.is_correct ?? null) : null,
+      score: scoreVisible ? (reviewed ? Number(answer?.manual_score || 0) : Number(answer?.auto_score || 0)) : null,
+      scoreHidden: !scoreVisible && !pending,
+      maxScore: Number(question.points_snapshot || 0),
+      reviewStatus: answer?.review_status ?? 'not_required',
+      teacherFeedback: answersReleased && visibility === 'full_feedback' ? (answer?.teacher_feedback || null) : null,
+    }
+  })
+
+  return {
+    details,
+    answersReleased,
+    pendingManualReviews: Number(grade?.pending_manual_reviews || 0),
+    gradeScaleMax: Number(runtimeConfig.gradeScaleMax || 20),
+    finalGradeCap: Number(runtimeConfig.finalGradeCap || runtimeConfig.gradeScaleMax || 20),
+  }
+}
+
 async function safeStudentResultDetails(ctx: any, visibility: string) {
   if (!['correct_answers', 'full_feedback'].includes(visibility)) return { details: null, answersEmbargoed: false }
 
@@ -1681,7 +1926,7 @@ async function safeStudentResultDetails(ctx: any, visibility: string) {
   return { details, answersEmbargoed: false }
 }
 
-async function safeGradingSummary(ctx: any) {
+async function safeGradingSummary(ctx: any, options: { completedResultAccess?: boolean } = {}) {
   const { data: grade } = await admin
     .from('calificaciones')
     .select('auto_score,manual_score,raw_score,max_raw_score,final_grade,pending_manual_reviews,auto_graded_at')
@@ -1699,24 +1944,44 @@ async function safeGradingSummary(ctx: any) {
     pendingManualReviews: Number(grade.pending_manual_reviews || 0),
     autoGradedAt: grade.auto_graded_at,
   }
-  if (embargoed || visibility === 'confirmation_only') return base
 
-  if (['score_only', 'grade', 'correct_answers', 'full_feedback'].includes(visibility)) {
+  const completedResultAccess = options.completedResultAccess === true
+  const visibleModes = ['score_only', 'grade', 'correct_answers', 'full_feedback']
+  const pendingManualReviews = Number(grade.pending_manual_reviews || 0)
+  const completedGradeReady = pendingManualReviews === 0 && grade.final_grade !== null
+
+  // The embargo protects answer keys and feedback. Once manual grading is
+  // complete, the student may see their own final score without exposing keys.
+  if (embargoed && !completedGradeReady && !completedResultAccess) return base
+
+  // A closed, fully graded attempt may always expose its own final score to the
+  // student. Correct answers and feedback remain governed by the configured
+  // result visibility/embargo below, so this does not release answer keys early.
+  if (visibleModes.includes(visibility) || completedResultAccess || completedGradeReady) {
     const result: Record<string, unknown> = {
       ...base,
       rawScore: Number(grade.raw_score || 0),
       maxRawScore: Number(grade.max_raw_score || 0),
-      provisional: Number(grade.pending_manual_reviews || 0) > 0,
+      provisional: pendingManualReviews > 0,
+      gradeAvailable: completedResultAccess
+        ? pendingManualReviews === 0
+        : completedGradeReady || ['grade', 'correct_answers', 'full_feedback'].includes(visibility),
     }
-    if (['grade', 'correct_answers', 'full_feedback'].includes(visibility)) {
+    if (completedResultAccess || completedGradeReady || ['grade', 'correct_answers', 'full_feedback'].includes(visibility)) {
       result.finalGrade = grade.final_grade === null ? null : Number(grade.final_grade)
       result.gradeScaleMax = Number(runtimeConfig.gradeScaleMax || 20)
+      result.finalGradeCap = Number(runtimeConfig.finalGradeCap || runtimeConfig.gradeScaleMax || 20)
+      result.uncappedFinalGrade = Number(grade.max_raw_score || 0) > 0
+        ? Math.round(((Number(grade.raw_score || 0) / Number(grade.max_raw_score || 1)) * Number(runtimeConfig.gradeScaleMax || 20)) * 1000) / 1000
+        : 0
       result.passingGrade = Number(runtimeConfig.passingGrade || 0)
     }
-    if (['correct_answers', 'full_feedback'].includes(visibility)) {
+    if (!embargoed && ['correct_answers', 'full_feedback'].includes(visibility)) {
       const extra = await safeStudentResultDetails(ctx, visibility)
       result.details = extra.details
       result.answersEmbargoed = extra.answersEmbargoed
+    } else if (embargoed) {
+      result.answersEmbargoed = true
     }
     return result
   }
@@ -1774,8 +2039,9 @@ async function submitAttempt(sessionToken: unknown, rawReason: unknown) {
     event_type: reason,
     metadata: { submittedAt: ctx.attempt.submitted_at },
   })
+  const resultAccessCode = await ensureResultAccessCode(ctx.attempt)
   const grading = await safeGradingSummary(ctx)
-  return { ctx, alreadyClosed: false, grading }
+  return { ctx, alreadyClosed: false, grading, resultAccessCode }
 }
 
 Deno.serve(async (request) => {
@@ -1809,12 +2075,14 @@ Deno.serve(async (request) => {
     }
 
     if (action === 'result_access') {
-      const result = await accessCompletedResults(body.accessCode, body.identity, request)
+      const result = await accessCompletedResults(body.accessCode, body.identity, body.resultAccessCode, request)
       return json({
         ok: true,
         sessionToken: result.sessionToken,
         ...attemptPayload(result.ctx),
         grading: result.grading,
+        reportDetails: result.reportDetails,
+        resultAccessCode: result.resultAccessCode,
         resultAccess: true,
       }, 200, corsHeaders)
     }
@@ -1837,8 +2105,17 @@ Deno.serve(async (request) => {
 
     if (action === 'status') {
       const ctx = await resolveSession(body.sessionToken)
-      const grading = ['submitted', 'time_expired'].includes(ctx.attempt.status) ? await safeGradingSummary(ctx) : null
-      return json({ ok: true, ...attemptPayload(ctx), grading }, 200, corsHeaders)
+      const closed = ['submitted', 'time_expired'].includes(ctx.attempt.status)
+      let resultAccessCode = null
+      if (closed && body.resultAccess !== true) {
+        resultAccessCode = body.resultAccessCode
+          ? await reconcileResultAccessCodeFromSession(ctx.attempt, body.resultAccessCode)
+          : await ensureResultAccessCode(ctx.attempt)
+      }
+      if (closed) await refreshCompletedGrade(ctx.attempt.id)
+      const grading = closed ? await safeGradingSummary(ctx, { completedResultAccess: body.resultAccess === true }) : null
+      const reportDetails = closed ? await safeStudentExamCopyDetails(ctx) : null
+      return json({ ok: true, ...attemptPayload(ctx), grading, reportDetails, resultAccessCode, resultAccess: body.resultAccess === true }, 200, corsHeaders)
     }
 
     if (action === 'start') {
@@ -1864,9 +2141,11 @@ Deno.serve(async (request) => {
 
     if (action === 'timeout_recover') {
       const recovered = await recoverTimedOutAnswers(body.sessionToken, body.answers)
+      const resultAccessCode = await ensureResultAccessCode(recovered.ctx.attempt)
       return json({
         ok: true,
         ...attemptPayload(recovered.ctx),
+        resultAccessCode,
         recovery: {
           acceptedCount: recovered.acceptedCount,
           rejectedCount: recovered.rejectedCount,
@@ -1874,6 +2153,7 @@ Deno.serve(async (request) => {
           serverNow: new Date().toISOString(),
         },
         grading: await safeGradingSummary(recovered.ctx),
+        reportDetails: await safeStudentExamCopyDetails(recovered.ctx),
       }, 200, corsHeaders)
     }
 
@@ -1917,7 +2197,16 @@ Deno.serve(async (request) => {
 
     if (action === 'submit') {
       const submitted = await submitAttempt(body.sessionToken, body.reason)
-      return json({ ok: true, ...attemptPayload(submitted.ctx), alreadyClosed: submitted.alreadyClosed, grading: submitted.grading ?? null, serverNow: new Date().toISOString() }, 200, corsHeaders)
+      const resultAccessCode = submitted.resultAccessCode || await ensureResultAccessCode(submitted.ctx.attempt)
+      return json({
+        ok: true,
+        ...attemptPayload(submitted.ctx),
+        alreadyClosed: submitted.alreadyClosed,
+        grading: submitted.grading ?? null,
+        reportDetails: await safeStudentExamCopyDetails(submitted.ctx),
+        resultAccessCode,
+        serverNow: new Date().toISOString(),
+      }, 200, corsHeaders)
     }
 
     throw new AppError('UNKNOWN_ACTION', 'Acción no reconocida.', 400)

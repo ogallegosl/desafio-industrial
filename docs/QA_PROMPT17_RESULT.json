@@ -1,12 +1,12 @@
 {
   "status": "PASS",
-  "totalChecks": 70,
-  "passed": 70,
+  "totalChecks": 76,
+  "passed": 76,
   "failed": 0,
   "failedCriticalHigh": 0,
   "randomizationStudents": 20,
   "randomizationUniqueFingerprints": 20,
-  "localImportsChecked": 163,
+  "localImportsChecked": 164,
   "localImportsMissing": 0,
   "checks": [
     {
@@ -487,6 +487,48 @@
     },
     {
       "area": "Estructura",
+      "name": "Bootstrap incluye 0029_live_time_extension_security_fix.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0030_teacher_force_close_deadline_fix.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0031_grade_cap_and_evidence_pdf.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0032_direct_question_points_scoring.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0033_manual_grade_finalization_consistency.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
+      "name": "Bootstrap incluye 0034_student_result_access_codes.sql",
+      "ok": true,
+      "severity": "high",
+      "detail": ""
+    },
+    {
+      "area": "Estructura",
       "name": "Cero secretos de service role en frontend",
       "ok": true,
       "severity": "critical",
@@ -497,7 +539,7 @@
       "name": "Imports locales resuelven",
       "ok": true,
       "severity": "critical",
-      "detail": "revisados=163; faltantes=0"
+      "detail": "revisados=164; faltantes=0"
     }
   ]
 }

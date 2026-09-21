@@ -58,7 +58,7 @@ assert.equal(general[0].Curso, 'Ingeniería de Seguridad')
 assert.equal(general[0].Examen, 'Parcial de Seguridad')
 assert.equal(general[0]['Tiempo utilizado'], '00:40:30')
 assert.equal(general[0]['Puntaje total'], 16)
-assert.equal(general[0].Nota, 16)
+assert.equal(general[0]['Nota final'], 16)
 assert.ok(general[0].Inicio instanceof Date)
 assert.ok(general[0].Fin instanceof Date)
 

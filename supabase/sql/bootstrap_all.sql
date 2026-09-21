@@ -6475,3 +6475,800 @@ with check (
   )
 );
 -- <<< END MIGRATION: 0028_importer_rls_runtime_hotfix.sql
+
+-- >>> BEGIN MIGRATION: 0029_live_time_extension_security_fix.sql
+-- 0029_live_time_extension_security_fix.sql
+-- Corrige extensiones de tiempo docente en produccion.
+-- Las RPC necesitan actualizar student_attempt_sessions, tabla reservada al backend.
+
+alter function public.teacher_extend_attempt_time(uuid, integer) security definer;
+alter function public.teacher_extend_attempt_time(uuid, integer) set search_path to pg_catalog, public, private, pg_temp;
+
+alter function public.teacher_extend_exam_time(uuid, integer) security definer;
+alter function public.teacher_extend_exam_time(uuid, integer) set search_path to pg_catalog, public, private, pg_temp;
+
+revoke all on function public.teacher_extend_attempt_time(uuid, integer) from public, anon;
+revoke all on function public.teacher_extend_exam_time(uuid, integer) from public, anon;
+
+grant execute on function public.teacher_extend_attempt_time(uuid, integer) to authenticated;
+grant execute on function public.teacher_extend_exam_time(uuid, integer) to authenticated;
+-- <<< END MIGRATION: 0029_live_time_extension_security_fix.sql
+
+-- >>> BEGIN MIGRATION: 0030_teacher_force_close_deadline_fix.sql
+-- 0030_teacher_force_close_deadline_fix.sql
+-- Hotfix E2E: el cierre docente convierte el momento de cierre
+-- en el deadline efectivo antes de abrir la ventana offline de 5 minutos.
+
+create or replace function public.teacher_force_submit_attempt(
+  p_attempt_id uuid,
+  p_reason text default null
+)
+returns jsonb
+language plpgsql
+security invoker
+set search_path = public, private, pg_temp
+as $$
+declare
+  v_attempt public.intentos%rowtype;
+  v_now timestamptz := now();
+  v_reason text := left(nullif(btrim(coalesce(p_reason, '')), ''), 500);
+begin
+  if auth.uid() is null or not private.owns_attempt(p_attempt_id) then
+    raise exception 'Attempt not found or not accessible';
+  end if;
+
+  select *
+  into v_attempt
+  from public.intentos
+  where id = p_attempt_id
+  for update;
+
+  if not found then
+    raise exception 'Attempt not found';
+  end if;
+
+  if v_attempt.status = 'in_progress' then
+    update public.intentos
+    set status = 'submitted',
+        submitted_at = v_now,
+        submission_reason = 'TEACHER_FORCED',
+        forced_submit_at = v_now,
+        forced_submit_by = auth.uid(),
+        forced_submit_reason = v_reason,
+        deadline_at = least(coalesce(deadline_at, v_now), v_now),
+        offline_recovery_until = v_now + interval '5 minutes',
+        last_activity_at = v_now,
+        last_server_sync_at = v_now,
+        updated_at = v_now
+    where id = p_attempt_id
+    returning * into v_attempt;
+
+  elsif v_attempt.status = 'created' then
+    update public.intentos
+    set status = 'cancelled',
+        submitted_at = v_now,
+        submission_reason = 'TEACHER_FORCED_BEFORE_START',
+        forced_submit_at = v_now,
+        forced_submit_by = auth.uid(),
+        forced_submit_reason = v_reason,
+        updated_at = v_now
+    where id = p_attempt_id
+    returning * into v_attempt;
+  end if;
+
+  insert into public.logs(
+    actor_user_id,
+    student_id,
+    exam_id,
+    attempt_id,
+    event_type,
+    metadata
+  )
+  values (
+    auth.uid(),
+    v_attempt.student_id,
+    v_attempt.exam_id,
+    v_attempt.id,
+    'TEACHER_ATTEMPT_FORCED_CLOSED',
+    jsonb_build_object(
+      'reason', v_reason,
+      'status', v_attempt.status
+    )
+  );
+
+  return jsonb_build_object(
+    'attemptId', v_attempt.id,
+    'status', v_attempt.status,
+    'submittedAt', v_attempt.submitted_at
+  );
+end;
+$$;
+
+
+create or replace function public.teacher_force_close_exam(
+  p_exam_id uuid,
+  p_reason text default null
+)
+returns jsonb
+language plpgsql
+security invoker
+set search_path = public, private, pg_temp
+as $$
+declare
+  v_now timestamptz := now();
+  v_reason text := left(nullif(btrim(coalesce(p_reason, '')), ''), 500);
+  v_in_progress integer := 0;
+  v_prepared integer := 0;
+  v_exam public.examenes%rowtype;
+begin
+  if auth.uid() is null or not private.owns_exam(p_exam_id) then
+    raise exception 'Exam not found or not accessible';
+  end if;
+
+  select *
+  into v_exam
+  from public.examenes
+  where id = p_exam_id
+    and is_deleted = false
+  for update;
+
+  if not found then
+    raise exception 'Exam not found';
+  end if;
+
+  if v_exam.status = 'closed' then
+    return jsonb_build_object(
+      'examId', p_exam_id,
+      'closedAt', v_exam.force_closed_at,
+      'submittedAttempts', 0,
+      'cancelledPreparedAttempts', 0,
+      'alreadyClosed', true
+    );
+  end if;
+
+  if v_exam.status not in ('scheduled', 'active') then
+    raise exception 'Solo un examen programado o activo puede finalizarse desde Monitoreo en vivo.';
+  end if;
+
+  update public.examenes
+  set status = 'closed',
+      accept_new_attempts = false,
+      force_closed_at = v_now,
+      force_closed_by = auth.uid(),
+      control_updated_at = v_now,
+      updated_at = v_now
+  where id = p_exam_id;
+
+  update public.intentos
+  set status = 'submitted',
+      submitted_at = v_now,
+      submission_reason = 'TEACHER_FORCED',
+      forced_submit_at = v_now,
+      forced_submit_by = auth.uid(),
+      forced_submit_reason = v_reason,
+      deadline_at = least(coalesce(deadline_at, v_now), v_now),
+      offline_recovery_until = v_now + interval '5 minutes',
+      last_activity_at = v_now,
+      last_server_sync_at = v_now,
+      updated_at = v_now
+  where exam_id = p_exam_id
+    and status = 'in_progress';
+
+  get diagnostics v_in_progress = row_count;
+
+  update public.intentos
+  set status = 'cancelled',
+      submitted_at = v_now,
+      submission_reason = 'TEACHER_FORCED_BEFORE_START',
+      forced_submit_at = v_now,
+      forced_submit_by = auth.uid(),
+      forced_submit_reason = v_reason,
+      updated_at = v_now
+  where exam_id = p_exam_id
+    and status = 'created';
+
+  get diagnostics v_prepared = row_count;
+
+  insert into public.logs(
+    actor_user_id,
+    exam_id,
+    event_type,
+    metadata
+  )
+  values (
+    auth.uid(),
+    p_exam_id,
+    'TEACHER_EXAM_FORCED_CLOSED',
+    jsonb_build_object(
+      'reason', v_reason,
+      'submittedAttempts', v_in_progress,
+      'cancelledPreparedAttempts', v_prepared
+    )
+  );
+
+  return jsonb_build_object(
+    'examId', p_exam_id,
+    'closedAt', v_now,
+    'submittedAttempts', v_in_progress,
+    'cancelledPreparedAttempts', v_prepared,
+    'alreadyClosed', false
+  );
+end;
+$$;
+
+revoke all on function public.teacher_force_submit_attempt(uuid, text)
+from public, anon;
+
+revoke all on function public.teacher_force_close_exam(uuid, text)
+from public, anon;
+
+grant execute on function public.teacher_force_submit_attempt(uuid, text)
+to authenticated;
+
+grant execute on function public.teacher_force_close_exam(uuid, text)
+to authenticated;
+-- <<< END MIGRATION: 0030_teacher_force_close_deadline_fix.sql
+
+-- >>> BEGIN MIGRATION: 0031_grade_cap_and_evidence_pdf.sql
+-- 0031_grade_cap_and_evidence_pdf.sql
+-- Configurable final-grade cap (stored in configuraciones_examen.settings.grading.finalGradeCap)
+-- and hard server-side enforcement for every grade write.
+
+create or replace function private.validate_exam_grade_cap_settings()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_raw text;
+  v_cap numeric;
+begin
+  v_raw := nullif(btrim(coalesce(new.settings #>> '{grading,finalGradeCap}', '')), '');
+  if v_raw is null then
+    return new;
+  end if;
+
+  begin
+    v_cap := v_raw::numeric;
+  exception when others then
+    raise exception 'La nota maxima permitida debe ser numerica.';
+  end;
+
+  if v_cap <= 0 then
+    raise exception 'La nota maxima permitida debe ser mayor que cero.';
+  end if;
+
+  if v_cap > new.grade_scale_max then
+    raise exception 'La nota maxima permitida no puede superar la escala de calificacion.';
+  end if;
+
+  if v_cap < new.passing_grade then
+    raise exception 'La nota maxima permitida no puede ser menor que la nota aprobatoria.';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_configuraciones_examen_validate_grade_cap on public.configuraciones_examen;
+create trigger trg_configuraciones_examen_validate_grade_cap
+before insert or update of settings, grade_scale_max, passing_grade
+on public.configuraciones_examen
+for each row
+execute function private.validate_exam_grade_cap_settings();
+
+create or replace function private.apply_attempt_final_grade_cap()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_frozen jsonb;
+  v_settings jsonb;
+  v_scale numeric;
+  v_cap numeric;
+  v_raw text;
+begin
+  if new.final_grade is null then
+    return new;
+  end if;
+
+  select i.frozen_exam_config, c.settings, c.grade_scale_max
+  into v_frozen, v_settings, v_scale
+  from public.intentos i
+  join public.configuraciones_examen c on c.exam_id = i.exam_id
+  where i.id = new.attempt_id;
+
+  if not found then
+    return new;
+  end if;
+
+  v_raw := nullif(btrim(coalesce(v_frozen->>'finalGradeCap', '')), '');
+  if v_raw is null then
+    v_raw := nullif(btrim(coalesce(v_settings #>> '{grading,finalGradeCap}', '')), '');
+  end if;
+
+  begin
+    v_cap := coalesce(v_raw::numeric, v_scale);
+  exception when others then
+    v_cap := v_scale;
+  end;
+
+  v_cap := greatest(0, least(v_cap, v_scale));
+  new.final_grade := least(new.final_grade, v_cap);
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_calificaciones_apply_final_grade_cap on public.calificaciones;
+create trigger trg_calificaciones_apply_final_grade_cap
+before insert or update of final_grade, attempt_id
+on public.calificaciones
+for each row
+execute function private.apply_attempt_final_grade_cap();
+
+revoke all on function private.validate_exam_grade_cap_settings() from public, anon, authenticated;
+revoke all on function private.apply_attempt_final_grade_cap() from public, anon, authenticated;
+-- <<< END MIGRATION: 0031_grade_cap_and_evidence_pdf.sql
+
+-- >>> BEGIN MIGRATION: 0032_direct_question_points_scoring.sql
+-- 0032_direct_question_points_scoring.sql
+-- El puntaje de cada pregunta constituye directamente la nota final.
+-- La suma del plan debe coincidir exactamente con la nota maxima configurada
+-- (20 por defecto; un valor menor, como 15, puede usarse de forma excepcional).
+
+create or replace function private.exam_scoring_plan_summary(p_exam_id uuid)
+returns jsonb
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_exam public.examenes%rowtype;
+  v_rule public.reglas_seleccion_examen%rowtype;
+  v_fixed_total numeric := 0;
+  v_random_total numeric := 0;
+  v_candidate_count integer := 0;
+  v_min_points numeric;
+  v_max_points numeric;
+  v_per_question numeric;
+  v_deterministic boolean := true;
+  v_issue text := null;
+begin
+  select * into v_exam
+  from public.examenes
+  where id = p_exam_id and is_deleted = false;
+
+  if not found then
+    raise exception 'EXAM_NOT_FOUND';
+  end if;
+
+  select coalesce(sum(coalesce(pe.points_override, q.points)), 0)
+  into v_fixed_total
+  from public.preguntas_examen pe
+  join public.preguntas q on q.id = pe.question_id
+  join public.bancos_preguntas b on b.id = q.bank_id
+  where pe.exam_id = p_exam_id
+    and b.course_id = v_exam.course_id
+    and b.is_archived = false
+    and q.is_active = true
+    and q.parent_question_id is null;
+
+  for v_rule in
+    select *
+    from public.reglas_seleccion_examen
+    where exam_id = p_exam_id
+    order by rule_order, id
+  loop
+    if v_rule.points_override is not null then
+      v_per_question := v_rule.points_override;
+    else
+      select count(*), min(q.points), max(q.points)
+      into v_candidate_count, v_min_points, v_max_points
+      from public.preguntas q
+      join public.bancos_preguntas b on b.id = q.bank_id
+      where b.course_id = v_exam.course_id
+        and b.is_archived = false
+        and q.is_active = true
+        and q.parent_question_id is null
+        and (v_rule.bank_id is null or q.bank_id = v_rule.bank_id)
+        and (v_rule.unit is null or q.unit = v_rule.unit)
+        and (v_rule.topic is null or q.topic = v_rule.topic)
+        and (v_rule.subtopic is null or q.subtopic = v_rule.subtopic)
+        and (v_rule.difficulty is null or q.difficulty = v_rule.difficulty)
+        and (v_rule.question_type is null or q.type = v_rule.question_type)
+        and not exists (
+          select 1
+          from public.preguntas_examen pe
+          where pe.exam_id = p_exam_id and pe.question_id = q.id
+        );
+
+      if v_candidate_count < v_rule.quantity then
+        v_deterministic := false;
+        v_issue := coalesce(v_issue, 'Una regla aleatoria no tiene suficientes preguntas candidatas.');
+        continue;
+      end if;
+
+      if v_min_points is null or v_max_points is null or abs(v_max_points - v_min_points) > 0.001 then
+        v_deterministic := false;
+        v_issue := coalesce(v_issue, 'Una regla aleatoria contiene preguntas con puntajes distintos y no tiene puntaje por pregunta definido.');
+        continue;
+      end if;
+
+      v_per_question := v_min_points;
+    end if;
+
+    v_random_total := v_random_total + (v_rule.quantity * v_per_question);
+  end loop;
+
+  return jsonb_build_object(
+    'deterministic', v_deterministic,
+    'fixedPoints', round(v_fixed_total, 3),
+    'randomPoints', case when v_deterministic then round(v_random_total, 3) else null end,
+    'totalPoints', case when v_deterministic then round(v_fixed_total + v_random_total, 3) else null end,
+    'issue', v_issue
+  );
+end;
+$$;
+
+create or replace function public.get_exam_scoring_plan_summary(p_exam_id uuid)
+returns jsonb
+language sql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+  select private.exam_scoring_plan_summary(p_exam_id);
+$$;
+
+revoke all on function public.get_exam_scoring_plan_summary(uuid) from public, anon, authenticated;
+grant execute on function public.get_exam_scoring_plan_summary(uuid) to service_role;
+
+create or replace function private.validate_exam_scoring_before_publish()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_cfg public.configuraciones_examen%rowtype;
+  v_summary jsonb;
+  v_cap numeric;
+  v_total numeric;
+begin
+  if new.status::text not in ('scheduled', 'active') then
+    return new;
+  end if;
+
+  select * into v_cfg
+  from public.configuraciones_examen
+  where exam_id = new.id;
+
+  if not found then
+    raise exception 'No existe configuracion para validar el puntaje del examen.';
+  end if;
+
+  begin
+    v_cap := coalesce(nullif(v_cfg.settings #>> '{grading,finalGradeCap}', '')::numeric, v_cfg.grade_scale_max);
+  exception when others then
+    v_cap := v_cfg.grade_scale_max;
+  end;
+
+  v_summary := private.exam_scoring_plan_summary(new.id);
+  if not coalesce((v_summary->>'deterministic')::boolean, false) then
+    raise exception '%', coalesce(v_summary->>'issue', 'El puntaje del examen no es determinista.');
+  end if;
+
+  v_total := coalesce((v_summary->>'totalPoints')::numeric, 0);
+  if abs(v_total - v_cap) > 0.001 then
+    raise exception 'La suma de puntajes del examen (%) debe coincidir exactamente con la nota maxima configurada (%).', v_total, v_cap;
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_examenes_validate_scoring_before_publish on public.examenes;
+create trigger trg_examenes_validate_scoring_before_publish
+before insert or update of status
+on public.examenes
+for each row
+execute function private.validate_exam_scoring_before_publish();
+
+-- Conserva las validaciones de 0031 y, si el examen ya esta publicado,
+-- impide cambiar la nota maxima a un valor que deje de coincidir con el plan.
+create or replace function private.validate_exam_grade_cap_settings()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_raw text;
+  v_cap numeric;
+  v_status text;
+  v_summary jsonb;
+  v_total numeric;
+begin
+  v_raw := nullif(btrim(coalesce(new.settings #>> '{grading,finalGradeCap}', '')), '');
+  if v_raw is null then
+    v_cap := new.grade_scale_max;
+  else
+    begin
+      v_cap := v_raw::numeric;
+    exception when others then
+      raise exception 'La nota maxima del examen debe ser numerica.';
+    end;
+  end if;
+
+  if v_cap <= 0 then
+    raise exception 'La nota maxima del examen debe ser mayor que cero.';
+  end if;
+
+  if v_cap > new.grade_scale_max then
+    raise exception 'La nota maxima del examen no puede superar la escala institucional.';
+  end if;
+
+  if v_cap < new.passing_grade then
+    raise exception 'La nota maxima del examen no puede ser menor que la nota aprobatoria.';
+  end if;
+
+  select status::text into v_status
+  from public.examenes
+  where id = new.exam_id;
+
+  if v_status in ('scheduled', 'active') then
+    v_summary := private.exam_scoring_plan_summary(new.exam_id);
+    if not coalesce((v_summary->>'deterministic')::boolean, false) then
+      raise exception '%', coalesce(v_summary->>'issue', 'El puntaje del examen no es determinista.');
+    end if;
+    v_total := coalesce((v_summary->>'totalPoints')::numeric, 0);
+    if abs(v_total - v_cap) > 0.001 then
+      raise exception 'La suma de puntajes del examen (%) debe coincidir exactamente con la nota maxima configurada (%).', v_total, v_cap;
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
+-- La fila de calificaciones queda protegida por la misma regla. Para intentos
+-- nuevos, max_raw_score coincide con la nota maxima y final_grade = raw_score.
+-- Los intentos historicos con otra escala conservan el comportamiento previo.
+create or replace function private.apply_attempt_final_grade_cap()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private, pg_temp
+as $$
+declare
+  v_frozen jsonb;
+  v_settings jsonb;
+  v_scale numeric;
+  v_cap numeric;
+  v_raw text;
+begin
+  select i.frozen_exam_config, c.settings, c.grade_scale_max
+  into v_frozen, v_settings, v_scale
+  from public.intentos i
+  join public.configuraciones_examen c on c.exam_id = i.exam_id
+  where i.id = new.attempt_id;
+
+  if not found then
+    return new;
+  end if;
+
+  v_raw := nullif(btrim(coalesce(v_frozen->>'finalGradeCap', '')), '');
+  if v_raw is null then
+    v_raw := nullif(btrim(coalesce(v_settings #>> '{grading,finalGradeCap}', '')), '');
+  end if;
+
+  begin
+    v_cap := coalesce(v_raw::numeric, v_scale);
+  exception when others then
+    v_cap := v_scale;
+  end;
+
+  v_cap := greatest(0, least(v_cap, v_scale));
+
+  if coalesce(new.pending_manual_reviews, 0) > 0 then
+    new.final_grade := null;
+    return new;
+  end if;
+
+  if new.raw_score is not null
+     and new.max_raw_score is not null
+     and abs(new.max_raw_score - v_cap) <= 0.001 then
+    new.final_grade := round(least(greatest(new.raw_score, 0), v_cap), 3);
+  elsif new.final_grade is not null then
+    new.final_grade := least(new.final_grade, v_cap);
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_calificaciones_apply_final_grade_cap on public.calificaciones;
+create trigger trg_calificaciones_apply_final_grade_cap
+before insert or update of final_grade, attempt_id, raw_score, max_raw_score, pending_manual_reviews
+on public.calificaciones
+for each row
+execute function private.apply_attempt_final_grade_cap();
+
+revoke all on function private.exam_scoring_plan_summary(uuid) from public, anon, authenticated;
+revoke all on function private.validate_exam_scoring_before_publish() from public, anon, authenticated;
+revoke all on function private.validate_exam_grade_cap_settings() from public, anon, authenticated;
+revoke all on function private.apply_attempt_final_grade_cap() from public, anon, authenticated;
+-- <<< END MIGRATION: 0032_direct_question_points_scoring.sql
+
+-- >>> BEGIN MIGRATION: 0033_manual_grade_finalization_consistency.sql
+-- 0033_manual_grade_finalization_consistency.sql
+-- Ensures that once all manual responses are reviewed, direct-point exams
+-- persist final_grade = sum of earned question points and clear stale pending flags.
+
+create or replace function private.recalculate_attempt_grade(p_attempt_id uuid, p_reviewer uuid default null)
+returns jsonb
+language plpgsql
+security definer
+set search_path = pg_catalog, public, private
+as $$
+declare
+  v_attempt public.intentos%rowtype;
+  v_config public.configuraciones_examen%rowtype;
+  v_auto numeric := 0;
+  v_manual numeric := 0;
+  v_raw numeric := 0;
+  v_max numeric := 0;
+  v_pending integer := 0;
+  v_scale numeric := 20;
+  v_cap numeric := 20;
+  v_final numeric;
+  v_direct boolean := false;
+  v_now timestamptz := clock_timestamp();
+begin
+  select * into v_attempt from public.intentos where id = p_attempt_id;
+  if not found then raise exception 'ATTEMPT_NOT_FOUND'; end if;
+
+  select * into v_config from public.configuraciones_examen where exam_id = v_attempt.exam_id;
+  if not found then raise exception 'EXAM_CONFIGURATION_MISSING'; end if;
+
+  select
+    coalesce(sum(case when r.review_status = 'reviewed'::public.review_status then 0 else coalesce(r.auto_score, 0) end), 0),
+    coalesce(sum(case when r.review_status = 'reviewed'::public.review_status then coalesce(r.manual_score, 0) else 0 end), 0),
+    coalesce(sum(case when r.review_status = 'reviewed'::public.review_status then coalesce(r.manual_score, 0) else coalesce(r.auto_score, 0) end), 0),
+    coalesce(sum(q.points_snapshot), 0),
+    count(*) filter (where r.review_status = 'pending'::public.review_status)
+  into v_auto, v_manual, v_raw, v_max, v_pending
+  from public.intento_preguntas q
+  left join public.respuestas r on r.attempt_question_id = q.id
+  where q.attempt_id = p_attempt_id;
+
+  v_raw := least(v_raw, v_max);
+  v_scale := coalesce(nullif(v_attempt.frozen_exam_config->>'gradeScaleMax', '')::numeric, v_config.grade_scale_max, 20);
+  v_cap := coalesce(
+    nullif(v_attempt.frozen_exam_config->>'finalGradeCap', '')::numeric,
+    nullif(v_config.settings #>> '{grading,finalGradeCap}', '')::numeric,
+    v_scale
+  );
+  v_cap := greatest(0, least(v_cap, coalesce(v_config.grade_scale_max, v_scale, 20)));
+  v_direct := coalesce(v_attempt.frozen_exam_config->>'gradingMode', '') = 'direct_question_points'
+    or (v_max > 0 and abs(v_max - v_cap) <= 0.001);
+
+  v_final := case
+    when v_pending > 0 then null
+    when v_max = 0 then 0
+    when v_direct then round(least(greatest(v_raw, 0), v_cap), 3)
+    else round(least((v_raw / v_max) * v_scale, v_cap), 3)
+  end;
+
+  insert into public.calificaciones(
+    attempt_id, auto_score, manual_score, raw_score, max_raw_score,
+    final_grade, pending_manual_reviews, graded_by_user_id, graded_at, updated_at
+  ) values (
+    p_attempt_id, v_auto, v_manual, v_raw, v_max,
+    v_final, v_pending, p_reviewer,
+    case when v_pending = 0 then v_now else null end, v_now
+  )
+  on conflict (attempt_id) do update set
+    auto_score = excluded.auto_score,
+    manual_score = excluded.manual_score,
+    raw_score = excluded.raw_score,
+    max_raw_score = excluded.max_raw_score,
+    final_grade = excluded.final_grade,
+    pending_manual_reviews = excluded.pending_manual_reviews,
+    graded_by_user_id = coalesce(excluded.graded_by_user_id, calificaciones.graded_by_user_id),
+    graded_at = case when excluded.pending_manual_reviews = 0 then v_now else null end,
+    updated_at = v_now;
+
+  return jsonb_build_object(
+    'attemptId', p_attempt_id,
+    'autoScore', v_auto,
+    'manualScore', v_manual,
+    'rawScore', v_raw,
+    'maxRawScore', v_max,
+    'pendingManualReviews', v_pending,
+    'finalGrade', v_final
+  );
+end;
+$$;
+
+-- Repair direct-point attempts already completed before this consistency fix.
+-- Only attempts explicitly frozen in direct_question_points mode are touched.
+with direct_completed as (
+  select
+    c.attempt_id,
+    least(
+      greatest(coalesce(c.raw_score, 0), 0),
+      coalesce(nullif(i.frozen_exam_config->>'finalGradeCap', '')::numeric, c.max_raw_score, 0)
+    ) as repaired_final
+  from public.calificaciones c
+  join public.intentos i on i.id = c.attempt_id
+  where coalesce(i.frozen_exam_config->>'gradingMode', '') = 'direct_question_points'
+    and c.raw_score is not null
+    and c.max_raw_score is not null
+    and not exists (
+      select 1
+      from public.respuestas r
+      where r.attempt_id = c.attempt_id
+        and r.review_status = 'pending'::public.review_status
+    )
+)
+update public.calificaciones c
+set
+  pending_manual_reviews = 0,
+  final_grade = round(d.repaired_final, 3),
+  graded_at = coalesce(c.graded_at, clock_timestamp()),
+  updated_at = clock_timestamp()
+from direct_completed d
+where c.attempt_id = d.attempt_id
+  and (
+    coalesce(c.pending_manual_reviews, 0) <> 0
+    or c.final_grade is distinct from round(d.repaired_final, 3)
+  );
+
+revoke all on function private.recalculate_attempt_grade(uuid, uuid) from public, anon, authenticated;
+
+-- Service-role-only refresh used when a student reopens a completed attempt.
+-- It makes the corrected PDF read current response state instead of a stale grade snapshot.
+create or replace function public.refresh_attempt_grade_for_result(p_attempt_id uuid)
+returns jsonb
+language sql
+security definer
+set search_path = pg_catalog, public, private
+as $$
+  select private.recalculate_attempt_grade(p_attempt_id, null);
+$$;
+
+revoke all on function public.refresh_attempt_grade_for_result(uuid) from public, anon, authenticated;
+grant execute on function public.refresh_attempt_grade_for_result(uuid) to service_role;
+-- <<< END MIGRATION: 0033_manual_grade_finalization_consistency.sql
+
+-- >>> BEGIN MIGRATION: 0034_student_result_access_codes.sql
+-- 0034_student_result_access_codes.sql
+-- Adds a per-attempt, high-entropy result access credential. Only a SHA-256
+-- digest is persisted; the plain code is returned to the student when issued
+-- and must be presented again to reopen corrected results.
+
+alter table public.intentos
+  add column if not exists result_access_code_hash text,
+  add column if not exists result_access_code_issued_at timestamptz,
+  add column if not exists result_access_code_last_used_at timestamptz;
+
+create unique index if not exists intentos_result_access_code_hash_unique
+  on public.intentos(result_access_code_hash)
+  where result_access_code_hash is not null;
+
+do $$ begin
+  alter table public.intentos
+    add constraint intentos_result_access_code_hash_format
+    check (result_access_code_hash is null or result_access_code_hash ~ '^[0-9a-f]{64}$');
+exception when duplicate_object then null; end $$;
+
+comment on column public.intentos.result_access_code_hash is
+  'SHA-256 digest of the per-attempt personal code used only to reopen corrected student results.';
+comment on column public.intentos.result_access_code_issued_at is
+  'Timestamp when the personal result code was first issued.';
+comment on column public.intentos.result_access_code_last_used_at is
+  'Timestamp of the most recent successful result-code verification.';
+-- <<< END MIGRATION: 0034_student_result_access_codes.sql

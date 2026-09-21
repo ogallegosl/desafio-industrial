@@ -16,6 +16,7 @@ export default function StudentAccessPage() {
   const [accessMode, setAccessMode] = useState('exam')
   const [examInfo, setExamInfo] = useState(null)
   const [identity, setIdentity] = useState({ firstName: '', lastName: '' })
+  const [resultAccessCode, setResultAccessCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const codeSubmittingRef = useRef(false)
@@ -60,13 +61,18 @@ export default function StudentAccessPage() {
       setMessage('Ingresa tus apellidos y nombres.')
       return
     }
+    const demoResults = accessMode === 'results' && accessCode.trim().toUpperCase() === getLocalDemoCode().toUpperCase()
+    if (accessMode === 'results' && !demoResults && !resultAccessCode.trim()) {
+      setMessage('Ingresa el código personal de resultados que aparece en el PDF que descargaste al finalizar.')
+      return
+    }
     identitySubmittingRef.current = true
     setLoading(true)
     setMessage('')
     try {
       const payload = { firstName: identity.firstName.trim(), lastName: identity.lastName.trim() }
       const data = accessMode === 'results'
-        ? await accessStudentResults(accessCode, payload)
+        ? await accessStudentResults(accessCode, payload, resultAccessCode.trim())
         : await prepareStudentAttempt(accessCode, payload, recoveryMarker?.attemptId || null)
       establishSession(data.sessionToken, data)
       navigate(accessMode === 'results' ? '/estudiante/finalizado' : '/estudiante/instrucciones')
@@ -100,7 +106,7 @@ export default function StudentAccessPage() {
           <label>Código del examen<input type="text" value={accessCode} onChange={(event) => setAccessCode(event.target.value)} autoComplete="off" autoCapitalize="characters" placeholder="Ej. DEMO2026" disabled={loading} /></label>
           <div className="form-actions-row">
             <button className="button primary full" type="submit" disabled={loading}>{loading && accessMode === 'exam' ? 'Validando…' : 'Ingresar'}</button>
-            <button className="button secondary full" type="button" disabled={loading} onClick={() => validateCodeForMode('results')}>{loading && accessMode === 'results' ? 'Consultando…' : 'Consultar resultados'}</button>
+            <button className="button secondary full" type="button" disabled={loading} onClick={() => validateCodeForMode('results')}>{loading && accessMode === 'results' ? 'Consultando…' : 'Consultar mi examen / resultados'}</button>
           </div>
         </form>
       ) : (
@@ -109,9 +115,15 @@ export default function StudentAccessPage() {
           {message && <div className="form-alert danger" role="alert">{message}</div>}
           <label>Apellidos <span className="required-mark">*</span><input value={identity.lastName} onChange={(e) => setIdentity((current) => ({ ...current, lastName: e.target.value }))} autoComplete="family-name" /></label>
           <label>Nombres <span className="required-mark">*</span><input value={identity.firstName} onChange={(e) => setIdentity((current) => ({ ...current, firstName: e.target.value }))} autoComplete="given-name" /></label>
+          {accessMode === 'results' && accessCode.trim().toUpperCase() !== getLocalDemoCode().toUpperCase() && (
+            <label>Código personal de resultados <span className="required-mark">*</span>
+              <input value={resultAccessCode} onChange={(e) => setResultAccessCode(e.target.value)} autoComplete="off" autoCapitalize="characters" placeholder="Ej. K7PM-4Q2X-W9RT" />
+              <small>Está impreso en el PDF que descargaste al finalizar. Es personal: no lo compartas.</small>
+            </label>
+          )}
           <div className="form-actions-row">
-            <button className="button secondary" type="button" disabled={loading} onClick={() => { setStep(1); setMessage('') }}>Volver</button>
-            <button className="button primary" type="submit" disabled={loading}>{loading ? 'Preparando…' : accessMode === 'results' ? 'Ver resultados' : 'Continuar'}</button>
+            <button className="button secondary" type="button" disabled={loading} onClick={() => { setStep(1); setMessage(''); setResultAccessCode('') }}>Volver</button>
+            <button className="button primary" type="submit" disabled={loading}>{loading ? 'Preparando…' : accessMode === 'results' ? 'Ver mi examen / resultados' : 'Continuar'}</button>
           </div>
         </form>
       )}

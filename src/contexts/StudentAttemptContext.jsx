@@ -44,10 +44,15 @@ export function StudentAttemptProvider({ children }) {
     }
     setLoading(true)
     try {
-      const data = await getStudentAttemptStatus(sessionToken)
-      persist(sessionToken, data)
+      const resultAccess = Boolean(attemptData?.resultAccess)
+      const currentResultAccessCode = attemptData?.resultAccessCode || ''
+      const data = await getStudentAttemptStatus(sessionToken, resultAccess, currentResultAccessCode)
+      const preservedResultCode = data?.resultAccessCode || attemptData?.resultAccessCode || null
+      const merged = preservedResultCode ? { ...data, resultAccessCode: preservedResultCode } : data
+      const persisted = resultAccess ? { ...merged, resultAccess: true } : merged
+      persist(sessionToken, persisted)
       setError(null)
-      return data
+      return persisted
     } catch (nextError) {
       setError(nextError)
       if (['SESSION_INVALID', 'SESSION_EXPIRED', 'SESSION_REQUIRED'].includes(nextError.code)) clearSession()
@@ -55,7 +60,7 @@ export function StudentAttemptProvider({ children }) {
     } finally {
       setLoading(false)
     }
-  }, [sessionToken, persist, clearSession])
+  }, [sessionToken, attemptData?.resultAccess, attemptData?.resultAccessCode, persist, clearSession])
 
   useEffect(() => {
     if (sessionToken) refresh()

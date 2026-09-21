@@ -63,9 +63,9 @@ export function validateExamResultsCode(accessCode) {
   return invokeExamAccess({ action: 'validate_results', accessCode })
 }
 
-export function accessStudentResults(accessCode, identity) {
+export function accessStudentResults(accessCode, identity, resultAccessCode = '') {
   if (isLocalDemoCode(accessCode)) return demoAccessResults(identity)
-  return invokeExamAccess({ action: 'result_access', accessCode, identity })
+  return invokeExamAccess({ action: 'result_access', accessCode, identity, resultAccessCode })
 }
 
 export function prepareStudentAttempt(accessCode, identity, recoveryAttemptId = null) {
@@ -73,9 +73,14 @@ export function prepareStudentAttempt(accessCode, identity, recoveryAttemptId = 
   return invokeExamAccess({ action: 'prepare', accessCode, identity, recoveryAttemptId })
 }
 
-export function getStudentAttemptStatus(sessionToken) {
+export function getStudentAttemptStatus(sessionToken, resultAccess = false, resultAccessCode = '') {
   if (isLocalDemoSession(sessionToken)) return demoGetStatus(sessionToken)
-  return invokeExamAccess({ action: 'status', sessionToken })
+  return invokeExamAccess({
+    action: 'status',
+    sessionToken,
+    resultAccess: Boolean(resultAccess),
+    resultAccessCode: String(resultAccessCode || '').trim(),
+  })
 }
 
 export function startStudentAttempt(sessionToken) {
