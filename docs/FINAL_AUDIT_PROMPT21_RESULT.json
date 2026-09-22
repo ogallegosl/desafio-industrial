@@ -1,9 +1,9 @@
 {
   "prompt": 21,
-  "status": "PASS",
+  "status": "PASS_WITH_MINOR_FINDINGS",
   "total": 43,
-  "passed": 43,
-  "failed": 0,
+  "passed": 42,
+  "failed": 1,
   "failedCriticalHigh": 0,
   "migrations": 34,
   "checks": [
@@ -297,9 +297,9 @@
     {
       "area": "Estructura",
       "name": "Versión del proyecto actualizada",
-      "ok": true,
+      "ok": false,
       "severity": "low",
-      "detail": "1.3.0"
+      "detail": "1.3.1"
     },
     {
       "area": "Estructura",
