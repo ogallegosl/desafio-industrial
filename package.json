@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "db:bootstrap": "node scripts/rebuild-bootstrap.mjs",
     "audit:security": "node scripts/security-audit.mjs",
     "test:recovery": "node scripts/failure-recovery-simulation.mjs",
     "audit:strict": "node scripts/strict-audit.mjs",
