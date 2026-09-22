@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { recordAiGradingDecision, requestAiGradingSuggestion } from '../services/aiGrading'
 
-const SUPPORTED_TYPES = new Set(['essay', 'image_essay', 'short_text', 'case_group'])
+const SUPPORTED_TYPES = new Set(['essay', 'case_group'])
 
 function fmtNumber(value, digits = 2) {
   const n = Number(value)
@@ -34,7 +34,7 @@ export default function AiGradingAssistant({
   const canRequest = Boolean(responseId && supported && useRubric && rubricValid && !loading && !saving)
 
   const requirementMessage = useMemo(() => {
-    if (!supported) return 'Esta primera versión de IA corrige respuestas textuales y casos prácticos. No interpreta fotografías ni PDF adjuntos.'
+    if (!supported) return 'Esta primera versión de IA corrige desarrollo escrito y casos prácticos con subpreguntas estructuradas. No interpreta imágenes, fotografías ni PDF adjuntos.'
     if (!useRubric) return 'Activa “Usar rúbrica” para que la IA evalúe con criterios docentes explícitos.'
     if (!rubricValid) return `La rúbrica debe estar completa y sumar exactamente ${fmtNumber(maxPoints)} puntos antes de solicitar la sugerencia.`
     return ''
@@ -65,20 +65,12 @@ export default function AiGradingAssistant({
     }
   }
 
-  const handleApply = async () => {
+  const handleApply = () => {
     if (!suggestion) return
-    setLoading(true)
     setError('')
-    try {
-      onApply?.(suggestion)
-      await recordAiGradingDecision({ suggestionId: suggestion.id, decision: 'applied' })
-      setSuggestion((current) => current ? { ...current, decision: 'applied' } : current)
-      setNotice('La sugerencia se copió como borrador. La nota no cambia hasta que pulses “Guardar calificación”.')
-    } catch (err) {
-      setError(err.message || 'No se pudo aplicar la sugerencia de IA.')
-    } finally {
-      setLoading(false)
-    }
+    onApply?.(suggestion)
+    setSuggestion((current) => current ? { ...current, draftApplied: true } : current)
+    setNotice('La sugerencia se copió como borrador. La decisión de uso se registrará únicamente cuando guardes la calificación docente.')
   }
 
   const handleReject = async () => {
@@ -136,7 +128,7 @@ export default function AiGradingAssistant({
             <p>{suggestion.feedback || 'Sin retroalimentación propuesta.'}</p>
           </div>
 
-          {suggestion.decision === 'proposed' && (
+          {suggestion.decision === 'proposed' && !suggestion.draftApplied && (
             <div className="manual-actions">
               <button type="button" className="button secondary" disabled={loading || saving} onClick={handleReject}>Descartar sugerencia</button>
               <button type="button" className="button primary" disabled={loading || saving} onClick={handleApply}>Aplicar como borrador</button>
