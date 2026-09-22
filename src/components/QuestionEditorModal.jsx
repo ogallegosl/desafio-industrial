@@ -283,6 +283,28 @@ export default function QuestionEditorModal({ open, questionId, defaultBankId, b
       {question.type !== 'case_group' && <AnswerConfiguration question={question} onChange={patchQuestion} />}
       {question.type === 'case_group' && <CaseChildrenEditor question={question} onChange={patchQuestion} />}
 
+      {question.type !== 'case_group' && (
+        <section className="editor-subsection">
+          <div className="section-label-row">
+            <div><strong>Evidencia del estudiante</strong><span>La evidencia puede conservarse para auditoría sin convertir una pregunta automática en corrección manual.</span></div>
+          </div>
+          {['calculation_evidence', 'attachment'].includes(question.type) ? (
+            <div className="field-hint">Este tipo exige evidencia y mantiene revisión docente antes de consolidar su puntaje.</div>
+          ) : (
+            <label>Modo de evidencia
+              <select
+                value={question.metadata?.evidenceMode || 'none'}
+                onChange={(event) => patchQuestion({ metadata: { ...(question.metadata || {}), evidenceMode: event.target.value } })}
+              >
+                <option value="none">Sin evidencia</option>
+                <option value="informational">Evidencia informativa / auditable</option>
+              </select>
+              <span className="field-hint">En modo informativo la respuesta conserva su calificación automática y el archivo queda disponible en Evidencias para revisión docente.</span>
+            </label>
+          )}
+        </section>
+      )}
+
       <section className="editor-subsection"><label>Retroalimentación / explicación opcional<textarea value={question.explanation} onChange={(event) => patchQuestion({ explanation: event.target.value })} placeholder="Explica la solución o el criterio que podrá mostrarse cuando el examen lo permita." /></label></section>
     </div>}
   </Modal>

@@ -193,6 +193,18 @@ export default function StudentQuestionRenderer({ question, answer: rawAnswer, o
             onEvidenceChange={onEvidenceChange}
             disabled={disabled}
           />}
+      {question.type !== 'case_group'
+        && !['calculation_evidence', 'attachment'].includes(question.type)
+        && ['informational', 'validated'].includes(String(question.metadata?.evidenceMode || '').toLowerCase())
+        && (
+          <StudentEvidenceUploader
+            questionId={question.id}
+            sessionToken={sessionToken}
+            evidence={evidence}
+            disabled={disabled}
+            onEvidenceChange={onEvidenceChange}
+          />
+        )}
     </article>
   )
 }

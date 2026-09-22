@@ -35,21 +35,27 @@ export async function listSubmittedEvidence() {
 
   const studentIds = [...new Set(closedAttempts.map((row) => row.student_id).filter(Boolean))]
   const examIds = [...new Set(closedAttempts.map((row) => row.exam_id).filter(Boolean))]
-  const [{ data: students, error: studentsError }, { data: exams, error: examsError }] = await Promise.all([
+  const responseIds = [...new Set(filtered.map((row) => row.response_id).filter(Boolean))]
+  const [{ data: students, error: studentsError }, { data: exams, error: examsError }, { data: responses, error: responsesError }] = await Promise.all([
     studentIds.length
       ? supabase.from(TABLES.STUDENTS).select('id,student_code,first_name,last_name,email,section').in('id', studentIds)
       : Promise.resolve({ data: [], error: null }),
     examIds.length
       ? supabase.from(TABLES.EXAMS).select('id,title,course_id').in('id', examIds)
       : Promise.resolve({ data: [], error: null }),
+    responseIds.length
+      ? supabase.from(TABLES.ANSWERS).select('id,is_answered,is_correct,auto_score,manual_score,review_status,teacher_feedback').in('id', responseIds)
+      : Promise.resolve({ data: [], error: null }),
   ])
   if (studentsError) throw studentsError
   if (examsError) throw examsError
+  if (responsesError) throw responsesError
 
   const attemptMap = new Map(closedAttempts.map((row) => [row.id, row]))
   const studentMap = new Map((students || []).map((row) => [row.id, row]))
   const examMap = new Map((exams || []).map((row) => [row.id, row]))
   const questionMap = new Map((questions || []).map((row) => [row.id, row]))
+  const responseMap = new Map((responses || []).map((row) => [row.id, row]))
 
   return filtered.map((row) => {
     const attempt = attemptMap.get(row.attempt_id)
@@ -59,6 +65,7 @@ export async function listSubmittedEvidence() {
       student: attempt ? studentMap.get(attempt.student_id) ?? null : null,
       exam: attempt ? examMap.get(attempt.exam_id) ?? null : null,
       question: questionMap.get(row.attempt_question_id) ?? null,
+      response: responseMap.get(row.response_id) ?? null,
     }
   })
 }

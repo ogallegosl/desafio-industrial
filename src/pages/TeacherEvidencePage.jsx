@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import StatusBadge from '../components/StatusBadge'
 import { createEvidencePreviewUrl, listSubmittedEvidence } from '../services/evidenceManagement'
@@ -19,6 +19,7 @@ function formatBytes(bytes) {
 
 export default function TeacherEvidencePage() {
   const { formatDateTime } = useGlobalSettings()
+  const [searchParams] = useSearchParams()
   const [items, setItems] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
@@ -26,6 +27,8 @@ export default function TeacherEvidencePage() {
   const [previewLoading, setPreviewLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [query, setQuery] = useState('')
+  const [examFilter, setExamFilter] = useState(() => searchParams.get('exam') || '')
+  const [statusFilter, setStatusFilter] = useState('all')
 
   useEffect(() => {
     let cancelled = false
@@ -47,17 +50,28 @@ export default function TeacherEvidencePage() {
     return () => { cancelled = true }
   }, [])
 
+  const exams = useMemo(() => {
+    const map = new Map()
+    items.forEach((item) => { if (item.exam?.id) map.set(item.exam.id, item.exam.title || 'Examen') })
+    return [...map.entries()].sort((a, b) => a[1].localeCompare(b[1], 'es'))
+  }, [items])
+
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase()
-    if (!term) return items
     return items.filter((item) => {
+      if (examFilter && item.exam?.id !== examFilter) return false
+      const reviewStatus = item.response?.review_status || 'not_required'
+      if (statusFilter === 'pending' && reviewStatus !== 'pending') return false
+      if (statusFilter === 'reviewed' && reviewStatus !== 'reviewed') return false
+      if (statusFilter === 'automatic' && reviewStatus !== 'not_required') return false
+      if (!term) return true
       const haystack = [
         studentName(item.student), item.exam?.title,
         item.question?.prompt_snapshot, item.original_filename,
       ].filter(Boolean).join(' ').toLowerCase()
       return haystack.includes(term)
     })
-  }, [items, query])
+  }, [items, query, examFilter, statusFilter])
 
   const selected = items.find((item) => item.id === selectedId) || null
 
@@ -78,7 +92,7 @@ export default function TeacherEvidencePage() {
       <PageHeader
         eyebrow="Corrección manual"
         title="Evidencias"
-        description="Archivos adjuntados en intentos ya enviados. Los archivos permanecen privados y se abren mediante enlaces temporales."
+        description="Archivos adjuntados en intentos ya enviados. La evidencia permanece visible para auditoría aunque la pregunta haya sido calificada automáticamente."
       />
 
       {message && <div className="form-alert danger">{message}</div>}
@@ -88,7 +102,19 @@ export default function TeacherEvidencePage() {
           <div className="surface-heading evidence-list-heading">
             <div><h2>{loading ? 'Cargando…' : `${filtered.length} evidencia${filtered.length === 1 ? '' : 's'}`}</h2><p>Solo se muestran intentos entregados o vencidos.</p></div>
           </div>
-          <div className="evidence-search"><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar alumno, examen o archivo" /></div>
+          <div className="evidence-search">
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar alumno, examen o archivo" />
+            <select value={examFilter} onChange={(event) => setExamFilter(event.target.value)} aria-label="Filtrar por examen">
+              <option value="">Todos los exámenes</option>
+              {exams.map(([id, title]) => <option key={id} value={id}>{title}</option>)}
+            </select>
+            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} aria-label="Filtrar por revisión">
+              <option value="all">Todos los estados</option>
+              <option value="pending">Pendiente de revisión</option>
+              <option value="reviewed">Revisada</option>
+              <option value="automatic">Automática / informativa</option>
+            </select>
+          </div>
 
           {!loading && filtered.length === 0 && <div className="empty-review-copy">No hay evidencias enviadas que coincidan con la búsqueda.</div>}
           {filtered.map((item) => (
@@ -99,8 +125,10 @@ export default function TeacherEvidencePage() {
                 <small>{item.original_filename}</small>
               </div>
               <div>
-                <StatusBadge tone="neutral">{item.mime_type === 'application/pdf' ? 'PDF' : 'Imagen'}</StatusBadge>
-                <small>{formatBytes(item.size_bytes)}</small>
+                <StatusBadge tone={item.response?.review_status === 'pending' ? 'warning' : item.response?.review_status === 'reviewed' ? 'success' : 'neutral'}>
+                  {item.response?.review_status === 'pending' ? 'Pendiente' : item.response?.review_status === 'reviewed' ? 'Revisada' : 'Automática'}
+                </StatusBadge>
+                <small>{item.mime_type === 'application/pdf' ? 'PDF' : 'Imagen'} · {formatBytes(item.size_bytes)}</small>
               </div>
             </button>
           ))}
@@ -116,7 +144,9 @@ export default function TeacherEvidencePage() {
                   <h2>Pregunta {selected.question?.display_order || '—'}</h2>
                   <p>{studentName(selected.student)} · intento {selected.attempt?.attempt_number || 1}</p>
                 </div>
-                <StatusBadge tone="neutral">{selected.mime_type === 'application/pdf' ? 'PDF' : 'Imagen'}</StatusBadge>
+                <StatusBadge tone={selected.response?.review_status === 'pending' ? 'warning' : selected.response?.review_status === 'reviewed' ? 'success' : 'neutral'}>
+                  {selected.response?.review_status === 'pending' ? 'Pendiente' : selected.response?.review_status === 'reviewed' ? 'Revisada' : 'Evidencia informativa'}
+                </StatusBadge>
               </div>
 
               <div className="teacher-evidence-question">
@@ -137,12 +167,14 @@ export default function TeacherEvidencePage() {
                 <div><span>Tamaño</span><strong>{formatBytes(selected.size_bytes)}</strong></div>
                 <div><span>Subido</span><strong>{formatDateTime(selected.uploaded_at)}</strong></div>
                 <div><span>Entrega</span><strong>{formatDateTime(selected.attempt?.submitted_at)}</strong></div>
+                <div><span>Puntaje automático</span><strong>{selected.response?.auto_score == null ? '—' : selected.response.auto_score}</strong></div>
+                <div><span>Puntaje manual</span><strong>{selected.response?.manual_score == null ? '—' : selected.response.manual_score}</strong></div>
               </div>
 
               <div className="evidence-teacher-actions">
                 {previewUrl && <a className="button secondary" href={previewUrl} target="_blank" rel="noreferrer">Abrir archivo</a>}
-                <Link className="button primary" to={`/docente/calificacion?response=${selected.response_id}`}>Calificar respuesta</Link>
-                <span className="muted-copy">La calificación manual sustituye el puntaje automático preliminar de esta pregunta.</span>
+                {['pending', 'reviewed'].includes(selected.response?.review_status) && <Link className="button primary" to={`/docente/calificacion?response=${selected.response_id}`}>Calificar respuesta</Link>}
+                <span className="muted-copy">{['pending', 'reviewed'].includes(selected.response?.review_status) ? 'La revisión docente puede confirmar o sustituir el puntaje preliminar.' : 'Esta evidencia es auditable y no modifica por sí sola la calificación automática.'}</span>
               </div>
             </>
           )}

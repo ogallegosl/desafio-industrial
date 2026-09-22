@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import StatCard from '../components/StatCard'
 import StatusBadge from '../components/StatusBadge'
@@ -414,6 +415,7 @@ export default function TeacherResultsPage() {
         action={(
           <div className="results-header-actions">
             <button className="button secondary" type="button" onClick={reload} disabled={!examId || loading || Boolean(exporting)}>Actualizar</button>
+            <Link className="button secondary" to={examId ? `/docente/evidencias?exam=${encodeURIComponent(examId)}` : '/docente/evidencias'}>Revisar evidencias</Link>
             <button className="button primary" type="button" onClick={() => runExport('excel')} disabled={!examId || loading || Boolean(exporting)}>
               {exporting === 'excel' ? 'Generando Excel…' : 'Exportar Excel'}
             </button>

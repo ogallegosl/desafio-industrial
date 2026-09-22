@@ -580,8 +580,11 @@ function countQuestions(questions) {
   questions.forEach((row) => {
     const answer = String(row.studentAnswer || '').trim().toLowerCase()
     const isOmitted = !answer || answer === 'omitida' || answer === 'sin respuesta'
-    if (isOmitted) omitted += 1
-    else answered += 1
+    if (isOmitted) {
+      omitted += 1
+      return
+    }
+    answered += 1
     if (row.isCorrect === true) correct += 1
     else if (row.isCorrect === false) incorrect += 1
   })

@@ -92,6 +92,16 @@ const EVIDENCE_BUCKET = 'student-evidence'
 const DEFAULT_EVIDENCE_MAX_BYTES = 5 * 1024 * 1024
 const SUPPORTED_EVIDENCE_MIME = new Set(['image/jpeg', 'image/png', 'image/webp', 'application/pdf'])
 const EVIDENCE_QUESTION_TYPES = new Set(['calculation_evidence', 'attachment'])
+
+function questionEvidenceMode(type: string, metadata: any = {}) {
+  if (type === 'attachment' || type === 'calculation_evidence') return 'validated'
+  const mode = normalizeText(metadata?.evidenceMode).toLowerCase()
+  return ['informational', 'validated'].includes(mode) ? mode : 'none'
+}
+
+function questionAllowsEvidence(type: string, metadata: any = {}) {
+  return EVIDENCE_QUESTION_TYPES.has(type) || questionEvidenceMode(type, metadata) !== 'none'
+}
 const OFFLINE_RECOVERY_GRACE_MS = 5 * 60 * 1000
 const MAX_OFFLINE_RECOVERY_ANSWERS = 300
 const MAX_SHORT_TEXT_CHARS = 5000
@@ -1265,8 +1275,9 @@ async function saveAnswerForContext(ctx: any, raw: any, eventType = 'ANSWER_SAVE
     nestedPayload = { caseAnswers: sanitizeCaseAnswers(rawAnswerPayload.caseAnswers, children) }
   } else if (type === 'true_false' && typeof rawAnswerPayload.value === 'boolean') {
     nestedPayload = { value: rawAnswerPayload.value }
-  } else if (EVIDENCE_QUESTION_TYPES.has(type)) {
+  } else if (questionAllowsEvidence(type, question.metadata_snapshot)) {
     // Evidence metadata is server-owned. Ignore any client-supplied evidence fields.
+    // This also preserves informational evidence attached to automatically graded items.
     nestedPayload = evidencePayloadFields(existing?.answer_payload)
   }
   if (payloadByteLength(nestedPayload) > MAX_ANSWER_PAYLOAD_BYTES) {
@@ -1444,7 +1455,7 @@ async function evidenceQuestion(ctx: any, questionId: string) {
     .eq('attempt_id', ctx.attempt.id)
     .maybeSingle()
   if (error || !question) throw new AppError('QUESTION_NOT_FOUND', 'La pregunta no pertenece a este intento.', 404)
-  if (!EVIDENCE_QUESTION_TYPES.has(String(question.question_type))) {
+  if (!questionAllowsEvidence(String(question.question_type), question.metadata_snapshot)) {
     throw new AppError('EVIDENCE_NOT_ALLOWED', 'Esta pregunta no admite evidencia adjunta.', 409)
   }
   return question
@@ -1852,7 +1863,7 @@ async function safeStudentExamCopyDetails(ctx: any) {
       .select('attempt_question_id,answer_text,answer_numeric,selected_option_ids,answer_payload,is_answered,is_correct,auto_score,manual_score,review_status,teacher_feedback')
       .eq('attempt_id', ctx.attempt.id),
     admin.from('calificaciones')
-      .select('pending_manual_reviews')
+      .select('pending_manual_reviews,final_grade,is_published')
       .eq('attempt_id', ctx.attempt.id)
       .maybeSingle(),
   ])
@@ -1863,7 +1874,11 @@ async function safeStudentExamCopyDetails(ctx: any) {
     const answer: any = answerMap.get(String(question.id)) ?? null
     const reviewed = answer?.review_status === 'reviewed'
     const pending = answer?.review_status === 'pending'
-    const scoreVisible = answersReleased && !pending
+    // The student's own points are not an answer key. Once the attempt has a
+    // completed final grade, expose each question score while keeping correct
+    // answers and feedback under the independent answer-key embargo.
+    const completedGradeReady = Number(grade?.pending_manual_reviews || 0) === 0 && grade?.final_grade !== null && grade?.final_grade !== undefined
+    const scoreVisible = completedGradeReady && !pending
     return {
       order: Number(question.display_order),
       prompt: question.prompt_snapshot,

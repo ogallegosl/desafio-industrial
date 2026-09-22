@@ -13,7 +13,7 @@ const modal = read('src/components/ExamPackageImportModal.jsx')
 const service = read('src/services/examPackageImport.js')
 const editor = read('src/pages/TeacherExamEditorPage.jsx')
 
-check('Versión', 'Versión 1.3.0 declarada', pkg.version === '1.3.0', 'high', pkg.version)
+check('Versión', 'Versión compatible con importador v1.3.x', /^1\.3\.\d+$/.test(pkg.version), 'high', pkg.version)
 check('Dependencias', 'JSZip fijado para lectura local de paquetes', pkg.dependencies?.jszip === '3.10.1', 'high')
 check('UI', 'Acción Importar examen disponible en Exámenes', /Importar examen/.test(page) && /ExamPackageImportModal/.test(page), 'high')
 check('UI', 'Modal ofrece plantilla y ZIP de ejemplo', /EXAM_PACKAGE_TEMPLATE_XLSX/.test(modal) && /EXAM_PACKAGE_SAMPLE_ZIP/.test(modal), 'medium')
