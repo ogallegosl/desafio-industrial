@@ -4,13 +4,14 @@ import process from 'node:process'
 
 const root = process.cwd()
 const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), 'utf8')
+const normalizeNewlines = (value) => value.replace(/\r\n/g, '\n')
 
-const migration = read('supabase/migrations/0035_ai_grading_assist.sql')
-const edge = read('supabase/functions/ai-grading/index.ts')
-const config = read('supabase/config.toml')
-const service = read('src/services/aiGrading.js')
-const component = read('src/components/AiGradingAssistant.jsx')
-const page = read('src/pages/TeacherManualGradingPage.jsx')
+const migration = normalizeNewlines(read('supabase/migrations/0035_ai_grading_assist.sql'))
+const edge = normalizeNewlines(read('supabase/functions/ai-grading/index.ts'))
+const config = normalizeNewlines(read('supabase/config.toml'))
+const service = normalizeNewlines(read('src/services/aiGrading.js'))
+const component = normalizeNewlines(read('src/components/AiGradingAssistant.jsx'))
+const page = normalizeNewlines(read('src/pages/TeacherManualGradingPage.jsx'))
 
 const checks = [
   ['tabla de auditoría IA', migration.includes('create table if not exists public.ai_grading_suggestions')],
@@ -28,7 +29,7 @@ const checks = [
   ['intento debe estar cerrado', edge.includes('AI_ATTEMPT_NOT_CLOSED')],
   ['tipos v1 restringidos', edge.includes("new Set(['essay', 'image_essay', 'short_text', 'case_group'])")],
   ['lectura con contexto del docente', edge.includes('const actor = createClient')],
-  ['escritura de auditoría solo servidor', edge.includes('const admin = createClient') && edge.includes("admin\n      .from('ai_grading_suggestions')")],
+  ['escritura de auditoría solo servidor', edge.includes('const admin = createClient') && /\badmin\s*\.from\('ai_grading_suggestions'\)/.test(edge)],
   ['caché para evitar llamadas duplicadas', edge.includes('CACHE_WINDOW_MS') && edge.includes('request_fingerprint')],
   ['IA no invoca grade_manual_response', !edge.includes('grade_manual_response')],
   ['IA no actualiza calificaciones', !edge.includes(".from('calificaciones')")],
