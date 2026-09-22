@@ -109,9 +109,10 @@ check('Evidencia académica', 'Examen con intentos no puede eliminarse', /No se 
 
 // Structure/deploy
 const migrations = fs.readdirSync(path.join(root,'supabase/migrations')).filter(n=>/^\d{4}_.+\.sql$/.test(n)).sort()
-check('Estructura', '34 migraciones presentes', migrations.length === 34, 'high', `detectadas=${migrations.length}`)
-check('Estructura', 'Bootstrap incluye 34 migraciones', migrations.every(m=>bootstrap.includes(m)), 'high')
-check('Estructura', 'Migracion de acceso seguro a resultados es la ultima', migrations.at(-1) === '0034_student_result_access_codes.sql', 'high', migrations.at(-1))
+check('Estructura', 'Migraciones numeradas presentes', migrations.length >= 35, 'high', `detectadas=${migrations.length}`)
+check('Estructura', 'Bootstrap incluye todas las migraciones', migrations.every(m=>bootstrap.includes(`BEGIN MIGRATION: ${m}`) && bootstrap.includes(`END MIGRATION: ${m}`)), 'high', `detectadas=${migrations.length}`)
+check('Estructura', 'Migración de acceso seguro a resultados presente', migrations.includes('0034_student_result_access_codes.sql'), 'high')
+check('Estructura', 'Migración de auditoría IA presente y ordenada', migrations.includes('0035_ai_grading_assist.sql') && migrations.indexOf('0035_ai_grading_assist.sql') > migrations.indexOf('0034_student_result_access_codes.sql'), 'high', migrations.at(-1))
 check('Estructura', 'Versión >= 1.2.1', compareVersions(pkg.version,'1.2.1') >= 0, 'low', pkg.version)
 check('Despliegue', 'netlify.toml presente', exists('netlify.toml'), 'high')
 check('Despliegue', '.env.example presente', exists('.env.example'), 'high')
