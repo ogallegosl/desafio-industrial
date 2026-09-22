@@ -22,6 +22,16 @@ const challengeMigration = read('supabase/migrations/0025_desafio_industrial_sec
 const bootstrap = read('supabase/sql/bootstrap_all.sql')
 const pkg = JSON.parse(read('package.json'))
 
+function compareVersions(a, b) {
+  const pa = String(a).split('.').map(Number)
+  const pb = String(b).split('.').map(Number)
+  for (let i = 0; i < 3; i += 1) {
+    const delta = (pa[i] || 0) - (pb[i] || 0)
+    if (delta) return delta
+  }
+  return 0
+}
+
 // 1. Funcionalidad
 check('Funcionalidad', 'Rutas docente y estudiante presentes', /\/docente/.test(app) && /\/estudiante/.test(app))
 check('Funcionalidad', 'Creación y edición usan operaciones transaccionales', /create_exam_bundle/.test(examService) && /update_exam_bundle/.test(examService))
@@ -100,7 +110,8 @@ check('Accesibilidad', 'Foco visible global definido', /focus-visible/.test(css)
 const migrations = fs.readdirSync(path.join(root, 'supabase/migrations')).filter((f) => /^\d{4}_.+\.sql$/.test(f)).sort()
 check('Estructura', 'Migraciones versionadas completas', migrations.length >= 27, 'high', `detectadas=${migrations.length}`)
 check('Estructura', 'Bootstrap contiene todas las migraciones', migrations.every((f) => bootstrap.includes(f)), 'high')
-check('Estructura', 'Versión del proyecto actualizada', ['0.21.0', '1.0.0', '1.0.1', '1.1.0', '1.1.1', '1.2.0', '1.2.1', '1.3.0'].includes(pkg.version), 'low', pkg.version)
+const semverLike = /^\d+\.\d+\.\d+$/.test(String(pkg.version))
+check('Estructura', 'Versión del proyecto actualizada', semverLike && compareVersions(pkg.version, '1.0.0') >= 0, 'low', pkg.version)
 check('Estructura', 'Comando de auditoría final disponible', Boolean(pkg.scripts?.['audit:final21']), 'low')
 
 const failed = checks.filter((c) => !c.ok)
