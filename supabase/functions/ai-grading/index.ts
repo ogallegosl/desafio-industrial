@@ -77,14 +77,50 @@ function responseOutputText(payload: any) {
   return ''
 }
 
-function answerForModel(response: any, questionType: string) {
-  if (['essay', 'image_essay', 'short_text'].includes(questionType)) {
-    return normalizeText(response?.answer_text)
-  }
+function answerForModel(response: any, question: any) {
+  const questionType = normalizeText(question?.question_type)
+  if (questionType === 'essay') return normalizeText(response?.answer_text)
+
   if (questionType === 'case_group') {
-    const payload = response?.answer_payload && typeof response.answer_payload === 'object' ? response.answer_payload : {}
-    return JSON.stringify(payload)
+    const children = Array.isArray(question?.metadata_snapshot?.caseSubquestions)
+      ? question.metadata_snapshot.caseSubquestions
+      : []
+    if (!children.length) return ''
+
+    const answers = response?.answer_payload?.caseAnswers && typeof response.answer_payload.caseAnswers === 'object'
+      ? response.answer_payload.caseAnswers
+      : {}
+
+    const subquestions = children.map((child: any, index: number) => {
+      const answer = answers?.[child?.id] && typeof answers[child.id] === 'object' ? answers[child.id] : {}
+      const options = Array.isArray(child?.options)
+        ? child.options.map((option: any) => ({ id: normalizeText(option?.id), content: normalizeText(option?.content) }))
+        : []
+      const selectedIds = new Set(Array.isArray(answer?.selectedOptionIds) ? answer.selectedOptionIds.map(String) : [])
+      const selectedOptions = options.filter((option: any) => selectedIds.has(String(option.id))).map((option: any) => option.content)
+      const trueFalse = typeof answer?.answerPayload?.value === 'boolean' ? answer.answerPayload.value : null
+      const numeric = parseFiniteNumber(answer?.answerNumeric)
+      const text = normalizeText(answer?.answerText)
+
+      return {
+        id: normalizeText(child?.id) || `subquestion-${index + 1}`,
+        order: index + 1,
+        prompt: normalizeText(child?.prompt),
+        type: normalizeText(child?.type),
+        points: parseFiniteNumber(child?.points),
+        options,
+        studentResponse: {
+          selectedOptions,
+          trueFalse,
+          numeric,
+          text: text || null,
+        },
+      }
+    })
+
+    return JSON.stringify({ subquestions })
   }
+
   return ''
 }
 
@@ -151,9 +187,11 @@ function normalizeSavedSuggestion(saved: any, cached = false) {
   }
 }
 
-const SUPPORTED_TYPES = new Set(['essay', 'image_essay', 'short_text', 'case_group'])
-const PROMPT_VERSION = 'desafio-ai-grading-v1'
+const SUPPORTED_TYPES = new Set(['essay', 'case_group'])
+const PROMPT_VERSION = 'desafio-ai-grading-v1.1'
 const CACHE_WINDOW_MS = 10 * 60 * 1000
+const AI_RATE_LIMIT = 30
+const AI_RATE_WINDOW_SECONDS = 10 * 60
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin')
@@ -262,7 +300,7 @@ Deno.serve(async (req) => {
 
     const questionType = normalizeText(question.question_type)
     if (!SUPPORTED_TYPES.has(questionType)) {
-      throw new AppError('AI_TYPE_NOT_SUPPORTED', 'La primera versión de corrección con IA admite respuestas textuales y casos prácticos, no evidencias adjuntas.', 422)
+      throw new AppError('AI_TYPE_NOT_SUPPORTED', 'La primera versión de corrección con IA admite desarrollo escrito y casos prácticos estructurados. No interpreta imágenes, archivos adjuntos ni respuestas cortas autocalificables.', 422)
     }
 
     const maxPoints = Number(question.points_snapshot || 0)
@@ -275,8 +313,8 @@ Deno.serve(async (req) => {
       throw new AppError('AI_RUBRIC_REQUIRED', 'Configura una rúbrica antes de solicitar una corrección con IA.', 422)
     }
 
-    const studentAnswer = answerForModel(response, questionType)
-    if (!studentAnswer) throw new AppError('AI_EMPTY_ANSWER', 'La respuesta no contiene texto evaluable por esta versión de IA.', 422)
+    const studentAnswer = answerForModel(response, question)
+    if (!studentAnswer) throw new AppError('AI_EMPTY_ANSWER', 'La respuesta no contiene texto o subpreguntas evaluables por esta versión de IA.', 422)
     if (studentAnswer.length > 30000) throw new AppError('AI_ANSWER_TOO_LONG', 'La respuesta supera el límite de análisis de esta versión.', 422)
 
     const gradingReference = question.grading_snapshot && typeof question.grading_snapshot === 'object'
@@ -295,6 +333,7 @@ Deno.serve(async (req) => {
       'Eres un asistente de corrección académica para un docente universitario.',
       'Tu salida es únicamente una sugerencia y nunca una calificación final.',
       'Evalúa exclusivamente con el enunciado, la respuesta, la referencia de corrección y la rúbrica recibida.',
+      'En casos prácticos, usa también las subpreguntas estructuradas y sus respuestas incluidas en studentAnswer.',
       'No inventes requisitos que no estén en esos materiales.',
       'Asigna un puntaje a cada criterio dentro de su máximo y usa comentarios breves, concretos y verificables.',
       'El puntaje total debe ser exactamente la suma de los criterios.',
@@ -325,6 +364,17 @@ Deno.serve(async (req) => {
     const cached = cachedRows?.[0]
     if (cached && Date.now() - new Date(cached.created_at).getTime() <= CACHE_WINDOW_MS) {
       return json({ ok: true, suggestion: normalizeSavedSuggestion(cached, true) }, 200, corsHeaders)
+    }
+
+    const rateKey = await sha256Hex(`ai-grading:user:${userData.user.id}`)
+    const { data: rateAllowed, error: rateError } = await admin.rpc('consume_edge_rate_limit', {
+      p_key_hash: rateKey,
+      p_limit: AI_RATE_LIMIT,
+      p_window_seconds: AI_RATE_WINDOW_SECONDS,
+    })
+    if (rateError) throw new AppError('AI_RATE_LIMIT_CHECK_FAILED', 'No se pudo validar el límite de uso de IA.', 503)
+    if (rateAllowed !== true) {
+      throw new AppError('AI_RATE_LIMITED', 'Se alcanzó temporalmente el límite de solicitudes de corrección con IA. Intenta nuevamente en unos minutos.', 429)
     }
 
     const openAiResponse = await fetch('https://api.openai.com/v1/responses', {
@@ -414,6 +464,7 @@ Deno.serve(async (req) => {
           maxPoints,
           studentIdentitySent: false,
           evidenceSent: false,
+          caseContextSent: questionType === 'case_group',
         },
       })
       .select('id,suggested_score,confidence,rubric_scores,feedback,rationale,decision,model,prompt_version,created_at')
