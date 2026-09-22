@@ -10,7 +10,7 @@
     "audit:security": "node scripts/security-audit.mjs",
     "test:recovery": "node scripts/failure-recovery-simulation.mjs",
     "audit:strict": "node scripts/strict-audit.mjs",
-    "test:all": "node scripts/randomization-simulation.mjs && node scripts/runtime-engine-simulation.mjs && node scripts/evidence-engine-simulation.mjs && node scripts/auto-grading-simulation.mjs && node scripts/manual-grading-simulation.mjs && node scripts/results-analytics-simulation.mjs && node scripts/results-export-simulation.mjs && node scripts/security-audit.mjs && node scripts/failure-recovery-simulation.mjs && node scripts/strict-audit.mjs && node scripts/demo-safety-exam-audit.mjs && node scripts/qa-prompt17.mjs && node scripts/responsive-performance-audit.mjs && node scripts/deploy-readiness.mjs && node scripts/global-settings-audit.mjs && node scripts/final-audit-prompt21.mjs && node scripts/local-demo-mode-audit.mjs && node scripts/desafio-v110-audit.mjs && node scripts/desafio-v111-audit.mjs && node scripts/live-monitoring-audit.mjs && node scripts/teacher-exhaustive-audit.mjs && node scripts/exam-package-import-audit.mjs",
+    "test:all": "node scripts/randomization-simulation.mjs && node scripts/runtime-engine-simulation.mjs && node scripts/evidence-engine-simulation.mjs && node scripts/auto-grading-simulation.mjs && node scripts/manual-grading-simulation.mjs && node scripts/results-analytics-simulation.mjs && node scripts/results-export-simulation.mjs && node scripts/security-audit.mjs && node scripts/failure-recovery-simulation.mjs && node scripts/strict-audit.mjs && node scripts/demo-safety-exam-audit.mjs && node scripts/qa-prompt17.mjs && node scripts/responsive-performance-audit.mjs && node scripts/deploy-readiness.mjs && node scripts/global-settings-audit.mjs && node scripts/final-audit-prompt21.mjs && node scripts/local-demo-mode-audit.mjs && node scripts/desafio-v110-audit.mjs && node scripts/desafio-v111-audit.mjs && node scripts/live-monitoring-audit.mjs && node scripts/teacher-exhaustive-audit.mjs && node scripts/exam-package-import-audit.mjs && node scripts/ai-grading-audit.mjs",
     "test:demo": "node scripts/demo-safety-exam-audit.mjs",
     "test:qa17": "node scripts/qa-prompt17.mjs",
     "test:responsive18": "node scripts/responsive-performance-audit.mjs",
@@ -25,7 +25,8 @@
     "test:mobile111": "python scripts/mobile-v111-browser-check.py",
     "audit:v120": "node scripts/live-monitoring-audit.mjs",
     "audit:teacher": "node scripts/teacher-exhaustive-audit.mjs",
-    "audit:v130": "node scripts/exam-package-import-audit.mjs"
+    "audit:v130": "node scripts/exam-package-import-audit.mjs",
+    "audit:ai": "node scripts/ai-grading-audit.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.57.0",
