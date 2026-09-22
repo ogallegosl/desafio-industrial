@@ -35,6 +35,19 @@ function json(payload: Json, status = 200, corsHeaders: Record<string, string> =
   })
 }
 
+function getSecretKey() {
+  const modern = Deno.env.get('SUPABASE_SECRET_KEYS')
+  if (modern) {
+    try {
+      const parsed = JSON.parse(modern)
+      return parsed.default ?? Object.values(parsed)[0]
+    } catch {
+      // Legacy fallback below.
+    }
+  }
+  return Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+}
+
 function normalizeText(value: unknown) {
   return String(value ?? '').trim()
 }
@@ -122,8 +135,25 @@ function gradingSchema() {
   }
 }
 
+function normalizeSavedSuggestion(saved: any, cached = false) {
+  return {
+    id: saved.id,
+    score: Number(saved.suggested_score),
+    confidence: saved.confidence == null ? null : Number(saved.confidence),
+    rubricScores: saved.rubric_scores,
+    feedback: saved.feedback || '',
+    rationale: saved.rationale || '',
+    decision: saved.decision,
+    model: saved.model,
+    promptVersion: saved.prompt_version,
+    createdAt: saved.created_at,
+    cached,
+  }
+}
+
 const SUPPORTED_TYPES = new Set(['essay', 'image_essay', 'short_text', 'case_group'])
 const PROMPT_VERSION = 'desafio-ai-grading-v1'
+const CACHE_WINDOW_MS = 10 * 60 * 1000
 
 Deno.serve(async (req) => {
   const origin = req.headers.get('Origin')
@@ -139,16 +169,20 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
     const anonKey = Deno.env.get('SUPABASE_ANON_KEY')
+    const secretKey = getSecretKey()
     const openAiKey = Deno.env.get('OPENAI_API_KEY')
     const openAiModel = normalizeText(Deno.env.get('OPENAI_MODEL')) || 'gpt-5.6-luna'
     const authorization = req.headers.get('Authorization') || ''
 
-    if (!supabaseUrl || !anonKey) throw new AppError('SERVER_CONFIG_MISSING', 'Supabase no está configurado en la función.', 503)
+    if (!supabaseUrl || !anonKey || !secretKey) throw new AppError('SERVER_CONFIG_MISSING', 'Supabase no está configurado en la función.', 503)
     if (!openAiKey) throw new AppError('AI_NOT_CONFIGURED', 'El servicio de corrección con IA todavía no tiene una clave configurada.', 503)
     if (!authorization.toLowerCase().startsWith('bearer ')) throw new AppError('AUTH_REQUIRED', 'Debes iniciar sesión como docente.', 401)
 
     const actor = createClient(supabaseUrl, anonKey, {
       global: { headers: { Authorization: authorization } },
+      auth: { persistSession: false, autoRefreshToken: false },
+    })
+    const admin = createClient(supabaseUrl, String(secretKey), {
       auth: { persistSession: false, autoRefreshToken: false },
     })
 
@@ -164,7 +198,18 @@ Deno.serve(async (req) => {
       if (!suggestionId || !['applied', 'rejected'].includes(decision)) {
         throw new AppError('AI_DECISION_INVALID', 'La decisión de la sugerencia no es válida.', 400)
       }
-      const { data, error } = await actor
+
+      const { data: accessible, error: accessError } = await actor
+        .from('ai_grading_suggestions')
+        .select('id,decision')
+        .eq('id', suggestionId)
+        .maybeSingle()
+      if (accessError) throw new AppError('AI_DECISION_ACCESS_FAILED', accessError.message, 400)
+      if (!accessible || accessible.decision !== 'proposed') {
+        throw new AppError('AI_SUGGESTION_NOT_FOUND', 'La sugerencia ya fue procesada o no está disponible.', 404)
+      }
+
+      const { data, error } = await admin
         .from('ai_grading_suggestions')
         .update({
           decision,
@@ -175,7 +220,7 @@ Deno.serve(async (req) => {
         .eq('decision', 'proposed')
         .select('id,decision,decided_at')
         .maybeSingle()
-      if (error) throw new AppError('AI_DECISION_FAILED', error.message, 400)
+      if (error) throw new AppError('AI_DECISION_FAILED', error.message, 500)
       if (!data) throw new AppError('AI_SUGGESTION_NOT_FOUND', 'La sugerencia ya fue procesada o no está disponible.', 404)
       return json({ ok: true, suggestion: data }, 200, corsHeaders)
     }
@@ -268,6 +313,20 @@ Deno.serve(async (req) => {
 
     const fingerprint = await sha256Hex(JSON.stringify({ responseId, promptVersion: PROMPT_VERSION, modelInput }))
 
+    const { data: cachedRows, error: cacheError } = await actor
+      .from('ai_grading_suggestions')
+      .select('id,suggested_score,confidence,rubric_scores,feedback,rationale,decision,model,prompt_version,created_at')
+      .eq('response_id', responseId)
+      .eq('request_fingerprint', fingerprint)
+      .eq('decision', 'proposed')
+      .order('created_at', { ascending: false })
+      .limit(1)
+    if (cacheError) throw new AppError('AI_CACHE_LOOKUP_FAILED', cacheError.message, 400)
+    const cached = cachedRows?.[0]
+    if (cached && Date.now() - new Date(cached.created_at).getTime() <= CACHE_WINDOW_MS) {
+      return json({ ok: true, suggestion: normalizeSavedSuggestion(cached, true) }, 200, corsHeaders)
+    }
+
     const openAiResponse = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
@@ -332,7 +391,7 @@ Deno.serve(async (req) => {
     const feedback = normalizeText(suggestion?.feedback).slice(0, 5000)
     const rationale = normalizeText(suggestion?.rationale).slice(0, 5000)
 
-    const { data: saved, error: saveError } = await actor
+    const { data: saved, error: saveError } = await admin
       .from('ai_grading_suggestions')
       .insert({
         response_id: response.id,
@@ -362,21 +421,7 @@ Deno.serve(async (req) => {
 
     if (saveError) throw new AppError('AI_AUDIT_SAVE_FAILED', saveError.message, 500)
 
-    return json({
-      ok: true,
-      suggestion: {
-        id: saved.id,
-        score: Number(saved.suggested_score),
-        confidence: saved.confidence == null ? null : Number(saved.confidence),
-        rubricScores: saved.rubric_scores,
-        feedback: saved.feedback || '',
-        rationale: saved.rationale || '',
-        decision: saved.decision,
-        model: saved.model,
-        promptVersion: saved.prompt_version,
-        createdAt: saved.created_at,
-      },
-    }, 200, corsHeaders)
+    return json({ ok: true, suggestion: normalizeSavedSuggestion(saved, false) }, 200, corsHeaders)
   } catch (error) {
     if (error instanceof AppError) {
       return json({ error: error.code, message: error.message, details: error.details || null }, error.status, corsHeaders)
