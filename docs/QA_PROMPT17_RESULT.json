@@ -6,7 +6,7 @@
   "failedCriticalHigh": 0,
   "randomizationStudents": 20,
   "randomizationUniqueFingerprints": 20,
-  "localImportsChecked": 167,
+  "localImportsChecked": 168,
   "localImportsMissing": 0,
   "checks": [
     {
@@ -546,7 +546,7 @@
       "name": "Imports locales resuelven",
       "ok": true,
       "severity": "critical",
-      "detail": "revisados=167; faltantes=0"
+      "detail": "revisados=168; faltantes=0"
     }
   ]
 }
