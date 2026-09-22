@@ -40,6 +40,10 @@ create index if not exists idx_ai_grading_attempt_created
 create index if not exists idx_ai_grading_decision
   on public.ai_grading_suggestions(decision, created_at desc);
 
+create index if not exists idx_ai_grading_fingerprint
+  on public.ai_grading_suggestions(response_id, request_fingerprint, created_at desc)
+  where decision = 'proposed';
+
 drop trigger if exists trg_ai_grading_suggestions_updated_at on public.ai_grading_suggestions;
 create trigger trg_ai_grading_suggestions_updated_at
 before update on public.ai_grading_suggestions
@@ -52,26 +56,12 @@ create policy ai_grading_suggestions_teacher_select
 on public.ai_grading_suggestions for select to authenticated
 using (private.owns_attempt(attempt_id));
 
-drop policy if exists ai_grading_suggestions_teacher_insert on public.ai_grading_suggestions;
-create policy ai_grading_suggestions_teacher_insert
-on public.ai_grading_suggestions for insert to authenticated
-with check (
-  private.owns_attempt(attempt_id)
-  and requested_by_user_id = auth.uid()
-);
-
-drop policy if exists ai_grading_suggestions_teacher_update on public.ai_grading_suggestions;
-create policy ai_grading_suggestions_teacher_update
-on public.ai_grading_suggestions for update to authenticated
-using (private.owns_attempt(attempt_id))
-with check (
-  private.owns_attempt(attempt_id)
-  and requested_by_user_id is not null
-);
-
--- Audit history is append/update-only. Teachers do not receive DELETE permission.
-grant select, insert, update on public.ai_grading_suggestions to authenticated;
-revoke delete on public.ai_grading_suggestions from authenticated;
+-- The audit table is readable by authorized teachers, but browser clients cannot
+-- forge or mutate AI suggestions. INSERT/UPDATE are performed only by the
+-- authenticated Edge Function using the server credential after RLS-based
+-- ownership checks have succeeded.
+revoke insert, update, delete on public.ai_grading_suggestions from authenticated;
+grant select on public.ai_grading_suggestions to authenticated;
 
 comment on table public.ai_grading_suggestions is
-  'Auditable AI grading suggestions. These rows are advisory and never replace the teacher grading RPC.';
+  'Auditable AI grading suggestions. Advisory only; writes are server-side and never replace the teacher grading RPC.';
