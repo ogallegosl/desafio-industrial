@@ -1,0 +1,38 @@
+name: v1.3.1 full QA
+
+on:
+  push:
+    branches:
+      - feature/v1.3.1-evidencias-resultados
+    paths:
+      - '.github/workflows/v131-full-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  full-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/v1.3.1-evidencias-resultados
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: npm
+      - run: npm ci
+      - name: Production build
+        run: npm run build
+      - name: Complete regression suite
+        run: npm run test:all
+      - name: Remove temporary QA workflow
+        run: |
+          rm .github/workflows/v131-full-qa.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: registrar auditoría integral v1.3.1"
+          git push origin HEAD:feature/v1.3.1-evidencias-resultados
