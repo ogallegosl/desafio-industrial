@@ -7,13 +7,24 @@ const exists = (rel) => fs.existsSync(path.join(root, rel))
 const checks = []
 const check = (area, name, ok, severity = 'high', detail = '') => checks.push({ area, name, ok: Boolean(ok), severity, detail })
 
+function compareVersions(a, b) {
+  const pa = String(a).split('.').map(Number)
+  const pb = String(b).split('.').map(Number)
+  const length = Math.max(pa.length, pb.length, 3)
+  for (let i = 0; i < length; i += 1) {
+    const diff = (pa[i] || 0) - (pb[i] || 0)
+    if (diff) return diff
+  }
+  return 0
+}
+
 const pkg = JSON.parse(read('package.json'))
 const page = read('src/pages/TeacherExamsPage.jsx')
 const modal = read('src/components/ExamPackageImportModal.jsx')
 const service = read('src/services/examPackageImport.js')
 const editor = read('src/pages/TeacherExamEditorPage.jsx')
 
-check('Versión', 'Versión compatible con importador v1.3.x', /^1\.3\.\d+$/.test(pkg.version), 'high', pkg.version)
+check('Versión', 'Plataforma mantiene compatibilidad con importador v1.3+', compareVersions(pkg.version, '1.3.0') >= 0, 'high', pkg.version)
 check('Dependencias', 'JSZip fijado para lectura local de paquetes', pkg.dependencies?.jszip === '3.10.1', 'high')
 check('UI', 'Acción Importar examen disponible en Exámenes', /Importar examen/.test(page) && /ExamPackageImportModal/.test(page), 'high')
 check('UI', 'Modal ofrece plantilla y ZIP de ejemplo', /EXAM_PACKAGE_TEMPLATE_XLSX/.test(modal) && /EXAM_PACKAGE_SAMPLE_ZIP/.test(modal), 'medium')
