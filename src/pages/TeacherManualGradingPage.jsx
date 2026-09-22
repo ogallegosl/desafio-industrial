@@ -4,6 +4,7 @@ import AiGradingAssistant from '../components/AiGradingAssistant'
 import PageHeader from '../components/PageHeader'
 import StatusBadge from '../components/StatusBadge'
 import { useGlobalSettings } from '../contexts/GlobalSettingsContext'
+import { recordAiGradingDecision } from '../services/aiGrading'
 import {
   createEvidenceSignedUrl,
   gradeManualResponse,
@@ -167,6 +168,7 @@ export default function TeacherManualGradingPage() {
   const [criteria, setCriteria] = useState([])
   const [score, setScore] = useState('0')
   const [feedback, setFeedback] = useState('')
+  const [pendingAiSuggestionId, setPendingAiSuggestionId] = useState(null)
 
   const load = async (preserveId = null) => {
     setLoading(true)
@@ -197,6 +199,7 @@ export default function TeacherManualGradingPage() {
     }, { replace: true })
     setSuccess('')
     setMessage('')
+    setPendingAiSuggestionId(null)
     setFeedback(selected.teacher_feedback || '')
     const saved = Array.isArray(selected.manual_grading_details?.rubricScores) ? selected.manual_grading_details.rubricScores : []
     const frozen = Array.isArray(selected.question?.rubric_snapshot?.criteria) ? selected.question.rubric_snapshot.criteria : []
@@ -250,9 +253,19 @@ export default function TeacherManualGradingPage() {
         position: index + 1,
       })) : []
       const result = await gradeManualResponse({ responseId: selected.id, score: effectiveScore, feedback, rubricScores })
-      setSuccess(result?.grade?.pendingManualReviews === 0
+      let auditWarning = ''
+      if (pendingAiSuggestionId) {
+        try {
+          await recordAiGradingDecision({ suggestionId: pendingAiSuggestionId, decision: 'applied' })
+          setPendingAiSuggestionId(null)
+        } catch {
+          auditWarning = ' La nota se guardó correctamente, pero quedó pendiente registrar en la auditoría que se utilizó la sugerencia de IA.'
+        }
+      }
+      const baseSuccess = result?.grade?.pendingManualReviews === 0
         ? `Revisión guardada. La nota final del intento quedó en ${fmtNumber(result.grade.finalGrade)}.`
-        : `Revisión guardada. Quedan ${result?.grade?.pendingManualReviews ?? 'otras'} respuestas pendientes en este intento.`)
+        : `Revisión guardada. Quedan ${result?.grade?.pendingManualReviews ?? 'otras'} respuestas pendientes en este intento.`
+      setSuccess(`${baseSuccess}${auditWarning}`)
       await load(selected.id)
     } catch (error) {
       setMessage(error.message || 'No se pudo guardar la calificación manual.')
@@ -288,6 +301,7 @@ export default function TeacherManualGradingPage() {
     }))
     setScore(String(suggestion?.score ?? 0))
     setFeedback(suggestion?.feedback || '')
+    setPendingAiSuggestionId(suggestion?.id || null)
   }
 
   return (
