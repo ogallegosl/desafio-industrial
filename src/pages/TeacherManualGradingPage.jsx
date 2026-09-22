@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import AiGradingAssistant from '../components/AiGradingAssistant'
 import PageHeader from '../components/PageHeader'
 import StatusBadge from '../components/StatusBadge'
 import { useGlobalSettings } from '../contexts/GlobalSettingsContext'
@@ -278,6 +279,17 @@ export default function TeacherManualGradingPage() {
     }
   }
 
+  const handleApplyAiSuggestion = (suggestion) => {
+    const suggestedById = new Map((suggestion?.rubricScores || []).map((item) => [item.id, item]))
+    setUseRubric(true)
+    setCriteria((current) => current.map((criterion) => {
+      const suggested = suggestedById.get(criterion.id)
+      return suggested ? { ...criterion, score: suggested.score, comment: suggested.comment || '' } : criterion
+    }))
+    setScore(String(suggestion?.score ?? 0))
+    setFeedback(suggestion?.feedback || '')
+  }
+
   return (
     <section>
       <PageHeader
@@ -346,6 +358,17 @@ export default function TeacherManualGradingPage() {
 
                 {!scoreValid && <div className="inline-validation danger">El puntaje debe estar entre 0 y {fmtNumber(maxPoints)}.</div>}
                 {useRubric && !rubricValid && <div className="inline-validation danger">Completa los criterios y asegúrate de que sus máximos sumen exactamente {fmtNumber(maxPoints)} puntos.</div>}
+
+                <AiGradingAssistant
+                  responseId={selected.id}
+                  questionType={selected.question?.question_type}
+                  maxPoints={maxPoints}
+                  useRubric={useRubric}
+                  rubricValid={rubricValid}
+                  criteria={criteria}
+                  saving={saving}
+                  onApply={handleApplyAiSuggestion}
+                />
 
                 <div className="manual-actions">
                   {useRubric && selected.question?.question_id && <button type="button" className="button secondary" disabled={saving || !rubricValid} onClick={handleSaveTemplate}>Guardar rúbrica para futuros intentos</button>}
